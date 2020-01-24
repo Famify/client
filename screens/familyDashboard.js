@@ -12,7 +12,7 @@ import Picture from "../assets";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function RewardDashboard(props) {
+export default function FamilyDashboard(props) {
   const [family, setfamily] = useState(["a", "a", "a", "a", "a"]);
 
   const addFamily = e => {
