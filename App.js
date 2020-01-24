@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { ActivityIndicator } from "react-native";
 import * as Font from "expo-font";
-import Register from "./screens/register";
+import Navigation from "./navigation/switch";
 
 export default function App() {
   const [font, setFont] = useState(false);
@@ -18,21 +18,8 @@ export default function App() {
   }, []);
 
   if (font) {
-    return (
-      <View style={styles.container}>
-        <Register />
-      </View>
-    );
+    return <Navigation />;
   } else {
     return <ActivityIndicator size="large" color="#512DA8" />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
