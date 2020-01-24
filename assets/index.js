@@ -11,4 +11,5 @@ export default {
   challange1: require("./challenge-and-award/challange1.png"),
   challange2: require("./challenge-and-award/challange2.png"),
   chat1: require("./message/chat1.png"),
+  challange3: require("./challenge-and-award/challenge3.png"),
 };

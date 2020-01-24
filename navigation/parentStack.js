@@ -3,6 +3,8 @@ import ParentDashboard from "../screens/parentDashboard";
 import FamilyDashboard from "../screens/familyDashboard";
 import ChallengesDashboard from "../screens/challengeDashboard";
 import RewardsDashboard from "../screens/rewardDashboard";
+import RewardForm from "../components/rewardForm";
+import ChallengeForm from "../components/challengeForm";
 
 const parentStack = createStackNavigator(
   {
@@ -31,6 +33,20 @@ const parentStack = createStackNavigator(
       navigationOptions: {
         headerTransparent: true,
         title: "Rewards",
+      },
+    },
+    "add reward": {
+      screen: RewardForm,
+      navigationOptions: {
+        headerTransparent: true,
+        title: "Add Reward",
+      },
+    },
+    "add challenge": {
+      screen: ChallengeForm,
+      navigationOptions: {
+        headerTransparent: true,
+        title: "Add Challenge",
       },
     },
   },
