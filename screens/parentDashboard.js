@@ -8,11 +8,24 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { withNavigation } from "react-navigation";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function ParentDashboard(props) {
+function ParentDashboard({ navigation }) {
+  const family = () => {
+    navigation.navigate("family");
+  };
+
+  const challenge = () => {
+    navigation.navigate("challenge");
+  };
+
+  const reward = () => {
+    navigation.navigate("reward");
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -43,7 +56,7 @@ export default function ParentDashboard(props) {
           }}
           showsHorizontalScrollIndicator={false}
         >
-          <TouchableOpacity>
+          <TouchableOpacity onPress={family}>
             <LinearGradient
               colors={["#004D40", "#9575CD"]}
               style={styles.gradientCard}
@@ -52,7 +65,7 @@ export default function ParentDashboard(props) {
               <Text style={styles.titleCard}>Family</Text>
             </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={challenge}>
             <LinearGradient
               style={styles.gradientCard}
               colors={["#FF3D00", "#9575CD"]}
@@ -61,7 +74,7 @@ export default function ParentDashboard(props) {
               <Text style={styles.titleCard}>Challenges</Text>
             </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={reward}>
             <LinearGradient
               style={styles.gradientCard}
               colors={["#FFFF00", "#9575CD"]}
@@ -98,6 +111,8 @@ export default function ParentDashboard(props) {
     </View>
   );
 }
+
+export default withNavigation(ParentDashboard);
 
 const styles = StyleSheet.create({
   container: {

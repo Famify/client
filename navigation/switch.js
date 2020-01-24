@@ -1,8 +1,8 @@
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import Register from "../screens/register";
 import Login from "../screens/login";
-import ParentDashboard from "../screens/parentDashboard";
-import ChildDashboard from "../screens/childDashboard";
+import ParentStack from "./parentStack";
+import ChildStack from "./childStack";
 
 const switchNavigation = createSwitchNavigator({
   register: {
@@ -12,10 +12,10 @@ const switchNavigation = createSwitchNavigator({
     screen: Login,
   },
   "parent dashboard": {
-    screen: ParentDashboard,
+    screen: ParentStack,
   },
   "child dashboard": {
-    screen: ChildDashboard,
+    screen: ChildStack,
   },
 });
 
