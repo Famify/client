@@ -64,17 +64,27 @@ export default function RegisterChild({ navigation }) {
     }
   }
 
+  const back = () => {
+    navigation.navigate('family')
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.upperFormWrapper}>
+        <View style={{ alignItems: 'flex-end'}}>
+          <TouchableOpacity onPress={back} style={{ height: 30, width: 30, top: -20 }} >
+            <MaterialCommunityIcons name="backburger" color="white" size={30} />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.title}>Child Register</Text>
       </View>
+      <Image source={ Picture.kidsBoy04 } style={{ width:'33%', position: 'absolute', resizeMode: 'contain', zIndex:1, bottom: -160, left: -10 }} />
       <SafeAreaView style={styles.downFormWrapper}>
         <ScrollView style={styles.scroolView}>
-          <View style={styles.downFormWrapper}>
-        <Image source={Picture.kidsBoy04} style={styles.image} />
+        <View style={styles.downFormWrapper}>
+        <Image source={Picture.childrenChildren} style={styles.image} />
         <TextInput style={styles.input} placeholder="username" />
-        <TextInput style={styles.input} placeholder="set password" />
+        <TextInput style={styles.input} placeholder="set password" secureTextEntry={true} />
         <View>
           {
             !birthdayStatus ? 
@@ -162,6 +172,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   input: {
+    textAlign: 'center',
     borderWidth: 1,
     width: "80%",
     paddingVertical: 5,

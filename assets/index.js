@@ -12,5 +12,8 @@ export default {
   challange1: require("./challenge-and-award/challange1.png"),
   challange2: require("./challenge-and-award/challange2.png"),
   chat1: require("./message/chat1.png"),
-  messageBackground: require("./messageBackground.jpg")
+  messageBackground: require("./messageBackground.jpg"),
+  childrenChildren: require("./family/children.png"),
+  parentParent: require("./family/parent.png"),
+  backgroundTransparent: require("./family/transparetBackground.png")
 };
