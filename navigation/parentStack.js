@@ -1,10 +1,11 @@
 import { createStackNavigator } from "react-navigation-stack";
+import Constants from "expo-constants";
 import ParentDashboard from "../screens/parentDashboard";
 import FamilyDashboard from "../screens/familyDashboard";
 import ChallengesDashboard from "../screens/challengeDashboard";
 import RewardsDashboard from "../screens/rewardDashboard";
-import RewardForm from "../components/rewardForm";
-import ChallengeForm from "../components/challengeForm";
+import ChallengeStack from "./challengeStack";
+import RewardStack from "./rewardStack";
 
 const parentStack = createStackNavigator(
   {
@@ -36,17 +37,29 @@ const parentStack = createStackNavigator(
       },
     },
     "add reward": {
-      screen: RewardForm,
+      screen: RewardStack,
       navigationOptions: {
+        title: "New Reward",
+        headerStatusBarHeight: Constants.statusBarHeight,
         headerTransparent: true,
-        title: "Add Reward",
+        headerTitleStyle: {
+          fontFamily: "sf-medium",
+          fontSize: 24,
+        },
+        headerTintColor: "white",
       },
     },
     "add challenge": {
-      screen: ChallengeForm,
+      screen: ChallengeStack,
       navigationOptions: {
+        title: "New Challenge",
+        headerStatusBarHeight: Constants.statusBarHeight,
         headerTransparent: true,
-        title: "Add Challenge",
+        headerTitleStyle: {
+          fontFamily: "sf-medium",
+          fontSize: 24,
+        },
+        headerTintColor: "white",
       },
     },
   },

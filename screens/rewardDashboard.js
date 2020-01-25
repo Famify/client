@@ -96,7 +96,7 @@ export default function RewardDashboard(props) {
                 </View>
               )
             }
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => String(index)}
           />
         </SafeAreaView>
       </View>

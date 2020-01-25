@@ -96,7 +96,7 @@ export default function FamilyDashboard(props) {
                 </View>
               )
             }
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => String(index)}
           />
         </SafeAreaView>
       </View>
