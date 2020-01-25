@@ -1,4 +1,6 @@
-const axios = require('axios')
-module.exports = axios.create({
-    baseURL : 'http://localhost:3000',
-})
+import axios from "axios";
+const instance = axios.create({
+  baseURL: "http://107.178.223.28",
+});
+
+export default instance;

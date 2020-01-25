@@ -1,31 +1,186 @@
 import axios from "../../config/axios";
 
-export const userRegister = payload => {
+export const parentRegister = payload => {
   return dispatch => {
     dispatch({
-      type: "USER_REGISTER_LOADING",
+      type: "PARENT_REGISTER_LOADING",
       loading: true,
     });
     axios({
-      url: '/parents/signup',
+      url: "/parents/signup",
       data: payload,
-      method: 'POST'
+      method: "POST",
     })
       .then(({ data }) => {
-        alert('asasas')
         dispatch({
-          type: "USER_REGISTER_SUCCESS",
+          type: "PARENT_REGISTER_SUCCESS",
           data,
           loading: true,
         });
       })
       .catch(error => {
-        alert('error')        
+        let err = error.response.data.error.join(", ");
         dispatch({
-          type: "USER_REGISTER_ERROR",
+          type: "PARENT_REGISTER_ERROR",
           loading: false,
-          error: JSON.stringify(error),
+          error: err,
         });
       });
+  };
+};
+
+export const parentRegister2 = payload => {
+  return dispatch => {
+    dispatch({
+      type: "PARENT_REGISTER_2_LOADING",
+      loading: true,
+    });
+    axios({
+      url: "/parents/signup",
+      data: payload,
+      method: "POST",
+    })
+      .then(({ data }) => {
+        dispatch({
+          type: "PARENT_REGISTER_2_SUCCESS",
+          data,
+          loading: true,
+        });
+      })
+      .catch(error => {
+        let err = error.response.data.error.join(", ");
+        dispatch({
+          type: "PARENT_REGISTER_2_ERROR",
+          loading: false,
+          error: err,
+        });
+      });
+  };
+};
+
+export const parentLogin = payload => {
+  return dispatch => {
+    dispatch({
+      type: "PARENT_LOGIN_LOADING",
+      loading: true,
+    });
+
+    axios({
+      url: "/parents/signin",
+      method: "POST",
+      data: payload,
+    })
+      .then(({ data }) => {
+        dispatch({
+          type: "PARENT_LOGIN_SUCCESS",
+          loading: false,
+          data,
+        });
+      })
+      .catch(error => {
+        let err = error.response.data.error.join(", ");
+        dispatch({
+          type: "PARENT_LOGIN_ERROR",
+          loading: false,
+          error: err,
+        });
+      });
+  };
+};
+
+export const childLogin = payload => {
+  return dispatch => {
+    dispatch({
+      type: "CHILD_LOGIN_LOADING",
+      loading: true,
+    });
+
+    axios({
+      url: "/children/signin",
+      method: "POST",
+      data: payload,
+    })
+      .then(({ data }) => {
+        dispatch({
+          type: "CHILD_LOGIN_SUCCESS",
+          loading: false,
+          data,
+        });
+      })
+      .catch(error => {
+        let err = error.response.data.error.join(", ");
+        dispatch({
+          type: "CHILD_LOGIN_ERROR",
+          loading: false,
+          error: err,
+        });
+      });
+  };
+};
+
+export const childRegister = payload => {
+  return dispatch => {
+    dispatch({
+      type: "CHILD_REGISTER_LOADING",
+      loading: true,
+    });
+
+    axios({
+      url: "/children/signup",
+      method: "POST",
+      data: payload,
+      headers: {
+        access_token: payload.token,
+      },
+    })
+      .then(({ data }) => {
+        dispatch({
+          type: "CHILD_REGISTER_SUCCESS",
+          loading: false,
+          data,
+        });
+      })
+      .catch(error => {
+        let err = error.response.data.error.join(", ");
+        dispatch({
+          type: "CHILD_REGISTER_ERROR",
+          loading: false,
+          error: err,
+        });
+      });
+  };
+};
+
+export const getAllFamily = payload => {
+  return async dispatch => {
+    dispatch({
+      type: "ALL_FAMILY_LOADING",
+      loading: true,
+    });
+
+    try {
+      const parent = await axios({
+        url: "/parents",
+        headers: { access_token: payload.token },
+      });
+      const child = await axios({
+        url: "/children",
+        headers: { access_token: payload.token },
+      });
+
+      const data = [...parent.data, ...child.data];
+      dispatch({
+        type: "ALL_FAMILY_SUCCESS",
+        data,
+        loading: false,
+      });
+    } catch (error) {
+      let err = error.response.data.error.join(", ");
+      dispatch({
+        type: "ALL_FAMILY_ERROR",
+        loading: false,
+        error: err,
+      });
+    }
   };
 };
