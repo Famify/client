@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../config/axios";
 
 export const userRegister = payload => {
   return dispatch => {
@@ -6,13 +6,13 @@ export const userRegister = payload => {
       type: "USER_REGISTER_LOADING",
       loading: true,
     });
-    fetch({
-      url: "http://localhost:3000/parents/signup",
-      method: "POST",
+    axios({
+      url: '/parents/signup',
       data: payload,
+      method: 'POST'
     })
       .then(({ data }) => {
-        alert("sempet nembak");
+        alert('asasas')
         dispatch({
           type: "USER_REGISTER_SUCCESS",
           data,
@@ -20,8 +20,7 @@ export const userRegister = payload => {
         });
       })
       .catch(error => {
-        console.log(error);
-        alert("error");
+        alert('error')        
         dispatch({
           type: "USER_REGISTER_ERROR",
           loading: false,
