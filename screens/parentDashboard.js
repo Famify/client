@@ -26,6 +26,10 @@ function ParentDashboard({ navigation }) {
     navigation.navigate("reward");
   };
 
+  const message = () => {
+    navigation.navigate("message");
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -97,6 +101,7 @@ function ParentDashboard({ navigation }) {
             style={{
               width: "90%",
             }}
+            onPress={ message }
           >
             <LinearGradient
               style={styles.gradientChat}

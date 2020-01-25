@@ -11,12 +11,13 @@ import Constants from "expo-constants";
 import Picture from "../assets";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import { withNavigation } from 'react-navigation'
 
-export default function FamilyDashboard(props) {
+function FamilyDashboard({ navigation }) {
   const [family, setfamily] = useState(["a", "a", "a", "a", "a"]);
 
   const addFamily = e => {
-    alert("test");
+    navigation.navigate("add family form")
   };
 
   return (
@@ -115,6 +116,8 @@ export default function FamilyDashboard(props) {
     </View>
   );
 }
+
+export default withNavigation(FamilyDashboard)
 
 const styles = StyleSheet.create({
   container: {
