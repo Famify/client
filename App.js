@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { ActivityIndicator } from "react-native";
 import * as Font from "expo-font";
 import Navigation from "./navigation/switch";
+import { Provider } from 'react-redux'
+import store from './store'
 
 export default function App() {
   const [font, setFont] = useState(false);
@@ -18,7 +20,11 @@ export default function App() {
   }, []);
 
   if (font) {
-    return <Navigation />;
+    return (
+      <Provider store={ store }>
+        <Navigation />
+      </Provider>
+    );
   } else {
     return <ActivityIndicator size="large" color="#512DA8" />;
   }
