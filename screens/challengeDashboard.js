@@ -8,15 +8,16 @@ import {
   SafeAreaView,
 } from "react-native";
 import Constants from "expo-constants";
+import { withNavigation } from "react-navigation";
 import Picture from "../assets";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function ChallengeDashboard(props) {
+function ChallengeDashboard({ navigation }) {
   const [family, setfamily] = useState(["a", "a", "a", "a", "a"]);
 
-  const addFamily = e => {
-    alert("test");
+  const addChallenge = () => {
+    navigation.navigate("add challenge");
   };
 
   return (
@@ -96,13 +97,13 @@ export default function ChallengeDashboard(props) {
                 </View>
               )
             }
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => String(index)}
           />
         </SafeAreaView>
       </View>
       <View style={styles.famsBtn}>
-        <TouchableOpacity style={styles.touchFamsBtn} onPress={addFamily}>
-          <View style={styles.addFamilyBtn}>
+        <TouchableOpacity style={styles.touchFamsBtn} onPress={addChallenge}>
+          <View style={styles.addChallengeBtn}>
             <Ionicons
               name="ios-add"
               size={60}
@@ -115,6 +116,8 @@ export default function ChallengeDashboard(props) {
     </View>
   );
 }
+
+export default withNavigation(ChallengeDashboard);
 
 const styles = StyleSheet.create({
   container: {
@@ -149,7 +152,7 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 30,
   },
-  addFamilyBtn: {
+  addChallengeBtn: {
     justifyContent: "center",
     alignItems: "center",
   },

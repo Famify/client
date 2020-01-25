@@ -97,7 +97,7 @@ function FamilyDashboard({ navigation }) {
                 </View>
               )
             }
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => String(index)}
           />
         </SafeAreaView>
       </View>
