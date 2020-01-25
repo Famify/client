@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,9 +9,39 @@ import {
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
+import { useDispatch, useSelector } from "react-redux";
+import { userRegister } from "../store/action/userAction";
 
 export default function Register({ navigation }) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+
   const moveLogin = () => {
+    navigation.navigate("login");
+  };
+
+  const inputUsername = input => {
+    setUsername(input);
+  };
+
+  const inputEmail = input => {
+    setEmail(input);
+  };
+
+  const inputPassword = input => {
+    setPassword(input);
+  };
+
+  const submitRegister = () => {
+    let payload = {
+      username,
+      email,
+      password,
+    };
+    dispatch(userRegister(payload));
     navigation.navigate("login");
   };
 
@@ -22,10 +52,26 @@ export default function Register({ navigation }) {
       </View>
       <View style={styles.downFormWrapper}>
         <Image source={Picture.register} style={styles.image} />
-        <TextInput style={styles.input} placeholder="username" />
-        <TextInput style={styles.input} placeholder="email" />
-        <TextInput style={styles.input} placeholder="password" />
-        <TouchableOpacity style={styles.submit}>
+        <TextInput
+          value={username}
+          onChangeText={text => inputUsername(text)}
+          style={styles.input}
+          placeholder="username"
+        />
+        <TextInput
+          value={email}
+          onChangeText={text => inputEmail(text)}
+          style={styles.input}
+          placeholder="email"
+        />
+        <TextInput
+          value={password}
+          style={styles.input}
+          placeholder="password"
+          secureTextEntry={true}
+          onChangeText={text => inputPassword(text)}
+        />
+        <TouchableOpacity style={styles.submit} onPress={submitRegister}>
           <Text style={styles.register}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={moveLogin}>
