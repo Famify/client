@@ -42,7 +42,7 @@ export default function Register({ navigation }) {
       password,
     };
     dispatch(userRegister(payload));
-    navigation.navigate("login");
+    // navigation.navigate("login");
   };
 
   return (
