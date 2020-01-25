@@ -64,17 +64,29 @@ export default function RegisterParent({ navigation }) {
     }
   }
 
+  const back = () => {
+    navigation.navigate('family')
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.upperFormWrapper}>
+        <View style={{ alignItems: 'flex-end'}}>
+          <TouchableOpacity onPress={back} style={{ height: 30, width: 30, top: -20,}} >
+            <MaterialCommunityIcons name="backburger" color="white" size={30} />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.title}>Register Other Parent</Text>
       </View>
       <SafeAreaView style={styles.downFormWrapper}>
+        <Image source={ Picture.backgroundTransparent } style={{ width:'150%', position: 'absolute', resizeMode: 'contain', zIndex:1, }} />
+        <Image source={ Picture.kidsGirl } style={{ width:'30%', position: 'absolute', resizeMode: 'contain', zIndex:3, bottom: -150, right: -10 }} />
         <ScrollView style={styles.scroolView}>
           <View style={styles.downFormWrapper}>
-        <Image source={Picture.kidsGirl} style={styles.image} />
+        <Image source={Picture.parentParent} style={styles.image} />
         <TextInput style={styles.input} placeholder="username" />
-        <TextInput style={styles.input} placeholder="set password" />
+        <TextInput style={styles.input} placeholder="Email" autoCompleteType="email" />
+        <TextInput style={styles.input} placeholder="set password" secureTextEntry={true} />
         <View>
           {
             !birthdayStatus ? 
@@ -134,12 +146,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: "10%",
     backgroundColor: "#00BFFF",
     borderBottomRightRadius: 30,
+    zIndex:2
   },
   title: {
     fontFamily: "sf-semibold",
     fontSize: 30,
     color: "white",
     shadowColor: "white",
+    marginTop:7,
     shadowOffset: {
       width: 10,
       height: 3,
@@ -150,18 +164,20 @@ const styles = StyleSheet.create({
   },
   downFormWrapper: {
     flex: 25,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
     borderColor: "#512DA8",
   },
   scroolView:{
+    zIndex:2,
     flex: 25,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     width: "100%"
   },
   input: {
+    textAlign: 'center',
     borderWidth: 1,
     width: "80%",
     paddingVertical: 5,
@@ -181,7 +197,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: 180,
+    width: '100%',
     height: 300,
     resizeMode: 'contain',
     // position: "absolute",
