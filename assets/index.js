@@ -3,6 +3,7 @@ export default {
   medal: require("./challenge-and-award/medal.png"),
   kidsBoy: require("./kids-boy/kids-boy-06.png"),
   kidsGirl: require("./kids-girl/kids-girl-03.png"),
+  kidsBoy04: require("./kids-boy/kids-boy-04.png"),
   familyScreen: require("./family/having-fun-kids.png"),
   parentDashboard: require("./shapes/parentDashboard.png"),
   family1: require("./family/family1.png"),
@@ -11,4 +12,5 @@ export default {
   challange1: require("./challenge-and-award/challange1.png"),
   challange2: require("./challenge-and-award/challange2.png"),
   chat1: require("./message/chat1.png"),
+  messageBackground: require("./messageBackground.jpg")
 };

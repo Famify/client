@@ -3,6 +3,8 @@ import Register from "../screens/register";
 import Login from "../screens/login";
 import ParentStack from "./parentStack";
 import ChildStack from "./childStack";
+import FamilyTopTab from './familyTopTab'
+import MessageScreen from '../screens/messageDasboard'
 
 const switchNavigation = createSwitchNavigator({
   register: {
@@ -17,6 +19,12 @@ const switchNavigation = createSwitchNavigator({
   "child dashboard": {
     screen: ChildStack,
   },
+  "add family form":{
+    screen: FamilyTopTab
+  },
+  "message" : {
+    screen: MessageScreen
+  }
 });
 
 export default createAppContainer(switchNavigation);

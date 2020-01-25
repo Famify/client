@@ -17,7 +17,7 @@ function Login({ navigation }) {
   };
 
   const handleSubmit = () => {
-    navigation.navigate("child dashboard");
+    navigation.navigate("parent dashboard");
   };
 
   return (
