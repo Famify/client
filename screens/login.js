@@ -28,7 +28,6 @@ function Login({ navigation }) {
       <View style={styles.downFormWrapper}>
         <Image source={Picture.register} style={styles.image} />
         <TextInput style={styles.input} placeholder="username or email" />
-        <TextInput style={styles.input} placeholder="family code" />
         <TextInput style={styles.input} placeholder="password" />
         <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
           <Text style={styles.login}>Login</Text>
