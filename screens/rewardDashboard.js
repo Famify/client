@@ -22,6 +22,9 @@ function RewardDashboard({ navigation }) {
     navigation.navigate("title");
   };
 
+  const history = () => {
+    navigation.navigate("history reward");
+  };
   useEffect(() => {
     dispatch(getAllReward());
   }, []);
@@ -33,6 +36,18 @@ function RewardDashboard({ navigation }) {
           source={Picture.familyScreen}
           style={{ width: "80%", resizeMode: "contain", flex: 1 }}
         />
+        <View style={styles.historyBtn}>
+          <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
+            <View style={styles.addChallengeBtn}>
+              <MaterialCommunityIcons
+                name="history"
+                size={40}
+                color="white"
+                style={styles.historyIcon}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
@@ -106,6 +121,38 @@ const styles = StyleSheet.create({
   },
   plusIcon: {
     top: -2,
+  },
+  historyIcon: {
+    top: 3,
+    right: 1.5
+  },
+  touchHistoryBtn: {
+    height: 50,
+    backgroundColor: "#4999CA",
+    width: 50,
+    borderRadius: 60,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
+  },
+  historyBtn: {
+    justifyContent: "center",
+    position: "absolute",
+    bottom: 160,
+    right: 30,
+  },
+  deadline:{
+    fontFamily: "sf-light",
+    fontSize: 12,
+  },
+  flatlist: {
+    marginTop: 50,
+
   },
   touchFamsBtn: {
     height: 50,
