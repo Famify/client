@@ -24,7 +24,7 @@ class Chat extends React.Component {
     return (
       <ImageBackground 
       style={{ flex: 1 }}
-      source=''
+      source={{uri:"https://cdn.pixabay.com/photo/2016/04/15/04/02/water-1330252_960_720.jpg"}}
       >
         <GiftedChat
           messages={this.state.messages}
