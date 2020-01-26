@@ -1,17 +1,19 @@
 import axios from "../../config/axios";
 
-const createChallenge = payload => {
+export const createChallenge = payload => {
   return dispatch => {
     dispatch({
       type: "CREATE_CHALLENGE_LOADING",
       loading: false,
     });
-
+    console.log("create challenge");
     axios({
       url: "/tasks",
       method: "POST",
+      data: payload,
       headers: {
-        access_token: payload.token,
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
       },
     })
       .then(({ data }) => {
@@ -32,7 +34,7 @@ const createChallenge = payload => {
   };
 };
 
-const getChallenge = payload => {
+export const getChallenge = payload => {
   return dispatch => {
     dispatch({
       type: "GET_CHALLENGE_LOADING",
@@ -63,17 +65,19 @@ const getChallenge = payload => {
   };
 };
 
-const getAllChallenge = payload => {
+export const getAllChallenge = payload => {
   return dispatch => {
     dispatch({
       type: "ALL_CHALLENGE_LOADING",
       loading: true,
     });
+
     axios({
       url: "/tasks",
       method: "GET",
       headers: {
-        access_token: payload.token,
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
       },
     })
       .then(({ data }) => {
@@ -94,7 +98,7 @@ const getAllChallenge = payload => {
   };
 };
 
-const claimChallenge = payload => {
+export const claimChallenge = payload => {
   return dispatch => {
     dispatch({
       type: "CLAIM_CHALLENGE_LOADING",
@@ -126,7 +130,7 @@ const claimChallenge = payload => {
   };
 };
 
-const finishChallenge = payload => {
+export const finishChallenge = payload => {
   return dispatch => {
     dispatch({
       type: "FINISH_CHALLENGE_LOADING",
@@ -158,7 +162,7 @@ const finishChallenge = payload => {
   };
 };
 
-const deleteChallenge = payload => {
+export const deleteChallenge = payload => {
   return dispatch => {
     dispatch({
       type: "DELETE_CHALLENGE_LOADING",
@@ -186,5 +190,14 @@ const deleteChallenge = payload => {
           error: err,
         });
       });
+  };
+};
+
+export const setTitleAndDescription = payload => {
+  return dispatch => {
+    dispatch({
+      type: "SET_TITLE_DESC",
+      data: payload,
+    });
   };
 };

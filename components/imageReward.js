@@ -8,15 +8,18 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { withNavigation } from "react-navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { createReward } from "../store/action/rewardAction";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 
-export default function ImageReward(props) {
+function ImageReward({ navigation }) {
+  const dispatch = useDispatch();
+  const titleDesc = useSelector(state => state.reward.titleDesc);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState();
-
-  const listPoin = [5, 10, 15, 20, 25];
 
   const getPermissionAsync = async () => {
     if (Constants.platform.android) {
@@ -38,9 +41,24 @@ export default function ImageReward(props) {
     });
 
     if (!result.cancelled) {
-      console.log(result.uri);
       setPict(result.uri);
     }
+  };
+
+  const clearInput = () => {
+    setPict("");
+  };
+
+  const submitReward = () => {
+    let payload = {
+      title: titleDesc.title,
+      description: titleDesc.desc,
+      image: pict,
+      points: poin,
+    };
+    clearInput();
+    dispatch(createReward(payload));
+    navigation.navigate("reward");
   };
 
   return (
@@ -48,6 +66,7 @@ export default function ImageReward(props) {
       style={{
         flex: 1,
         alignItems: "center",
+        marginTop: 50,
       }}
     >
       <View
@@ -139,13 +158,15 @@ export default function ImageReward(props) {
         </View>
       </View>
       <View style={{ flex: 1 / 3, width: "80%", alignItems: "flex-end" }}>
-        <TouchableOpacity style={styles.submit}>
-          <Text style={styles.next}>Submit Challenge</Text>
+        <TouchableOpacity style={styles.submit} onPress={submitReward}>
+          <Text style={styles.next}>Submit Reward</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
+
+export default withNavigation(ImageReward);
 
 const styles = StyleSheet.create({
   container: {

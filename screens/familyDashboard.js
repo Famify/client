@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,16 +9,24 @@ import {
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets";
+import moment from "moment";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllFamily } from "../store/action/userAction";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { withNavigation } from 'react-navigation'
+import { withNavigation } from "react-navigation";
 
 function FamilyDashboard({ navigation }) {
-  const [family, setfamily] = useState(["a", "a", "a", "a", "a"]);
+  const dispatch = useDispatch();
+  const family = useSelector(state => state.user.family);
 
   const addFamily = e => {
-    navigation.navigate("add family form")
+    navigation.navigate("add family form");
   };
+
+  useEffect(() => {
+    dispatch(getAllFamily());
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -30,75 +38,99 @@ function FamilyDashboard({ navigation }) {
       </View>
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
-          <FlatList
-            data={family}
-            style={{ marginTop: 50 }}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) =>
-              index === family.length - 1 ? (
-                <View style={styles.containerCardOne}>
-                  <View style={styles.card}>
-                    <Image source={Picture.kidsBoy} style={styles.circle} />
-                    <View style={styles.cardMid}>
-                      <Text style={styles.fontCardName}>
-                        {" "}
-                        Angga Banny Ridwan Syahputra
-                      </Text>
-                      <Text style={styles.fontCardBirth}>
-                        {" "}
-                        22 January 2019{" "}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "white",
-                        maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
-                        flexDirection: "row",
-                      }}
+          {family.length === 0 ? (
+            <Text>No family</Text>
+          ) : (
+            <FlatList
+              data={family}
+              style={{ marginTop: 50, width: "60%" }}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item, index }) =>
+                index === family.length - 1 ? (
+                  <View style={styles.containerCardOne}>
+                    <TouchableOpacity
+                      style={styles.card}
+                      onPress={() => alert(`id : ${item._id}`)}
                     >
-                      <Text style={styles.fontCardPoint}> 0 </Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
-                    </View>
+                      <Image source={Picture.kidsBoy} style={styles.circle} />
+                      <View style={styles.cardMid}>
+                        <Text style={styles.fontCardName}>
+                          {item.username} ({item.role})
+                        </Text>
+                        <Text style={styles.fontCardBirth}>
+                          {moment(item.dateOfBirth).format("LL")}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "white",
+                          maxWidth: 200,
+                          borderRadius: 20,
+                          height: 60,
+                          flexDirection: "row",
+                        }}
+                      >
+                        {item.role === "child" && (
+                          <>
+                            <Text style={styles.fontCardPoint}>
+                              {item.point}
+                            </Text>
+                            <Image
+                              source={Picture.medal}
+                              style={styles.cardMedal}
+                            />
+                          </>
+                        )}
+                      </View>
+                    </TouchableOpacity>
                   </View>
-                </View>
-              ) : (
-                <View style={styles.containerCard}>
-                  <View style={styles.card}>
-                    <Image source={Picture.kidsBoy} style={styles.circle} />
-                    <View style={styles.cardMid}>
-                      <Text style={styles.fontCardName}>
-                        {" "}
-                        Angga Banny Ridwan Syahputra
-                      </Text>
-                      <Text style={styles.fontCardBirth}>
-                        {" "}
-                        22 January 2019{" "}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "white",
-                        maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
-                        flexDirection: "row",
-                      }}
+                ) : (
+                  <View style={styles.containerCard}>
+                    <TouchableOpacity
+                      style={styles.card}
+                      onPress={() => alert(`id : ${item._id}`)}
                     >
-                      <Text style={styles.fontCardPoint}> 0 </Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
-                    </View>
+                      <Image source={Picture.kidsBoy} style={styles.circle} />
+                      <View style={styles.cardMid}>
+                        <Text style={styles.fontCardName}>
+                          {item.username} ({item.role})
+                        </Text>
+                        <Text style={styles.fontCardBirth}>
+                          {moment(item.dateOfBirth).format("LL")}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "white",
+                          maxWidth: 200,
+                          borderRadius: 20,
+                          height: 60,
+                          flexDirection: "row",
+                        }}
+                      >
+                        {item.role === "child" && (
+                          <>
+                            <Text style={styles.fontCardPoint}>
+                              {item.point}
+                            </Text>
+                            <Image
+                              source={Picture.medal}
+                              style={styles.cardMedal}
+                            />
+                          </>
+                        )}
+                      </View>
+                    </TouchableOpacity>
                   </View>
-                </View>
-              )
-            }
-            keyExtractor={(item, index) => String(index)}
-          />
+                )
+              }
+              keyExtractor={(item, index) => String(index)}
+            />
+          )}
         </SafeAreaView>
       </View>
       <View style={styles.famsBtn}>
@@ -117,7 +149,7 @@ function FamilyDashboard({ navigation }) {
   );
 }
 
-export default withNavigation(FamilyDashboard)
+export default withNavigation(FamilyDashboard);
 
 const styles = StyleSheet.create({
   container: {
@@ -125,6 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    width: "100%",
   },
   plusIcon: {
     top: -2,
@@ -183,7 +216,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 10,
+    width: "80%",
   },
   cardMid: {
     flexDirection: "column",

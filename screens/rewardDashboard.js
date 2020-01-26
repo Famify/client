@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,16 +8,23 @@ import {
   SafeAreaView,
 } from "react-native";
 import Constants from "expo-constants";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllReward } from "../store/action/rewardAction";
+import { withNavigation } from "react-navigation";
 import Picture from "../assets";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function RewardDashboard(props) {
-  const [family, setfamily] = useState(["a", "a", "a", "a", "a"]);
-
+function RewardDashboard({ navigation }) {
+  const dispatch = useDispatch();
+  const reward = useSelector(state => state.reward.rewardList);
   const addFamily = e => {
-    alert("test");
+    navigation.navigate("title");
   };
+
+  useEffect(() => {
+    dispatch(getAllReward());
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -29,75 +36,85 @@ export default function RewardDashboard(props) {
       </View>
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
-          <FlatList
-            data={family}
-            style={{ marginTop: 50 }}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) =>
-              index === family.length - 1 ? (
-                <View style={styles.containerCardOne}>
-                  <View style={styles.card}>
-                    <Image source={Picture.kidsBoy} style={styles.circle} />
-                    <View style={styles.cardMid}>
-                      <Text style={styles.fontCardName}>
-                        {" "}
-                        Angga Banny Ridwan Syahputra
-                      </Text>
-                      <Text style={styles.fontCardBirth}>
-                        {" "}
-                        22 January 2019{" "}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "white",
-                        maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
-                        flexDirection: "row",
-                      }}
-                    >
-                      <Text style={styles.fontCardPoint}> 0 </Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
-                    </View>
-                  </View>
-                </View>
-              ) : (
-                <View style={styles.containerCard}>
-                  <View style={styles.card}>
-                    <Image source={Picture.kidsBoy} style={styles.circle} />
-                    <View style={styles.cardMid}>
-                      <Text style={styles.fontCardName}>
-                        {" "}
-                        Angga Banny Ridwan Syahputra
-                      </Text>
-                      <Text style={styles.fontCardBirth}>
-                        {" "}
-                        22 January 2019{" "}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "white",
-                        maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
-                        flexDirection: "row",
-                      }}
-                    >
-                      <Text style={styles.fontCardPoint}> 0 </Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
+          {reward.length === 0 ? (
+            <Text>There is no reward exist</Text>
+          ) : (
+            <FlatList
+              data={reward}
+              style={{ marginTop: 50 }}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item, index }) =>
+                index === family.length - 1 ? (
+                  <View style={styles.containerCardOne}>
+                    <View style={styles.card}>
+                      <Image source={Picture.kidsBoy} style={styles.circle} />
+                      <View style={styles.cardMid}>
+                        <Text style={styles.fontCardName}>
+                          {" "}
+                          Angga Banny Ridwan Syahputra
+                        </Text>
+                        <Text style={styles.fontCardBirth}>
+                          {" "}
+                          22 January 2019{" "}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "white",
+                          maxWidth: 200,
+                          borderRadius: 20,
+                          height: 60,
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Text style={styles.fontCardPoint}> 0 </Text>
+                        <Image
+                          source={Picture.medal}
+                          style={styles.cardMedal}
+                        />
+                      </View>
                     </View>
                   </View>
-                </View>
-              )
-            }
-            keyExtractor={(item, index) => String(index)}
-          />
+                ) : (
+                  <View style={styles.containerCard}>
+                    <View style={styles.card}>
+                      <Image source={Picture.kidsBoy} style={styles.circle} />
+                      <View style={styles.cardMid}>
+                        <Text style={styles.fontCardName}>
+                          {" "}
+                          Angga Banny Ridwan Syahputra
+                        </Text>
+                        <Text style={styles.fontCardBirth}>
+                          {" "}
+                          22 January 2019{" "}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "white",
+                          maxWidth: 200,
+                          borderRadius: 20,
+                          height: 60,
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Text style={styles.fontCardPoint}> 0 </Text>
+                        <Image
+                          source={Picture.medal}
+                          style={styles.cardMedal}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                )
+              }
+              keyExtractor={(item, index) => String(index)}
+            />
+          )}
         </SafeAreaView>
       </View>
       <View style={styles.famsBtn}>
@@ -115,6 +132,8 @@ export default function RewardDashboard(props) {
     </View>
   );
 }
+
+export default withNavigation(RewardDashboard);
 
 const styles = StyleSheet.create({
   container: {

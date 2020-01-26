@@ -46,7 +46,6 @@ const parentStack = createStackNavigator(
           fontFamily: "sf-medium",
           fontSize: 24,
         },
-        headerTintColor: "white",
       },
     },
     "add challenge": {
@@ -59,7 +58,6 @@ const parentStack = createStackNavigator(
           fontFamily: "sf-medium",
           fontSize: 24,
         },
-        headerTintColor: "white",
       },
     },
   },
