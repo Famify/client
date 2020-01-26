@@ -45,89 +45,45 @@ function FamilyDashboard({ navigation }) {
               data={family}
               style={{ marginTop: 50, width: "60%" }}
               showsVerticalScrollIndicator={false}
-              renderItem={({ item, index }) =>
-                index === family.length - 1 ? (
-                  <View style={styles.containerCardOne}>
-                    <TouchableOpacity
-                      style={styles.card}
-                      onPress={() => alert(`id : ${item._id}`)}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity style={styles.containerCardOne}>
+                  <View
+                    style={styles.card}
+                    onPress={() => alert(`id : ${item._id}`)}
+                  >
+                    <Image source={Picture.kidsBoy} style={styles.circle} />
+                    <View style={styles.cardMid}>
+                      <Text style={styles.fontCardName}>
+                        {item.username} ({item.role})
+                      </Text>
+                      <Text style={styles.fontCardBirth}>
+                        {moment(item.dateOfBirth).format("LL")}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "white",
+                        maxWidth: 200,
+                        borderRadius: 20,
+                        height: 60,
+                        flexDirection: "row",
+                      }}
                     >
-                      <Image source={Picture.kidsBoy} style={styles.circle} />
-                      <View style={styles.cardMid}>
-                        <Text style={styles.fontCardName}>
-                          {item.username} ({item.role})
-                        </Text>
-                        <Text style={styles.fontCardBirth}>
-                          {moment(item.dateOfBirth).format("LL")}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: "white",
-                          maxWidth: 200,
-                          borderRadius: 20,
-                          height: 60,
-                          flexDirection: "row",
-                        }}
-                      >
-                        {item.role === "child" && (
-                          <>
-                            <Text style={styles.fontCardPoint}>
-                              {item.point}
-                            </Text>
-                            <Image
-                              source={Picture.medal}
-                              style={styles.cardMedal}
-                            />
-                          </>
-                        )}
-                      </View>
-                    </TouchableOpacity>
+                      {item.role === "child" && (
+                        <>
+                          <Text style={styles.fontCardPoint}>{item.point}</Text>
+                          <Image
+                            source={Picture.medal}
+                            style={styles.cardMedal}
+                          />
+                        </>
+                      )}
+                    </View>
                   </View>
-                ) : (
-                  <View style={styles.containerCard}>
-                    <TouchableOpacity
-                      style={styles.card}
-                      onPress={() => alert(`id : ${item._id}`)}
-                    >
-                      <Image source={Picture.kidsBoy} style={styles.circle} />
-                      <View style={styles.cardMid}>
-                        <Text style={styles.fontCardName}>
-                          {item.username} ({item.role})
-                        </Text>
-                        <Text style={styles.fontCardBirth}>
-                          {moment(item.dateOfBirth).format("LL")}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: "white",
-                          maxWidth: 200,
-                          borderRadius: 20,
-                          height: 60,
-                          flexDirection: "row",
-                        }}
-                      >
-                        {item.role === "child" && (
-                          <>
-                            <Text style={styles.fontCardPoint}>
-                              {item.point}
-                            </Text>
-                            <Image
-                              source={Picture.medal}
-                              style={styles.cardMedal}
-                            />
-                          </>
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )
-              }
+                </TouchableOpacity>
+              )}
               keyExtractor={(item, index) => String(index)}
             />
           )}
@@ -203,7 +159,6 @@ const styles = StyleSheet.create({
   },
   containerCardOne: {
     marginTop: 10,
-    marginBottom: 50,
     alignItems: "center",
   },
   containerCard: {
@@ -218,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 10,
-    width: "80%",
+    width: "100%",
   },
   cardMid: {
     flexDirection: "column",
