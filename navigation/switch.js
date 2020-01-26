@@ -4,7 +4,8 @@ import Login from "../screens/login";
 import ParentStack from "./parentStack";
 import ChildStack from "./childStack";
 import FamilyTopTab from './familyTopTab'
-import MessageScreen from '../screens/messageDasboard'
+// import MessageScreen from '../screens/messageDasboard'
+import Chat from '../screens/chat'
 
 const switchNavigation = createSwitchNavigator({
   register: {
@@ -23,7 +24,7 @@ const switchNavigation = createSwitchNavigator({
     screen: FamilyTopTab
   },
   "message" : {
-    screen: MessageScreen
+    screen: Chat
   }
 });
 
