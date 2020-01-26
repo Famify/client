@@ -23,7 +23,7 @@ import produce from "immer";
 const initialUserState = {
   loading: false,
   error: "",
-  data: {},
+  data: {familyId: 'qwerty', username: 'orang1'},
   isLogin: false,
   token: "",
   family: [],
