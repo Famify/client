@@ -8,101 +8,129 @@ import {
   SafeAreaView,
 } from "react-native";
 import Constants from "expo-constants";
+import { withNavigation } from "react-navigation";
 import Picture from "../assets";
+import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function RewardDashboard(props) {
-  const [family, setfamily] = useState(["a", "a", "a", "a", "a"]);
+function ChallengeDashboard({ navigation }) {
+  const [challenge, setChallenge] = useState(["a", "a", "a", "a", "a"]);
 
-  const addFamily = e => {
-    alert("test");
+  const addChallenge = () => {
+    navigation.navigate("add challenge");
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.bodyTop}>
         <Image
-          source={Picture.familyScreen}
-          style={{ width: "80%", resizeMode: "contain", flex: 1 }}
+          source={Picture.challange3}
+          style={{ width: "100%", resizeMode: "contain", flex: 1, transform:[{ translateY: 0 }] }}
         />
       </View>
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
           <FlatList
-            data={family}
-            style={{ marginTop: 50 }}
+            data={challenge}
+            style={styles.flatlist}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) =>
-              index === family.length - 1 ? (
-                <View style={styles.containerCardOne}>
+            renderItem={({ item, index }) => (
+                index === challenge.length -1 ? (
+                  <View style={styles.containerCardOne}>
                   <View style={styles.card}>
-                    <Image source={Picture.kidsBoy} style={styles.circle} />
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>
-                        {" "}
-                        Angga Banny Ridwan Syahputra
+                        ps2
                       </Text>
                       <Text style={styles.fontCardBirth}>
-                        {" "}
-                        22 January 2019{" "}
+                        mau kah kamu memcuci sepatu hari ini ?
                       </Text>
+                      <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
+                        <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
+                        <Text style={styles.deadline}>
+                          22 january 2019
+                        </Text>
+                      </View>
+                      <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
+                        <MaterialIcons name="verified-user" size={20} color="black" style={{ marginRight: 2 }} />
+                        <Text style={styles.deadline}>
+                          TAGGED
+                        </Text>
+                      </View>
                     </View>
                     <View
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
-                        backgroundColor: "white",
                         maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
                         flexDirection: "row",
                       }}
                     >
-                      <Text style={styles.fontCardPoint}> 0 </Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
+                      <Image source={Picture.ps2} style={styles.image} />
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
+                      <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        1000 Point
+                      </Text>
                     </View>
                   </View>
                 </View>
-              ) : (
-                <View style={styles.containerCard}>
+                ) : (
+                  <View style={styles.containerCard}>
                   <View style={styles.card}>
-                    <Image source={Picture.kidsBoy} style={styles.circle} />
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>
-                        {" "}
-                        Angga Banny Ridwan Syahputra
+                        ps2
                       </Text>
                       <Text style={styles.fontCardBirth}>
-                        {" "}
-                        22 January 2019{" "}
+                        mau kah kamu memcuci sepatu hari ini ?
                       </Text>
+                      <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
+                        <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
+                        <Text style={styles.deadline}>
+                          22 january 2019
+                        </Text>
+                      </View>
+                      <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
+                        <MaterialIcons name="verified-user" size={20} color="black" style={{ marginRight: 2 }} />
+                        <Text style={styles.deadline}>
+                          TAGGED
+                        </Text>
+                      </View>
                     </View>
                     <View
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
-                        backgroundColor: "white",
                         maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
                         flexDirection: "row",
                       }}
                     >
-                      <Text style={styles.fontCardPoint}> 0 </Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
+                      <Image source={Picture.ps2} style={styles.image} />
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
+                      <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        1000 Point
+                      </Text>
                     </View>
                   </View>
                 </View>
-              )
-            }
+                )
+            )}
             keyExtractor={(item, index) => String(index)}
           />
         </SafeAreaView>
       </View>
       <View style={styles.famsBtn}>
-        <TouchableOpacity style={styles.touchFamsBtn} onPress={addFamily}>
-          <View style={styles.addFamilyBtn}>
+        <TouchableOpacity style={styles.touchFamsBtn} onPress={addChallenge}>
+          <View style={styles.addChallengeBtn}>
             <Ionicons
               name="ios-add"
               size={60}
@@ -116,6 +144,8 @@ export default function RewardDashboard(props) {
   );
 }
 
+export default withNavigation(ChallengeDashboard);
+
 const styles = StyleSheet.create({
   container: {
     marginTop: Constants.statusBarHeight,
@@ -125,6 +155,14 @@ const styles = StyleSheet.create({
   },
   plusIcon: {
     top: -2,
+  },
+  deadline:{
+    fontFamily: "sf-light",
+    fontSize: 12,
+  },
+  flatlist: {
+    marginTop: 50,
+
   },
   touchFamsBtn: {
     height: 50,
@@ -146,7 +184,7 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 30,
   },
-  addFamilyBtn: {
+  addChallengeBtn: {
     justifyContent: "center",
     alignItems: "center",
   },
@@ -158,7 +196,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyBottom: {
-    backgroundColor: "#7E549E",
+    backgroundColor: "#4FA5B6",
     flex: 1,
     width: 600,
     marginTop: -50,
@@ -166,8 +204,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 350,
   },
   containerCardOne: {
+    marginBottom: 80,
     marginTop: 10,
-    marginBottom: 50,
     alignItems: "center",
   },
   containerCard: {
@@ -175,9 +213,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   card: {
-    backgroundColor: "#ceccfc",
+    backgroundColor: "#EDB805",
     paddingHorizontal: 20,
-    borderRadius: 20,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 10,
@@ -190,12 +229,11 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     marginRight: 5,
   },
-  cardMedal: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-    marginTop: -30,
-    marginLeft: -10,
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 15,
+    resizeMode: 'cover'
   },
   circle: {
     backgroundColor: "white",

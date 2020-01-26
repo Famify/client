@@ -10,11 +10,12 @@ import {
 import Constants from "expo-constants";
 import { withNavigation } from "react-navigation";
 import Picture from "../assets";
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
 function ChallengeDashboard({ navigation }) {
-  const [family, setfamily] = useState(["a", "a", "a", "a", "a"]);
+  const [challenge, setChallenge] = useState(["a", "a", "a", "a", "a"]);
 
   const addChallenge = () => {
     navigation.navigate("add challenge");
@@ -24,79 +25,93 @@ function ChallengeDashboard({ navigation }) {
     <View style={styles.container}>
       <View style={styles.bodyTop}>
         <Image
-          source={Picture.familyScreen}
-          style={{ width: "80%", resizeMode: "contain", flex: 1 }}
+          source={Picture.challange1}
+          style={{ width: "100%", resizeMode: "contain", flex: 1, transform:[{ translateY: 10 }] }}
         />
       </View>
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
           <FlatList
-            data={family}
+            data={challenge}
             style={styles.flatlist}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) =>
-              index === family.length - 1 ? (
-                <View style={styles.containerCardOne}>
+            renderItem={({ item, index }) => (
+                index === challenge.length -1 ? (
+                  <View style={styles.containerCardOne}>
                   <View style={styles.card}>
-                    <Image source={Picture.kidsBoy} style={styles.circle} />
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>
-                        {" "}
-                        Angga Banny Ridwan Syahputra
+                        MENCUCI SEPATU HARI
                       </Text>
                       <Text style={styles.fontCardBirth}>
-                        {" "}
-                        22 January 2019{" "}
+                        mau kah kamu memcuci sepatu hari ini ?
                       </Text>
                     </View>
                     <View
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
-                        backgroundColor: "white",
                         maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
                         flexDirection: "row",
                       }}
                     >
-                      <Text style={styles.fontCardPoint}> 0 </Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
+                      <Image source={Picture.ps2} style={styles.image} />
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
+                      <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        1000 Point
+                      </Text>
+                    </View>
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
+                      <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        22 january 2019
+                      </Text>
                     </View>
                   </View>
                 </View>
-              ) : (
-                <View style={styles.containerCard}>
+                ) : (
+                  <View style={styles.containerCard}>
                   <View style={styles.card}>
-                    <Image source={Picture.kidsBoy} style={styles.circle} />
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>
-                        {" "}
-                        Angga Banny Ridwan Syahputra
+                        MENCUCI SEPATU HARI
                       </Text>
                       <Text style={styles.fontCardBirth}>
-                        {" "}
-                        22 January 2019{" "}
+                        mau kah kamu memcuci sepatu hari ini ?
                       </Text>
                     </View>
                     <View
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
-                        backgroundColor: "white",
                         maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
                         flexDirection: "row",
                       }}
                     >
-                      <Text style={styles.fontCardPoint}> 0 </Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
+                      <Image source={Picture.ps2} style={styles.image} />
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
+                      <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        1000 Point
+                      </Text>
+                    </View>
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
+                      <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        22 january 2019
+                      </Text>
                     </View>
                   </View>
                 </View>
-              )
-            }
+                )
+            )}
             keyExtractor={(item, index) => String(index)}
           />
         </SafeAreaView>
@@ -129,8 +144,13 @@ const styles = StyleSheet.create({
   plusIcon: {
     top: -2,
   },
+  deadline:{
+    fontFamily: "sf-light",
+    fontSize: 12,
+  },
   flatlist: {
     marginTop: 50,
+
   },
   touchFamsBtn: {
     height: 50,
@@ -164,7 +184,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyBottom: {
-    backgroundColor: "#7E549E",
+    backgroundColor: "#F7CA3F",
     flex: 1,
     width: 600,
     marginTop: -50,
@@ -172,8 +192,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 350,
   },
   containerCardOne: {
+    marginBottom: 80,
     marginTop: 10,
-    marginBottom: 50,
     alignItems: "center",
   },
   containerCard: {
@@ -183,7 +203,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#ceccfc",
     paddingHorizontal: 20,
-    borderRadius: 20,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 10,
@@ -196,12 +217,11 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     marginRight: 5,
   },
-  cardMedal: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-    marginTop: -30,
-    marginLeft: -10,
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 15,
+    resizeMode: 'cover'
   },
   circle: {
     backgroundColor: "white",

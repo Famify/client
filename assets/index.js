@@ -16,5 +16,6 @@ export default {
   messageBackground: require("./messageBackground.jpg"),
   childrenChildren: require("./family/children.png"),
   parentParent: require("./family/parent.png"),
-  backgroundTransparent: require("./family/transparetBackground.png")
+  backgroundTransparent: require("./family/transparetBackground.png"),
+  ps2: require("./challenge-and-award/ps2.jpg"),
 };
