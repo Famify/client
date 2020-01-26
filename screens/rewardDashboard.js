@@ -12,7 +12,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllReward } from "../store/action/rewardAction";
 import { withNavigation } from "react-navigation";
 import Picture from "../assets";
-import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -31,8 +30,8 @@ function RewardDashboard({ navigation }) {
     <View style={styles.container}>
       <View style={styles.bodyTop}>
         <Image
-          source={Picture.challange3}
-          style={{ width: "100%", resizeMode: "contain", flex: 1, transform:[{ translateY: 0 }] }}
+          source={Picture.familyScreen}
+          style={{ width: "80%", resizeMode: "contain", flex: 1 }}
         />
       </View>
       <View style={styles.bodyBottom}>
@@ -119,8 +118,8 @@ function RewardDashboard({ navigation }) {
         </SafeAreaView>
       </View>
       <View style={styles.famsBtn}>
-        <TouchableOpacity style={styles.touchFamsBtn} onPress={addChallenge}>
-          <View style={styles.addChallengeBtn}>
+        <TouchableOpacity style={styles.touchFamsBtn} onPress={addFamily}>
+          <View style={styles.addFamilyBtn}>
             <Ionicons
               name="ios-add"
               size={60}
@@ -146,14 +145,6 @@ const styles = StyleSheet.create({
   plusIcon: {
     top: -2,
   },
-  deadline:{
-    fontFamily: "sf-light",
-    fontSize: 12,
-  },
-  flatlist: {
-    marginTop: 50,
-
-  },
   touchFamsBtn: {
     height: 50,
     backgroundColor: "#4999CA",
@@ -174,7 +165,7 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 30,
   },
-  addChallengeBtn: {
+  addFamilyBtn: {
     justifyContent: "center",
     alignItems: "center",
   },
@@ -186,7 +177,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyBottom: {
-    backgroundColor: "#4FA5B6",
+    backgroundColor: "#7E549E",
     flex: 1,
     width: 600,
     marginTop: -50,
@@ -194,8 +185,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 350,
   },
   containerCardOne: {
-    marginBottom: 80,
     marginTop: 10,
+    marginBottom: 50,
     alignItems: "center",
   },
   containerCard: {
@@ -203,10 +194,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   card: {
-    backgroundColor: "#EDB805",
+    backgroundColor: "#ceccfc",
     paddingHorizontal: 20,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
+    borderRadius: 20,
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 10,
@@ -219,11 +209,12 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     marginRight: 5,
   },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 15,
-    resizeMode: 'cover'
+  cardMedal: {
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
+    marginTop: -30,
+    marginLeft: -10,
   },
   circle: {
     backgroundColor: "white",

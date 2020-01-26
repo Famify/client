@@ -13,7 +13,6 @@ import { withNavigation } from "react-navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllChallenge } from "../store/action/challengeAction";
 import Picture from "../assets";
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -37,8 +36,8 @@ function ChallengeDashboard({ navigation }) {
     <View style={styles.container}>
       <View style={styles.bodyTop}>
         <Image
-          source={Picture.challange1}
-          style={{ width: "100%", resizeMode: "contain", flex: 1, transform:[{ translateY: 10 }] }}
+          source={Picture.familyScreen}
+          style={{ width: "80%", resizeMode: "contain", flex: 1 }}
         />
       </View>
       <View style={styles.bodyBottom}>
@@ -68,7 +67,10 @@ function ChallengeDashboard({ navigation }) {
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
+                        backgroundColor: "white",
                         maxWidth: 200,
+                        borderRadius: 20,
+                        height: 60,
                         flexDirection: "row",
                       }}
                     >
@@ -97,7 +99,10 @@ function ChallengeDashboard({ navigation }) {
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
+                        backgroundColor: "white",
                         maxWidth: 200,
+                        borderRadius: 20,
+                        height: 60,
                         flexDirection: "row",
                       }}
                     >
@@ -106,8 +111,8 @@ function ChallengeDashboard({ navigation }) {
                     </View>
                   </TouchableOpacity>
                 </View>
-                )
-            )}
+              )
+            }
             keyExtractor={(item, index) => String(index)}
           />
         </SafeAreaView>
@@ -140,10 +145,6 @@ const styles = StyleSheet.create({
   },
   plusIcon: {
     top: -2,
-  },
-  deadline:{
-    fontFamily: "sf-light",
-    fontSize: 12,
   },
   flatlist: {
     marginTop: 50,
@@ -181,7 +182,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyBottom: {
-    backgroundColor: "#F7CA3F",
+    backgroundColor: "#7E549E",
     flex: 1,
     width: 600,
     marginTop: -50,
@@ -189,8 +190,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 350,
   },
   containerCardOne: {
-    marginBottom: 80,
     marginTop: 10,
+    marginBottom: 50,
     alignItems: "center",
   },
   containerCard: {
@@ -200,8 +201,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#ceccfc",
     paddingHorizontal: 20,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
+    borderRadius: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -216,11 +216,12 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     marginRight: 5,
   },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 15,
-    resizeMode: 'cover'
+  cardMedal: {
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
+    marginTop: -30,
+    marginLeft: -10,
   },
   circle: {
     backgroundColor: "white",
