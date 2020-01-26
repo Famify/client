@@ -7,122 +7,223 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
-import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from "react-redux";
+import { childRegister, getAllFamily } from "../store/action/userAction";
+import * as ImagePicker from "expo-image-picker";
 
 export default function RegisterChild({ navigation }) {
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [birthday, setBirthday] = useState(moment(new Date()).format("MMMM D, YYYY"))
-  const [birthdayStatus, setBirthStatus] = useState(false)
-  const [image, setImage] = useState(null)
-  const [imageSet, setStatusImageSet] = useState(false)
+  const [birthday, setBirthday] = useState(
+    moment(new Date()).format("MMMM D, YYYY")
+  );
+  const [birthdayStatus, setBirthStatus] = useState(false);
+  const [image, setImage] = useState(null);
+  const [imageSet, setStatusImageSet] = useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
-  
+
   const hideDatePicker = date => {
     setDatePickerVisibility(false);
-    if ( new Date(date) >= new Date()) {
-      alert('astagfirullah')
+    if (new Date(date) >= new Date()) {
+      alert("astagfirullah");
     } else {
-      setBirthday(moment(new Date(date)).format(" D MMMM YYYY"))
-      setBirthStatus(true)
+      setBirthday(moment(new Date(date)).format(" D MMMM YYYY"));
+      setBirthStatus(true);
     }
   };
 
   const handleConfirm = date => {
-    hideDatePicker(date)
+    hideDatePicker(date);
   };
 
   const getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
       }
     }
-  }
+  };
 
   const _pickImage = async () => {
-    getPermissionAsync()
+    getPermissionAsync();
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1
+      quality: 1,
     });
     if (!result.cancelled) {
       setImage(result.uri);
-      setStatusImageSet(true)
+      setStatusImageSet(true);
     }
-  }
+  };
+
+  const inputUsername = input => {
+    setUsername(input);
+  };
+
+  const inputPassword = input => {
+    setPassword(input);
+  };
+
+  const clearInput = () => {
+    setUsername("");
+    setPassword("");
+    setImage(null);
+    setStatusImageSet(false);
+  };
+
+  const submitChildRegister = () => {
+    if (username && password && birthday && image) {
+      let payload = {
+        username,
+        password,
+        avatar: image,
+        dateOfBirth: birthday,
+      };
+      dispatch(childRegister(payload));
+      clearInput();
+      getAllFamily();
+    } else {
+      alert("astagfirullah");
+    }
+  };
 
   const back = () => {
-    navigation.navigate('family')
-  }
+    navigation.navigate("family");
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.upperFormWrapper}>
-        <View style={{ alignItems: 'flex-end'}}>
-          <TouchableOpacity onPress={back} style={{ height: 30, width: 30, top: -20 }} >
+        <View style={{ alignItems: "flex-end" }}>
+          <TouchableOpacity
+            onPress={back}
+            style={{ height: 30, width: 30, top: -20 }}
+          >
             <MaterialCommunityIcons name="backburger" color="white" size={30} />
           </TouchableOpacity>
         </View>
         <Text style={styles.title}>Child Register</Text>
       </View>
-      <Image source={ Picture.kidsBoy04 } style={{ width:'33%', position: 'absolute', resizeMode: 'contain', zIndex:1, bottom: -160, left: -10 }} />
+      <Image
+        source={Picture.kidsBoy04}
+        style={{
+          width: "33%",
+          position: "absolute",
+          resizeMode: "contain",
+          zIndex: 1,
+          bottom: -160,
+          left: -10,
+        }}
+      />
       <SafeAreaView style={styles.downFormWrapper}>
         <ScrollView style={styles.scroolView}>
-        <View style={styles.downFormWrapper}>
-        <Image source={Picture.childrenChildren} style={styles.image} />
-        <TextInput style={styles.input} placeholder="username" />
-        <TextInput style={styles.input} placeholder="set password" secureTextEntry={true} />
-        <View>
-          {
-            !birthdayStatus ? 
-              <TouchableOpacity style={styles.birthBtn} onPress={showDatePicker}>
-                <AntDesign name="calendar" size={25} color="#EE7600" style={{ marginRight: 5 }} />
-                <Text style={styles.birthday}>BirthDay</Text>
-              </TouchableOpacity>
-            :
-            <TouchableOpacity style={styles.birthBtn} onPress={showDatePicker}>
-              <AntDesign name="calendar" size={25} color="#EE7600" style={{ marginRight: 5 }} />
-              <Text style={styles.birthday}>{ birthday }</Text>
-            </TouchableOpacity>
-          }
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
-          />
-        </View>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        {
-          imageSet ? 
-          <TouchableOpacity onPress={_pickImage}>
-            <Image source={{uri: image}} style={{ width: 200, height: 200, borderRadius:30, marginTop: 15 }} />
-          </TouchableOpacity>
-          :
-          <TouchableOpacity onPress={_pickImage}>
-            <View style={{ width: 200, height: 200, borderRadius:30, marginTop: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: '#efefef' }}>
-              <MaterialCommunityIcons name="image-search" size={90} color="#EE7600" />
+          <View style={styles.downFormWrapper}>
+            <Image source={Picture.childrenChildren} style={styles.image} />
+            <TextInput
+              value={username}
+              onChangeText={text => inputUsername(text)}
+              style={styles.input}
+              placeholder="username"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="set password"
+              secureTextEntry={true}
+              value={password}
+              onChangeText={text => inputPassword(text)}
+            />
+            <View>
+              {!birthdayStatus ? (
+                <TouchableOpacity
+                  style={styles.birthBtn}
+                  onPress={showDatePicker}
+                >
+                  <AntDesign
+                    name="calendar"
+                    size={25}
+                    color="#EE7600"
+                    style={{ marginRight: 5 }}
+                  />
+                  <Text style={styles.birthday}>BirthDay</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.birthBtn}
+                  onPress={showDatePicker}
+                >
+                  <AntDesign
+                    name="calendar"
+                    size={25}
+                    color="#EE7600"
+                    style={{ marginRight: 5 }}
+                  />
+                  <Text style={styles.birthday}>{birthday}</Text>
+                </TouchableOpacity>
+              )}
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+              />
             </View>
-          </TouchableOpacity>
-        }
-        </View>
-        <TouchableOpacity style={styles.submit}>
-          <Text style={styles.register}>Add Child</Text>
-        </TouchableOpacity>
-        </View>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              {imageSet ? (
+                <TouchableOpacity onPress={_pickImage}>
+                  <Image
+                    source={{ uri: image }}
+                    style={{
+                      width: 200,
+                      height: 200,
+                      borderRadius: 30,
+                      marginTop: 15,
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={_pickImage}>
+                  <View
+                    style={{
+                      width: 200,
+                      height: 200,
+                      borderRadius: 30,
+                      marginTop: 15,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      backgroundColor: "#efefef",
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="image-search"
+                      size={90}
+                      color="#EE7600"
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
+            </View>
+            <TouchableOpacity
+              style={styles.submit}
+              onPress={submitChildRegister}
+            >
+              <Text style={styles.register}>Add Child</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -131,7 +232,6 @@ export default function RegisterChild({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: Constants.statusBarHeight,
     flex: 30,
     justifyContent: "center",
     alignItems: "center",
@@ -166,13 +266,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#512DA8",
   },
-  scroolView:{
+  scroolView: {
     flex: 25,
     backgroundColor: "white",
-    width: "100%"
+    width: "100%",
   },
   input: {
-    textAlign: 'center',
+    textAlign: "center",
     borderWidth: 1,
     width: "80%",
     paddingVertical: 5,
@@ -194,15 +294,13 @@ const styles = StyleSheet.create({
   image: {
     width: 250,
     height: 300,
-    resizeMode: 'contain',
-    // position: "absolute",
-    translateY:55,
-    marginTop: -60
+    resizeMode: "contain",
+    marginTop: -60,
   },
   submit: {
     backgroundColor: "#EE7600",
     width: "80%",
-    marginBottom: 20 ,
+    marginBottom: 20,
     borderRadius: 100,
     alignItems: "center",
     marginTop: 15,
@@ -215,9 +313,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 5,
   },
-  birthBtn:{
-    justifyContent: 'center',
-    flexDirection: 'row',
+  birthBtn: {
+    justifyContent: "center",
+    flexDirection: "row",
     backgroundColor: "white",
     width: 250,
     borderRadius: 100,
@@ -239,7 +337,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: 1.5,
   },
-  birthday : {
+  birthday: {
     color: "#EE7600",
     paddingVertical: 5,
     fontFamily: "sf-semibold",

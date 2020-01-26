@@ -20,7 +20,7 @@ const rewardStack = createMaterialTopTabNavigator(
   {
     tabBarOptions: {
       tabStyle: {
-        marginTop: 70,
+        display: "none",
       },
       style: {
         backgroundColor: "#512DA8",
@@ -32,6 +32,7 @@ const rewardStack = createMaterialTopTabNavigator(
     defaultNavigationOptions: {
       swipeEnabled: false,
     },
+    backBehavior: "history",
   }
 );
 

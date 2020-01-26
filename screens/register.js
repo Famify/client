@@ -6,15 +6,12 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { useDispatch, useSelector } from "react-redux";
 import { userRegister } from "../store/action/userAction";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
-import moment from "moment";
-import * as ImagePicker from 'expo-image-picker';
 
 export default function Register({ navigation }) {
   const [username, setUsername] = useState("");
@@ -22,11 +19,6 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [birthday, setBirthday] = useState(moment(new Date()).format("MMMM D, YYYY"))
-  const [birthdayStatus, setBirthStatus] = useState(false)
-  const [image, setImage] = useState(null)
-  const [imageSet, setStatusImageSet] = useState(false)
 
   const moveLogin = () => {
     navigation.navigate("login");
@@ -54,53 +46,16 @@ export default function Register({ navigation }) {
     // navigation.navigate("login");
   };
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-  
-  const hideDatePicker = date => {
-    setDatePickerVisibility(false);
-    if ( new Date(date) >= new Date()) {
-      alert('astagfirullah')
-    } else {
-      setBirthday(moment(new Date(date)).format(" D MMMM YYYY"))
-      setBirthStatus(true)
-    }
-  };
-
-  const handleConfirm = date => {
-    hideDatePicker(date)
-  };
-
-  const getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
-      }
-    }
-  }
-
-  const _pickImage = async () => {
-    getPermissionAsync()
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
-    if (!result.cancelled) {
-      setImage(result.uri);
-      setStatusImageSet(true)
-    }
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.upperFormWrapper}>
         <Text style={styles.title}>Sign Up</Text>
       </View>
-      <View style={styles.downFormWrapper}>
+      <KeyboardAvoidingView
+        style={styles.downFormWrapper}
+        enabled
+        behavior="padding"
+      >
         <Image source={Picture.register} style={styles.image} />
         <TextInput
           value={username}
@@ -108,26 +63,6 @@ export default function Register({ navigation }) {
           style={styles.input}
           placeholder="username"
         />
-        <View>
-          {
-            !birthdayStatus ? 
-              <TouchableOpacity style={styles.birthBtn} onPress={showDatePicker}>
-                <AntDesign name="calendar" size={25} color="#EE7600" style={{ marginRight: 5 }} />
-                <Text style={styles.birthday}>BirthDay</Text>
-              </TouchableOpacity>
-            :
-            <TouchableOpacity style={styles.birthBtn} onPress={showDatePicker}>
-              <AntDesign name="calendar" size={25} color="#EE7600" style={{ marginRight: 5 }} />
-              <Text style={styles.birthday}>{ birthday }</Text>
-            </TouchableOpacity>
-          }
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
-          />
-        </View>
         <TextInput
           value={password}
           style={styles.input}
@@ -141,25 +76,13 @@ export default function Register({ navigation }) {
           style={styles.input}
           placeholder="email"
         />
-        {
-          imageSet ? 
-          <TouchableOpacity onPress={_pickImage}>
-            <Image source={{uri: image}} style={{ width: 200, height: 200, borderRadius:30, marginTop: 15 }} />
-          </TouchableOpacity>
-          :
-          <TouchableOpacity onPress={_pickImage}>
-            <View style={{ width: 200, height: 200, borderRadius:30, marginTop: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: '#efefef' }}>
-              <MaterialCommunityIcons name="image-search" size={90} color="#EE7600" />
-            </View>
-          </TouchableOpacity>
-        }
         <TouchableOpacity style={styles.submit} onPress={submitRegister}>
           <Text style={styles.register}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={moveLogin}>
           <Text style={styles.moveLogin}>Already have account ?</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -167,15 +90,13 @@ export default function Register({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     marginTop: Constants.statusBarHeight,
-    flex: 30,
-    justifyContent: "center",
-    alignItems: "center",
+    flex: 1,
     width: "100%",
     backgroundColor: "#512DA8",
   },
-  birthBtn:{
-    justifyContent: 'center',
-    flexDirection: 'row',
+  birthBtn: {
+    justifyContent: "center",
+    flexDirection: "row",
     backgroundColor: "white",
     width: 250,
     borderRadius: 100,
@@ -190,7 +111,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 5,
   },
-  birthday : {
+  birthday: {
     color: "#EE7600",
     paddingVertical: 5,
     fontFamily: "sf-semibold",

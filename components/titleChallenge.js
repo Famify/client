@@ -6,12 +6,18 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { withNavigation } from "react-navigation";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useDispatch } from "react-redux";
+import { setTitleAndDescription } from "../store/action/challengeAction";
 
-export default function TitleChallenge(props) {
+function TitleChallenge({ navigation }) {
+  const dispatch = useDispatch();
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
 
   const setInputDate = (event, inputDate) => {
     setShow(false);
@@ -22,11 +28,41 @@ export default function TitleChallenge(props) {
     setShow(true);
   };
 
+  const inputTitle = input => {
+    setTitle(input);
+  };
+
+  const inputDesc = input => {
+    setDesc(input);
+  };
+
+  const goNext = () => {
+    navigation.navigate("image");
+  };
+
+  const clearInput = () => {
+    setTitle("");
+    setDesc("");
+    setDate(new Date());
+  };
+
+  const nextSection = () => {
+    if (title && desc && date) {
+      let payload = { title, desc, date };
+      dispatch(setTitleAndDescription(payload));
+      clearInput();
+      goNext();
+    } else {
+      alert("harus diisi semua");
+    }
+  };
+
   return (
     <View
       style={{
         flex: 1,
         alignItems: "center",
+        marginTop: 50,
       }}
     >
       <View
@@ -55,7 +91,12 @@ export default function TitleChallenge(props) {
             color="#512DA8"
             style={{ marginRight: 10 }}
           />
-          <TextInput style={styles.input} placeholder="title" />
+          <TextInput
+            value={title}
+            onChangeText={text => inputTitle(text)}
+            style={styles.input}
+            placeholder="title"
+          />
         </View>
         <View
           style={{
@@ -75,6 +116,8 @@ export default function TitleChallenge(props) {
             style={styles.description}
             placeholder="description"
             multiline={true}
+            value={desc}
+            onChangeText={text => inputDesc(text)}
           />
         </View>
         <View
@@ -114,13 +157,15 @@ export default function TitleChallenge(props) {
         </View>
       </View>
       <View style={{ flex: 1 / 3, width: "80%", alignItems: "flex-end" }}>
-        <TouchableOpacity style={styles.submit}>
+        <TouchableOpacity style={styles.submit} onPress={nextSection}>
           <Text style={styles.next}>Next</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
+
+export default withNavigation(TitleChallenge);
 
 const styles = StyleSheet.create({
   container: {

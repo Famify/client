@@ -1,8 +1,6 @@
 import axios from "../../config/axios";
 
-import axios from "../../config/axios";
-
-const createReward = payload => {
+export const createReward = payload => {
   return dispatch => {
     dispatch({
       type: "CREATE_REWARD_LOADING",
@@ -12,8 +10,10 @@ const createReward = payload => {
     axios({
       url: "/rewards",
       method: "POST",
+      data: payload,
       headers: {
-        access_token: payload.token,
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
       },
     })
       .then(({ data }) => {
@@ -34,7 +34,7 @@ const createReward = payload => {
   };
 };
 
-const getReward = payload => {
+export const getReward = payload => {
   return dispatch => {
     dispatch({
       type: "GET_REWARD_LOADING",
@@ -65,7 +65,7 @@ const getReward = payload => {
   };
 };
 
-const getAllReward = payload => {
+export const getAllReward = payload => {
   return dispatch => {
     dispatch({
       type: "ALL_REWARD_LOADING",
@@ -75,7 +75,8 @@ const getAllReward = payload => {
       url: "/rewards",
       method: "GET",
       headers: {
-        access_token: payload.token,
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
       },
     })
       .then(({ data }) => {
@@ -96,7 +97,7 @@ const getAllReward = payload => {
   };
 };
 
-const claimReward = payload => {
+export const claimReward = payload => {
   return dispatch => {
     dispatch({
       type: "CLAIM_REWARD_LOADING",
@@ -128,7 +129,7 @@ const claimReward = payload => {
   };
 };
 
-const deleteReward = payload => {
+export const deleteReward = payload => {
   return dispatch => {
     dispatch({
       type: "DELETE_REWARD_LOADING",
@@ -156,5 +157,14 @@ const deleteReward = payload => {
           error: err,
         });
       });
+  };
+};
+
+export const setTitleDesc = payload => {
+  return dispatch => {
+    dispatch({
+      type: "SET_TITLE_DESC",
+      data: payload,
+    });
   };
 };
