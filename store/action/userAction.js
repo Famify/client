@@ -126,7 +126,6 @@ export const childRegister = payload => {
       type: "CHILD_REGISTER_LOADING",
       loading: true,
     });
-    console.log("masuk", payload);
     axios({
       url: "/children/signup",
       method: "POST",
@@ -137,7 +136,8 @@ export const childRegister = payload => {
       },
     })
       .then(({ data }) => {
-        console.log("success", data);
+        alert("success register");
+        console.log(data);
         dispatch({
           type: "CHILD_REGISTER_SUCCESS",
           loading: false,

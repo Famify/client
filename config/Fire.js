@@ -1,4 +1,4 @@
-import firebase from 'firebase'; // 4.8.1
+import firebase from "firebase"; // 4.8.1
 
 class Fire {
   constructor() {
@@ -8,11 +8,9 @@ class Fire {
 
   init = () => {
     if (!firebase.apps.length) {
-      firebase.initializeApp({
-
-      });
+      firebase.initializeApp();
     }
-  }
+  };
 
   observeAuth = () =>
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
@@ -32,7 +30,7 @@ class Fire {
   }
 
   get ref() {
-    return firebase.database().ref('messages');
+    return firebase.database().ref("messages");
   }
 
   parse = snapshot => {
@@ -51,7 +49,7 @@ class Fire {
   on = callback =>
     this.ref
       .limitToLast(20)
-      .on('child_added', snapshot => callback(this.parse(snapshot)));
+      .on("child_added", snapshot => callback(this.parse(snapshot)));
 
   get timestamp() {
     return firebase.database.ServerValue.TIMESTAMP;
