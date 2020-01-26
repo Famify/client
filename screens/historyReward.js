@@ -22,29 +22,13 @@ function ChallengeDashboard({ navigation }) {
   };
 
   const history = () => {
+    console.log('dwwd');
+    
     navigation.navigate("history reward");
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.bodyTop}>
-        <Image
-          source={Picture.challange3}
-          style={{ width: "100%", resizeMode: "contain", flex: 1, transform:[{ translateY: 0 }] }}
-        />
-        <View style={styles.historyBtn}>
-          <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
-            <View style={styles.addChallengeBtn}>
-              <MaterialCommunityIcons
-                name="history"
-                size={40}
-                color="white"
-                style={styles.historyIcon}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
           <FlatList
@@ -144,18 +128,6 @@ function ChallengeDashboard({ navigation }) {
           />
         </SafeAreaView>
       </View>
-      <View style={styles.famsBtn}>
-        <TouchableOpacity style={styles.touchFamsBtn} onPress={addChallenge}>
-          <View style={styles.addChallengeBtn}>
-            <Ionicons
-              name="ios-add"
-              size={60}
-              color="white"
-              style={styles.plusIcon}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
@@ -240,8 +212,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 600,
     marginTop: -50,
-    borderTopRightRadius: 350,
-    borderTopLeftRadius: 350,
   },
   containerCardOne: {
     marginBottom: 80,

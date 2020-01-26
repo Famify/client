@@ -3,6 +3,8 @@ import ChildDashboard from "../screens/childDashboard";
 import FamilyDashboard from "../screens/familyDashboard";
 import ChallengesDashboard from "../screens/challengeDashboard";
 import RewardsDashboard from "../screens/rewardDashboard";
+import historyChallenge from "../screens/historyChallenge";
+import historyReward from "../screens/historyReward";
 
 const childStack = createStackNavigator(
   {
@@ -33,6 +35,18 @@ const childStack = createStackNavigator(
         title: "Rewards",
       },
     },
+    "history challenge":{
+      screen : historyChallenge,
+      navigationOptions: {
+        title: "History Challenges",
+      },
+    },
+    "history reward":{
+      screen : historyReward,
+      navigationOptions: {
+        title: "History Rewards",
+      },
+    }
   },
   {
     defaultNavigationOptions: {

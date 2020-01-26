@@ -21,9 +21,25 @@ function ChallengeDashboard({ navigation }) {
     navigation.navigate("add challenge");
   };
 
+  const history = () => {
+    navigation.navigate("history challenge");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.bodyTop}>
+        <View style={styles.historyBtn}>
+          <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
+            <View style={styles.addChallengeBtn}>
+              <MaterialCommunityIcons
+                name="history"
+                size={40}
+                color="white"
+                style={styles.historyIcon}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
         <Image
           source={Picture.challange1}
           style={{ width: "100%", resizeMode: "contain", flex: 1, transform:[{ translateY: 10 }] }}
@@ -150,7 +166,31 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     marginTop: 50,
-
+  },
+  historyIcon: {
+    top: 3,
+    right: 1.5
+  },
+  touchHistoryBtn: {
+    height: 50,
+    backgroundColor: "#4999CA",
+    width: 50,
+    borderRadius: 60,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
+  },
+  historyBtn: {
+    justifyContent: "center",
+    position: "absolute",
+    bottom: 160,
+    right: 30,
+    zIndex: 70
   },
   touchFamsBtn: {
     height: 50,
