@@ -13,7 +13,7 @@ import { getAllReward } from "../store/action/rewardAction";
 import { withNavigation } from "react-navigation";
 import Picture from "../assets";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 function RewardDashboard({ navigation }) {
   const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { useDispatch, useSelector } from "react-redux";
-import { userRegister } from "../store/action/userAction";
+import { parentRegister } from "../store/action/userAction";
 
 export default function Register({ navigation }) {
   const [username, setUsername] = useState("");
@@ -19,7 +19,7 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-
+  
   const moveLogin = () => {
     navigation.navigate("login");
   };
@@ -42,8 +42,8 @@ export default function Register({ navigation }) {
       email,
       password,
     };
-    dispatch(userRegister(payload));
-    // navigation.navigate("login");
+    dispatch(parentRegister(payload));
+    navigation.navigate('login')
   };
 
   return (
