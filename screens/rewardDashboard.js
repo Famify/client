@@ -13,11 +13,12 @@ import { getAllReward } from "../store/action/rewardAction";
 import { withNavigation } from "react-navigation";
 import Picture from "../assets";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 function RewardDashboard({ navigation }) {
   const dispatch = useDispatch();
   const reward = useSelector(state => state.reward.rewardList);
+  const role = "child";
   const addFamily = e => {
     navigation.navigate("title");
   };
@@ -36,18 +37,20 @@ function RewardDashboard({ navigation }) {
           source={Picture.familyScreen}
           style={{ width: "80%", resizeMode: "contain", flex: 1 }}
         />
-        <View style={styles.historyBtn}>
-          <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
-            <View style={styles.addChallengeBtn}>
-              <MaterialCommunityIcons
-                name="history"
-                size={40}
-                color="white"
-                style={styles.historyIcon}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
+        {role === "child" && (
+          <View style={styles.historyBtn}>
+            <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
+              <View style={styles.addChallengeBtn}>
+                <MaterialCommunityIcons
+                  name="history"
+                  size={40}
+                  color="white"
+                  style={styles.historyIcon}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
@@ -124,7 +127,7 @@ const styles = StyleSheet.create({
   },
   historyIcon: {
     top: 3,
-    right: 1.5
+    right: 1.5,
   },
   touchHistoryBtn: {
     height: 50,
@@ -146,13 +149,12 @@ const styles = StyleSheet.create({
     bottom: 160,
     right: 30,
   },
-  deadline:{
+  deadline: {
     fontFamily: "sf-light",
     fontSize: 12,
   },
   flatlist: {
     marginTop: 50,
-
   },
   touchFamsBtn: {
     height: 50,

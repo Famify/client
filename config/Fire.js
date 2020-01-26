@@ -1,4 +1,4 @@
-import firebase from 'firebase'; // 4.8.1
+import firebase from "firebase"; // 4.8.1
 
 class Fire {
   constructor() {
@@ -9,10 +9,15 @@ class Fire {
   init = () => {
     if (!firebase.apps.length) {
       firebase.initializeApp({
-
+        apiKey: "AIzaSyDmvh83MrT8bxn8QjosdtAwba7tBsWh488",
+        authDomain: "chat-e9036.firebaseapp.com",
+        databaseURL: "https://chat-e9036.firebaseio.com",
+        projectId: "chat-e9036",
+        storageBucket: "chat-e9036.appspot.com",
+        messagingSenderId: "321434715921",
       });
     }
-  }
+  };
 
   observeAuth = () =>
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
@@ -32,7 +37,7 @@ class Fire {
   }
 
   get ref() {
-    return firebase.database().ref('messages');
+    return firebase.database().ref("messages");
   }
 
   parse = snapshot => {
@@ -51,7 +56,7 @@ class Fire {
   on = callback =>
     this.ref
       .limitToLast(20)
-      .on('child_added', snapshot => callback(this.parse(snapshot)));
+      .on("child_added", snapshot => callback(this.parse(snapshot)));
 
   get timestamp() {
     return firebase.database.ServerValue.TIMESTAMP;

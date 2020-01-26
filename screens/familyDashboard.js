@@ -37,7 +37,7 @@ function FamilyDashboard({ navigation }) {
         />
       </View>
       <View style={styles.bodyBottom}>
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.containerSafe}>
           {family.length === 0 ? (
             <Text>No family</Text>
           ) : (
@@ -114,6 +114,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     width: "100%",
+  },
+  containerSafe: {
+    marginTop: Constants.statusBarHeight,
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    width: "100%",
+    marginBottom: 20,
   },
   plusIcon: {
     top: -2,

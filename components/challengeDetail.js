@@ -10,6 +10,7 @@ import {
   getChallenge,
   claimChallenge,
   finishChallenge,
+  getAllChallenge,
 } from "../store/action/challengeAction";
 import { useDispatch, useSelector } from "react-redux";
 import { withNavigation } from "react-navigation";
@@ -22,6 +23,7 @@ function ChallengeDetail({ navigation }) {
 
   const getClaimChallenge = id => {
     dispatch(claimChallenge({ id }));
+    dispatch(getAllChallenge());
   };
 
   useEffect(() => {
