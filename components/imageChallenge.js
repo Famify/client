@@ -7,16 +7,21 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  createChallenge,
+  setTitleAndDescription,
+} from "../store/action/challengeAction";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 
 export default function ImageChallenge(props) {
+  const dispatch = useDispatch();
+  const titleDesc = useSelector(state => state.challenge.titleDesc);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState();
-
-  const listPoin = [5, 10, 15, 20, 25];
 
   const getPermissionAsync = async () => {
     if (Constants.platform.android) {
@@ -38,9 +43,26 @@ export default function ImageChallenge(props) {
     });
 
     if (!result.cancelled) {
-      console.log(result.uri);
       setPict(result.uri);
     }
+  };
+
+  const clearInput = () => {
+    setPoin(5);
+    setPict("");
+    dispatch(setTitleAndDescription({}));
+  };
+
+  const submitChallenge = () => {
+    let payload = {
+      title: titleDesc.title,
+      descriptions: titleDesc.desc,
+      deadline: titleDesc.date,
+      image: pict,
+      points: poin,
+    };
+    dispatch(createChallenge(payload));
+    clearInput();
   };
 
   return (
@@ -48,6 +70,7 @@ export default function ImageChallenge(props) {
       style={{
         flex: 1,
         alignItems: "center",
+        marginTop: 50,
       }}
     >
       <View
@@ -139,7 +162,7 @@ export default function ImageChallenge(props) {
         </View>
       </View>
       <View style={{ flex: 1 / 3, width: "80%", alignItems: "flex-end" }}>
-        <TouchableOpacity style={styles.submit}>
+        <TouchableOpacity style={styles.submit} onPress={submitChallenge}>
           <Text style={styles.next}>Submit Challenge</Text>
         </TouchableOpacity>
       </View>

@@ -7,9 +7,15 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { withNavigation } from "react-navigation";
+import { useDispatch } from "react-redux";
+import { setTitleDesc } from "../store/action/rewardAction";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-export default function TitleReward(props) {
+function TitleReward({ navigation }) {
+  const dispatch = useDispatch();
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
@@ -22,11 +28,41 @@ export default function TitleReward(props) {
     setShow(true);
   };
 
+  const inputTitle = input => {
+    setTitle(input);
+  };
+
+  const inputDesc = input => {
+    setDesc(input);
+  };
+
+  const clearInput = () => {
+    setTitle("");
+    setDesc("");
+    setDate(new Date());
+  };
+
+  const submitTitleDesc = () => {
+    let payload = {
+      title,
+      desc,
+      date,
+    };
+    if (title && desc && date) {
+      dispatch(setTitleDesc(payload));
+      clearInput();
+      navigation.navigate("image");
+    } else {
+      alert("harus diisi semua");
+    }
+  };
+
   return (
     <View
       style={{
         flex: 1,
         alignItems: "center",
+        marginTop: 50,
       }}
     >
       <View
@@ -55,7 +91,12 @@ export default function TitleReward(props) {
             color="#512DA8"
             style={{ marginRight: 10 }}
           />
-          <TextInput style={styles.input} placeholder="title" />
+          <TextInput
+            value={title}
+            onChangeText={text => inputTitle(text)}
+            style={styles.input}
+            placeholder="title"
+          />
         </View>
         <View
           style={{
@@ -75,6 +116,8 @@ export default function TitleReward(props) {
             style={styles.description}
             placeholder="description"
             multiline={true}
+            value={desc}
+            onChangeText={text => inputDesc(text)}
           />
         </View>
         <View
@@ -114,13 +157,15 @@ export default function TitleReward(props) {
         </View>
       </View>
       <View style={{ flex: 1 / 3, width: "80%", alignItems: "flex-end" }}>
-        <TouchableOpacity style={styles.submit}>
+        <TouchableOpacity style={styles.submit} onPress={submitTitleDesc}>
           <Text style={styles.next}>Next</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
+
+export default withNavigation(TitleReward);
 
 const styles = StyleSheet.create({
   container: {

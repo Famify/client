@@ -124,16 +124,18 @@ export const childRegister = payload => {
       type: "CHILD_REGISTER_LOADING",
       loading: true,
     });
-
+    console.log("masuk", payload);
     axios({
       url: "/children/signup",
       method: "POST",
       data: payload,
       headers: {
-        access_token: payload.token,
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1ODAwMDY3Njd9.ngbaO_uY1A0HvGn_mjGKcnnsACMXDVkvz_a4WVJvvUI",
       },
     })
       .then(({ data }) => {
+        console.log("success", data);
         dispatch({
           type: "CHILD_REGISTER_SUCCESS",
           loading: false,
@@ -152,35 +154,46 @@ export const childRegister = payload => {
 };
 
 export const getAllFamily = payload => {
-  return async dispatch => {
+  return dispatch => {
     dispatch({
       type: "ALL_FAMILY_LOADING",
       loading: true,
     });
-
-    try {
-      const parent = await axios({
-        url: "/parents",
-        headers: { access_token: payload.token },
+    let listParent = [];
+    axios({
+      url: "/parents",
+      method: "GET",
+      headers: {
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1ODAwMDY3Njd9.ngbaO_uY1A0HvGn_mjGKcnnsACMXDVkvz_a4WVJvvUI",
+      },
+    })
+      .then(({ data }) => {
+        listParent = data;
+        return axios({
+          url: "/children",
+          method: "GET",
+          headers: {
+            access_token:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1ODAwMDY3Njd9.ngbaO_uY1A0HvGn_mjGKcnnsACMXDVkvz_a4WVJvvUI",
+          },
+        });
+      })
+      .then(({ data }) => {
+        let newData = [...listParent, ...data];
+        dispatch({
+          type: "ALL_FAMILY_SUCCESS",
+          data: newData,
+          loading: false,
+        });
+      })
+      .catch(error => {
+        let err = error.response.data.error.join(", ");
+        dispatch({
+          type: "ALL_FAMILY_ERROR",
+          loading: false,
+          error: err,
+        });
       });
-      const child = await axios({
-        url: "/children",
-        headers: { access_token: payload.token },
-      });
-
-      const data = [...parent.data, ...child.data];
-      dispatch({
-        type: "ALL_FAMILY_SUCCESS",
-        data,
-        loading: false,
-      });
-    } catch (error) {
-      let err = error.response.data.error.join(", ");
-      dispatch({
-        type: "ALL_FAMILY_ERROR",
-        loading: false,
-        error: err,
-      });
-    }
   };
 };

@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
@@ -25,7 +26,11 @@ function Login({ navigation }) {
       <View style={styles.upperFormWrapper}>
         <Text style={styles.title}>Sign In</Text>
       </View>
-      <View style={styles.downFormWrapper}>
+      <KeyboardAvoidingView
+        style={styles.downFormWrapper}
+        enabled
+        behavior="padding"
+      >
         <Image source={Picture.register} style={styles.image} />
         <TextInput style={styles.input} placeholder="username or email" />
         <TextInput style={styles.input} placeholder="password" />
@@ -44,7 +49,7 @@ function Login({ navigation }) {
             Don't have account ?
           </Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 }
