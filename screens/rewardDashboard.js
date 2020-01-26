@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -41,77 +41,38 @@ function RewardDashboard({ navigation }) {
           ) : (
             <FlatList
               data={reward}
-              style={{ marginTop: 50 }}
+              style={{ marginTop: 50, width: "60%" }}
               showsVerticalScrollIndicator={false}
-              renderItem={({ item, index }) =>
-                index === family.length - 1 ? (
-                  <View style={styles.containerCardOne}>
-                    <View style={styles.card}>
-                      <Image source={Picture.kidsBoy} style={styles.circle} />
-                      <View style={styles.cardMid}>
-                        <Text style={styles.fontCardName}>
-                          {" "}
-                          Angga Banny Ridwan Syahputra
-                        </Text>
-                        <Text style={styles.fontCardBirth}>
-                          {" "}
-                          22 January 2019{" "}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: "white",
-                          maxWidth: 200,
-                          borderRadius: 20,
-                          height: 60,
-                          flexDirection: "row",
-                        }}
-                      >
-                        <Text style={styles.fontCardPoint}> 0 </Text>
-                        <Image
-                          source={Picture.medal}
-                          style={styles.cardMedal}
-                        />
-                      </View>
+              renderItem={({ item, index }) => (
+                <TouchableOpacity style={styles.containerCardOne}>
+                  <View style={styles.card}>
+                    <Image
+                      source={{ uri: `${item.image}` }}
+                      style={styles.circle}
+                    />
+                    <View style={styles.cardMid}>
+                      <Text style={styles.fontCardName}>{item.title}</Text>
+                      <Text style={styles.fontCardBirth}>
+                        {item.description}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "white",
+                        maxWidth: 200,
+                        borderRadius: 20,
+                        height: 60,
+                        flexDirection: "row",
+                      }}
+                    >
+                      <Text style={styles.fontCardPoint}>{item.points}</Text>
+                      <Image source={Picture.medal} style={styles.cardMedal} />
                     </View>
                   </View>
-                ) : (
-                  <View style={styles.containerCard}>
-                    <View style={styles.card}>
-                      <Image source={Picture.kidsBoy} style={styles.circle} />
-                      <View style={styles.cardMid}>
-                        <Text style={styles.fontCardName}>
-                          {" "}
-                          Angga Banny Ridwan Syahputra
-                        </Text>
-                        <Text style={styles.fontCardBirth}>
-                          {" "}
-                          22 January 2019{" "}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: "white",
-                          maxWidth: 200,
-                          borderRadius: 20,
-                          height: 60,
-                          flexDirection: "row",
-                        }}
-                      >
-                        <Text style={styles.fontCardPoint}> 0 </Text>
-                        <Image
-                          source={Picture.medal}
-                          style={styles.cardMedal}
-                        />
-                      </View>
-                    </View>
-                  </View>
-                )
-              }
+                </TouchableOpacity>
+              )}
               keyExtractor={(item, index) => String(index)}
             />
           )}
@@ -141,6 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    width: "100%",
   },
   plusIcon: {
     top: -2,
@@ -186,11 +148,6 @@ const styles = StyleSheet.create({
   },
   containerCardOne: {
     marginTop: 10,
-    marginBottom: 50,
-    alignItems: "center",
-  },
-  containerCard: {
-    marginTop: 10,
     alignItems: "center",
   },
   card: {
@@ -199,7 +156,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 10,
+    width: "100%",
   },
   cardMid: {
     flexDirection: "column",

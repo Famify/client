@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -19,13 +19,23 @@ import { Ionicons } from "@expo/vector-icons";
 function ChallengeDashboard({ navigation }) {
   const dispatch = useDispatch();
   const challengeList = useSelector(state => state.challenge.challengeList);
+  const id = "5e2c74a2ccd987128a26a5eb";
 
   const addChallenge = () => {
     navigation.navigate("add challenge");
   };
 
-  const challangeDetail = id => {
-    alert(`id : ${id}`);
+  const challangeDetail = payload => {
+    if (
+      (payload.status === "claimed" || payload.status === "finished") &&
+      payload.owner === id
+    ) {
+      navigation.navigate("detail", { id: payload.id });
+    } else if (payload.status === "unclaimed") {
+      navigation.navigate("detail", { id: payload.id });
+    } else {
+      alert("Challenge has been claimed");
+    }
   };
 
   useEffect(() => {
@@ -44,75 +54,71 @@ function ChallengeDashboard({ navigation }) {
         <SafeAreaView style={styles.container}>
           <FlatList
             data={challengeList}
-            style={styles.flatlist}
+            style={{ marginTop: 50, width: "60%" }}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) =>
-              index === challengeList.length - 1 ? (
-                <View style={styles.containerCardOne}>
-                  <TouchableOpacity
-                    style={styles.card}
-                    onPress={() => challangeDetail(item._id)}
-                  >
-                    <Image
-                      source={{ uri: `${item.image}` }}
-                      style={styles.circle}
-                    />
-                    <View style={styles.cardMid}>
-                      <Text style={styles.fontCardName}>{item.title}</Text>
-                      <Text style={styles.fontCardBirth}>
-                        {moment(item.deadline).format("LL")}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity
+                style={styles.containerCardOne}
+                onPress={() =>
+                  challangeDetail({
+                    id: item._id,
+                    status: item.status,
+                    owner: item.childId,
+                  })
+                }
+              >
+                <View style={styles.card}>
+                  <Image
+                    source={{ uri: `${item.image}` }}
+                    style={styles.circle}
+                  />
+                  <View style={styles.cardMid}>
+                    <Text style={styles.fontCardName}>{item.title}</Text>
+                    <Text style={styles.fontCardBirth}>
+                      {moment(item.deadline).format("LL")}
+                    </Text>
+                    {item.status === "unclaimed" ? (
+                      <Text
+                        style={{
+                          color: "green",
+                          fontSize: 14,
+                          fontFamily: "sf-regular",
+                        }}
+                      >
+                        {item.status}
                       </Text>
-                    </View>
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "white",
-                        maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
-                        flexDirection: "row",
-                      }}
-                    >
-                      <Text style={styles.fontCardPoint}>{item.points}</Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <View style={styles.containerCard}>
-                  <TouchableOpacity
-                    style={styles.card}
-                    onPress={() => challangeDetail(item._id)}
+                    ) : (
+                      item.status === "claimed" ||
+                      (item.status === "finished" && (
+                        <Text
+                          style={{
+                            color: "red",
+                            fontSize: 14,
+                            fontFamily: "sf-regular",
+                          }}
+                        >
+                          claimed
+                        </Text>
+                      ))
+                    )}
+                  </View>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "white",
+                      maxWidth: 200,
+                      borderRadius: 20,
+                      height: 60,
+                      flexDirection: "row",
+                    }}
                   >
-                    <Image
-                      source={{ uri: `${item.image}` }}
-                      style={styles.circle}
-                    />
-                    <View style={styles.cardMid}>
-                      <Text style={styles.fontCardName}>{item.title}</Text>
-                      <Text style={styles.fontCardBirth}>
-                        {moment(item.deadline).format("LL")}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "white",
-                        maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
-                        flexDirection: "row",
-                      }}
-                    >
-                      <Text style={styles.fontCardPoint}>{item.points}</Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
-                    </View>
-                  </TouchableOpacity>
+                    <Text style={styles.fontCardPoint}>{item.points}</Text>
+                    <Image source={Picture.medal} style={styles.cardMedal} />
+                  </View>
                 </View>
-              )
-            }
+              </TouchableOpacity>
+            )}
             keyExtractor={(item, index) => String(index)}
           />
         </SafeAreaView>
@@ -142,6 +148,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     width: "100%",
+    marginBottom: 20,
   },
   plusIcon: {
     top: -2,
@@ -191,11 +198,6 @@ const styles = StyleSheet.create({
   },
   containerCardOne: {
     marginTop: 10,
-    marginBottom: 50,
-    alignItems: "center",
-  },
-  containerCard: {
-    marginTop: 10,
     alignItems: "center",
   },
   card: {
@@ -206,12 +208,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 10,
-    width: "80%",
+    width: "100%",
   },
   cardMid: {
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
     flexWrap: "wrap",
     maxWidth: 150,
     marginRight: 5,

@@ -6,7 +6,6 @@ export const createChallenge = payload => {
       type: "CREATE_CHALLENGE_LOADING",
       loading: false,
     });
-    console.log("create challenge");
     axios({
       url: "/tasks",
       method: "POST",
@@ -44,7 +43,8 @@ export const getChallenge = payload => {
       url: `/tasks/${payload.id}`,
       method: "GET",
       headers: {
-        access_token: payload.token,
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
       },
     })
       .then(({ data }) => {
