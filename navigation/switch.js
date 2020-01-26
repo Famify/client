@@ -24,8 +24,10 @@ const switchNavigation = createSwitchNavigator({
     screen: FamilyTopTab
   },
   "message" : {
-    screen: Chat
+    screen: Chat,
   }
+}, {
+  backBehavior: 'history'
 });
 
 export default createAppContainer(switchNavigation);
