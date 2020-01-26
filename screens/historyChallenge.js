@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,39 +7,26 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
-import moment from "moment";
 import Constants from "expo-constants";
 import { withNavigation } from "react-navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllChallenge } from "../store/action/challengeAction";
 import Picture from "../assets";
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
 function ChallengeDashboard({ navigation }) {
-  const dispatch = useDispatch();
-  const challengeList = useSelector(state => state.challenge.challengeList);
+  const [challenge, setChallenge] = useState(["a", "a", "a", "a", "a"]);
 
   const addChallenge = () => {
     navigation.navigate("add challenge");
   };
 
-
   const history = () => {
     navigation.navigate("history challenge");
   };
-  
-  const challangeDetail = id => {
-    alert(`id : ${id}`);
-  };
 
-  useEffect(() => {
-    dispatch(getAllChallenge());
-  }, []);
-  
   return (
     <View style={styles.container}>
-      <View style={styles.bodyTop}>
         <View style={styles.historyBtn}>
           <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
             <View style={styles.addChallengeBtn}>
@@ -52,99 +39,92 @@ function ChallengeDashboard({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-        <Image
-          source={Picture.familyScreen}
-          style={{ width: "80%", resizeMode: "contain", flex: 1 }}
-        />
-      </View>
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
           <FlatList
-            data={challengeList}
+            data={challenge}
             style={styles.flatlist}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) =>
-              index === challengeList.length - 1 ? (
-                <View style={styles.containerCardOne}>
-                  <TouchableOpacity
-                    style={styles.card}
-                    onPress={() => challangeDetail(item._id)}
-                  >
-                    <Image
-                      source={{ uri: `${item.image}` }}
-                      style={styles.circle}
-                    />
+            renderItem={({ item, index }) => (
+                index === challenge.length -1 ? (
+                  <View style={styles.containerCardOne}>
+                  <View style={styles.card}>
                     <View style={styles.cardMid}>
-                      <Text style={styles.fontCardName}>{item.title}</Text>
+                      <Text style={styles.fontCardName}>
+                        MENCUCI SEPATU HARI
+                      </Text>
                       <Text style={styles.fontCardBirth}>
-                        {moment(item.deadline).format("LL")}
+                        mau kah kamu memcuci sepatu hari ini ?
                       </Text>
                     </View>
                     <View
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
-                        backgroundColor: "white",
                         maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
                         flexDirection: "row",
                       }}
                     >
-                      <Text style={styles.fontCardPoint}>{item.points}</Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
+                      <Image source={Picture.ps2} style={styles.image} />
                     </View>
-                  </TouchableOpacity>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
+                      <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        1000 Point
+                      </Text>
+                    </View>
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
+                      <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        22 january 2019
+                      </Text>
+                    </View>
+                  </View>
                 </View>
-              ) : (
-                <View style={styles.containerCard}>
-                  <TouchableOpacity
-                    style={styles.card}
-                    onPress={() => challangeDetail(item._id)}
-                  >
-                    <Image
-                      source={{ uri: `${item.image}` }}
-                      style={styles.circle}
-                    />
+                ) : (
+                  <View style={styles.containerCard}>
+                  <View style={styles.card}>
                     <View style={styles.cardMid}>
-                      <Text style={styles.fontCardName}>{item.title}</Text>
+                      <Text style={styles.fontCardName}>
+                        MENCUCI SEPATU HARI
+                      </Text>
                       <Text style={styles.fontCardBirth}>
-                        {moment(item.deadline).format("LL")}
+                        mau kah kamu memcuci sepatu hari ini ?
                       </Text>
                     </View>
                     <View
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
-                        backgroundColor: "white",
                         maxWidth: 200,
-                        borderRadius: 20,
-                        height: 60,
                         flexDirection: "row",
                       }}
                     >
-                      <Text style={styles.fontCardPoint}>{item.points}</Text>
-                      <Image source={Picture.medal} style={styles.cardMedal} />
+                      <Image source={Picture.ps2} style={styles.image} />
                     </View>
-                  </TouchableOpacity>
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
+                      <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        1000 Point
+                      </Text>
+                    </View>
+                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
+                      <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
+                      <Text style={styles.deadline}>
+                        22 january 2019
+                      </Text>
+                    </View>
+                  </View>
                 </View>
-              )
-            }
+                )
+            )}
             keyExtractor={(item, index) => String(index)}
           />
         </SafeAreaView>
-      </View>
-      <View style={styles.famsBtn}>
-        <TouchableOpacity style={styles.touchFamsBtn} onPress={addChallenge}>
-          <View style={styles.addChallengeBtn}>
-            <Ionicons
-              name="ios-add"
-              size={60}
-              color="white"
-              style={styles.plusIcon}
-            />
-          </View>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -154,17 +134,19 @@ export default withNavigation(ChallengeDashboard);
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Constants.statusBarHeight,
+    // marginTop: Constants.statusBarHeight,
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    width: "100%",
   },
   plusIcon: {
     top: -2,
   },
+  deadline:{
+    fontFamily: "sf-light",
+    fontSize: 12,
+  },
   flatlist: {
-    marginTop: 50,
   },
   historyIcon: {
     top: 3,
@@ -189,8 +171,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 160,
     right: 30,
-    zIndex: 70
-    width: "60%",
   },
   touchFamsBtn: {
     height: 50,
@@ -224,16 +204,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyBottom: {
-    backgroundColor: "#7E549E",
+    backgroundColor: "#F7CA3F",
     flex: 1,
     width: 600,
-    marginTop: -50,
-    borderTopRightRadius: 350,
-    borderTopLeftRadius: 350,
+    // borderBottomRightRadius: 450,
+    // borderTopLeftRadius: 350,
   },
   containerCardOne: {
+    marginBottom: 80,
     marginTop: 10,
-    marginBottom: 50,
     alignItems: "center",
   },
   containerCard: {
@@ -243,12 +222,11 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#ceccfc",
     paddingHorizontal: 20,
-    borderRadius: 20,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     paddingVertical: 10,
-    width: "80%",
   },
   cardMid: {
     flexDirection: "column",
@@ -258,12 +236,11 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     marginRight: 5,
   },
-  cardMedal: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-    marginTop: -30,
-    marginLeft: -10,
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 15,
+    resizeMode: 'cover'
   },
   circle: {
     backgroundColor: "white",
