@@ -34,6 +34,7 @@ export function userReducer(state = initialUserState, actions) {
     case PARENT_REGISTER_LOADING:
       return produce(state, newState => {
         newState.loading = actions.loading;
+        newState.error = actions.error
       });
     case PARENT_REGISTER_ERROR:
       return produce(state, newState => {
@@ -43,6 +44,7 @@ export function userReducer(state = initialUserState, actions) {
     case PARENT_REGISTER_SUCCESS:
       return produce(state, newState => {
         newState.loading = actions.loading;
+        newState.error = actions.error
       });
     case PARENT_LOGIN_LOADING:
       return produce(state, newState => {

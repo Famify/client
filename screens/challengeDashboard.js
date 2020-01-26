@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllChallenge } from "../store/action/challengeAction";
 import Picture from "../assets";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 function ChallengeDashboard({ navigation }) {
   const dispatch = useDispatch();
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 160,
     right: 30,
-    zIndex: 70
+    zIndex: 70,
     width: "60%",
   },
   touchFamsBtn: {

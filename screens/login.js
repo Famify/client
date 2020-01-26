@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,18 +7,47 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Picker
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { withNavigation } from "react-navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { parentLogin, childLogin } from "../store/action/userAction";
 
 function Login({ navigation }) {
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loginBy, setLoginBy] = useState('parent')
+  const user = useSelector(state => state.user);
+
   const moveRegister = () => {
     navigation.navigate("register");
   };
 
+  useEffect(()=>{
+    if (user.token) {
+      if (user.data.role === 'parent') {
+        navigation.navigate(`${user.data.role} dashboard`);
+      }
+      if (user.data.role === 'children') {
+        navigation.navigate(`${user.data.role} dashboard`);
+      }
+    }
+  },[user.data])
+
   const handleSubmit = () => {
-    navigation.navigate("parent dashboard");
+    const payload = {
+      'identity': username,
+      password
+    }
+    if (loginBy === 'parent') {
+      dispatch(parentLogin(payload))
+    } else {
+      dispatch(childLogin(payload))
+      // user.error ? alert(user.error) : navigation.navigate("child dashboard");
+    }
   };
 
   return (
@@ -32,8 +61,8 @@ function Login({ navigation }) {
         behavior="padding"
       >
         <Image source={Picture.register} style={styles.image} />
-        <TextInput style={styles.input} placeholder="username or email" />
-        <TextInput style={styles.input} placeholder="password" />
+        <TextInput style={styles.input} placeholder="username or email" onChangeText={ text => setUsername(text) }  />
+        <TextInput style={styles.input} placeholder="password" onChangeText={ text => setPassword(text) } />
         <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
           <Text style={styles.login}>Login</Text>
         </TouchableOpacity>
@@ -49,6 +78,15 @@ function Login({ navigation }) {
             Don't have account ?
           </Text>
         </TouchableOpacity>
+        <Picker
+          selectedValue={loginBy}
+          style={{height: 50, width: 140}}
+          onValueChange={(itemValue, itemIndex) =>
+            setLoginBy(itemValue)
+          }>
+          <Picker.Item label="Parent" value="parent" />
+          <Picker.Item label="Children" value="children" />
+        </Picker>
       </KeyboardAvoidingView>
     </View>
   );

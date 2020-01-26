@@ -16,6 +16,7 @@ export const parentRegister = payload => {
           type: "PARENT_REGISTER_SUCCESS",
           data,
           loading: true,
+          error: ''
         });
       })
       .catch(error => {
@@ -58,27 +59,29 @@ export const parentRegister2 = payload => {
   };
 };
 
-export const parentLogin = payload => {
+export const parentLogin = (payload) => {
   return dispatch => {
+    console.log(payload);
     dispatch({
       type: "PARENT_LOGIN_LOADING",
       loading: true,
     });
-
     axios({
       url: "/parents/signin",
       method: "POST",
       data: payload,
     })
-      .then(({ data }) => {
-        dispatch({
-          type: "PARENT_LOGIN_SUCCESS",
-          loading: false,
-          data,
-        });
-      })
+    .then(({ data }) => {
+      dispatch({
+        type: "PARENT_LOGIN_SUCCESS",
+        loading: false,
+        data,
+      });
+      console.log(data);
+    })
       .catch(error => {
         let err = error.response.data.error.join(", ");
+        console.log(err);
         dispatch({
           type: "PARENT_LOGIN_ERROR",
           loading: false,
@@ -94,7 +97,6 @@ export const childLogin = payload => {
       type: "CHILD_LOGIN_LOADING",
       loading: true,
     });
-
     axios({
       url: "/children/signin",
       method: "POST",
