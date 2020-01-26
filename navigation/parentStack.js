@@ -2,10 +2,10 @@ import { createStackNavigator } from "react-navigation-stack";
 import Constants from "expo-constants";
 import ParentDashboard from "../screens/parentDashboard";
 import FamilyDashboard from "../screens/familyDashboard";
-import ChallengesDashboard from "../screens/challengeDashboard";
 import RewardsDashboard from "../screens/rewardDashboard";
 import ChallengeStack from "./challengeStack";
 import RewardStack from "./rewardStack";
+import DetailChallengeStack from "./detailChallengeStack";
 
 const parentStack = createStackNavigator(
   {
@@ -23,10 +23,9 @@ const parentStack = createStackNavigator(
       },
     },
     challenge: {
-      screen: ChallengesDashboard,
+      screen: DetailChallengeStack,
       navigationOptions: {
-        headerTransparent: true,
-        title: "Challenges",
+        headerShown: false,
       },
     },
     reward: {

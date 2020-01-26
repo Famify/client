@@ -56,7 +56,7 @@ export default function ImageChallenge(props) {
   const submitChallenge = () => {
     let payload = {
       title: titleDesc.title,
-      descriptions: titleDesc.desc,
+      description: titleDesc.desc,
       deadline: titleDesc.date,
       image: pict,
       points: poin,
