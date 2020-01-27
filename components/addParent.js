@@ -76,7 +76,7 @@ export default function RegisterParent({ navigation }) {
   };
 
   const back = () => {
-    navigation.navigate("family");
+    navigation.navigate("family parent");
   };
 
   const inputUsername = input => {

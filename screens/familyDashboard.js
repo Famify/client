@@ -58,8 +58,7 @@ function FamilyDashboard({ navigation }) {
                   >
                     {
                       item.avatar ? 
-                      <Image source={{ uri: item.avatar }} style={styles.circle} />
-                      :
+                      <Image source={{ uri: item.avatar }} style={styles.circle} /> :
                       <Image source={ Picture.kidsBoy } style={styles.circle} />
                     }
                     <View style={styles.cardMid}>

@@ -232,21 +232,21 @@ export const childUpdate = payload => {
         access_token: payload.token,
       },
     })
-      .then(({ data }) => {
-        alert("success register");
-        dispatch({
-          type: "CHILD_UPDATE_SUCCESS",
-          loading: false,
-        });
-      })
-      .catch(error => {
-        let err = error.response.data.error.join(", ");
-        dispatch({
-          type: "CHILD_UPDATE_ERROR",
-          loading: false,
-          error: err,
-        });
+    .then(({ data }) => {
+      alert("success register");
+      dispatch({
+        type: "CHILD_UPDATE_SUCCESS",
+        loading: false,
       });
+    })
+    .catch(error => {
+      let err = error.response.data.error.join(", ");
+      dispatch({
+        type: "CHILD_UPDATE_ERROR",
+        loading: false,
+        error: err,
+      });
+    });
   };
 };
 
