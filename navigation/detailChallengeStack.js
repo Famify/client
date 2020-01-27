@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, BackHandler } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
 import DetailChallenge from "../components/challengeDetail";
 import ChallengesDashboard from "../screens/challengeDashboard";
@@ -37,6 +37,14 @@ const detailChallengeStack = createStackNavigator(
       screen: DetailChallenge,
       navigationOptions: {
         title: "Detail",
+        navigationOptions: ({ navigation }) => {
+          
+          const back = () => {
+            if (navigation.state.params.back && navigation.state.params.back === 'message') return navigation.navigate("message")
+          }
+          
+          BackHandler.addEventListener('hardwareBackPress', back())
+        }
       },
     },
   },
