@@ -26,6 +26,10 @@ function ChildDashboard({ navigation }) {
     navigation.navigate("reward");
   };
 
+  const location = () => {
+    navigation.navigate("location");
+  }
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -81,6 +85,15 @@ function ChildDashboard({ navigation }) {
             >
               <Image source={Picture.challange2} style={styles.third} />
               <Text style={styles.titleCard}>Rewards</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={location}>
+            <LinearGradient
+              style={styles.gradientCard}
+              colors={["green", "#9575CD"]}
+            >
+              <Image source={Picture.location} style={styles.location} />
+              <Text style={styles.titleCard}>Location</Text>
             </LinearGradient>
           </TouchableOpacity>
         </ScrollView>
@@ -141,6 +154,11 @@ const styles = StyleSheet.create({
     width: "70%",
     height: "50%",
     resizeMode: "contain",
+  },
+  location: {
+    width: "80%",
+    height: "50%",
+    resizeMode: "contain"
   },
   gradientCard: {
     height: 300,
