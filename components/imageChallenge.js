@@ -41,7 +41,7 @@ function ImageChallenge({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [6, 9],
+      aspect: [4, 3],
       quality: 1,
     });
 
@@ -53,23 +53,26 @@ function ImageChallenge({ navigation }) {
   const clearInput = () => {
     setPoin(5);
     setPict("");
-    dispatch(setTitleAndDescription({}));
-    dispatch(getAllChallenge({ token }));
     navigation.navigate("challenge");
   };
 
   const submitChallenge = () => {
+    let bodyFormData = new FormData();
+    bodyFormData.append("image", {
+      uri: pict,
+      name: `${pict}`,
+      type: "image/jgp",
+    });
+    bodyFormData.append("title", titleDesc.title);
+    bodyFormData.append("description", titleDesc.desc);
+    bodyFormData.append("points", poin);
     let payload = {
-      data: {
-        title: titleDesc.title,
-        description: titleDesc.desc,
-        deadline: titleDesc.date,
-        image: pict,
-        points: poin,
-      },
+      data: bodyFormData,
       token,
     };
     dispatch(createChallenge(payload));
+    dispatch(setTitleAndDescription({}));
+    dispatch(getAllChallenge({ token }));
     clearInput();
   };
 

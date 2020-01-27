@@ -12,6 +12,7 @@ export const createChallenge = payload => {
       data: payload.data,
       headers: {
         access_token: payload.token,
+        "Content-Type": "multipart/form-data",
       },
     })
       .then(({ data }) => {
