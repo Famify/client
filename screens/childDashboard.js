@@ -13,10 +13,7 @@ import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
-<<<<<<< HEAD
 import db from '../config/db'
-=======
->>>>>>> fba48668e28d40a546e937a4da62efd2ff7ceff8
 
 function ChildDashboard({ navigation }) {
   const user = useSelector(state => state.user.data);
