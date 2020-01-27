@@ -159,6 +159,7 @@ function ChallengeDashboard({ navigation }) {
   );
 }
 
+
 export default withNavigation(ChallengeDashboard);
 
 const styles = StyleSheet.create({
