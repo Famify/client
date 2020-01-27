@@ -1,6 +1,7 @@
 import axios from "../../config/axios";
 
 export const createReward = payload => {
+  alert("oke");
   return dispatch => {
     dispatch({
       type: "CREATE_REWARD_LOADING",
@@ -23,6 +24,7 @@ export const createReward = payload => {
         });
       })
       .catch(error => {
+        alert("error");
         let err = error.response.data.error;
         dispatch({
           type: "CREATE_REWARD_ERROR",
