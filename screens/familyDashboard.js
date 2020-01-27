@@ -133,6 +133,9 @@ const styles = StyleSheet.create({
   plusIcon: {
     top: -2,
   },
+  setting : {
+    top: 5,
+  },
   touchFamsBtn: {
     height: 50,
     backgroundColor: "#4999CA",
@@ -152,6 +155,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 30,
     right: 30,
+    zIndex: 99
   },
   addFamilyBtn: {
     justifyContent: "center",

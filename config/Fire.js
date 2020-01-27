@@ -9,12 +9,6 @@ class Fire {
   init = () => {
     if (!firebase.apps.length) {
       firebase.initializeApp({
-        apiKey: "AIzaSyDmvh83MrT8bxn8QjosdtAwba7tBsWh488",
-        authDomain: "chat-e9036.firebaseapp.com",
-        databaseURL: "https://chat-e9036.firebaseio.com",
-        projectId: "chat-e9036",
-        storageBucket: "chat-e9036.appspot.com",
-        messagingSenderId: "321434715921",
       });
     }
   };

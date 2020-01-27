@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { childRegister, getAllFamily } from "../store/action/userAction";
+import { getAllFamily, childUpdate } from "../store/action/userAction";
 import * as ImagePicker from "expo-image-picker";
 
 export default function RegisterChild({ navigation }) {
@@ -30,10 +30,20 @@ export default function RegisterChild({ navigation }) {
   const [birthdayStatus, setBirthStatus] = useState(false);
   const [image, setImage] = useState(null);
   const [imageSet, setStatusImageSet] = useState(false);
+  const user = useSelector(state => state.user);
+
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
+
+  useEffect(()=>{
+    setImage(user.data.avatar)
+    setStatusImageSet(true)
+    setUsername(user.data.username)
+    setBirthday(moment(new Date( user.data.dateOfBirth )).format("MMMM D, YYYY"))
+    setBirthStatus(true)
+  },[])
 
   const hideDatePicker = date => {
     setDatePickerVisibility(false);
@@ -76,29 +86,23 @@ export default function RegisterChild({ navigation }) {
     setUsername(input);
   };
 
-  const inputPassword = input => {
-    setPassword(input);
-  };
-
   const clearInput = () => {
     setUsername("");
-    setPassword("");
     setImage(null);
     setStatusImageSet(false);
   };
 
-  const submitChildRegister = () => {
-    if (username && password && birthday && image) {
+  const submitChildUpdate = () => {
+    if (birthday && image) {
       let payload = {
         data: {
-          username,
-          password,
           avatar: image,
           dateOfBirth: birthday,
         },
         token,
+        id: user.data._id
       };
-      dispatch(childRegister(payload));
+      dispatch(childUpdate(payload));
       clearInput();
       dispatch(getAllFamily({ token }));
       back()
@@ -113,17 +117,7 @@ export default function RegisterChild({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.upperFormWrapper}>
-        <View style={{ alignItems: "flex-end" }}>
-          <TouchableOpacity
-            onPress={back}
-            style={{ height: 30, width: 30, top: -20 }}
-          >
-            <MaterialCommunityIcons name="backburger" color="white" size={30} />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.title}>Child Register</Text>
-      </View>
+      <View style={styles.upperFormWrapper}></View>
       <Image
         source={Picture.kidsBoy04}
         style={{
@@ -136,22 +130,43 @@ export default function RegisterChild({ navigation }) {
         }}
       />
       <SafeAreaView style={styles.downFormWrapper}>
-        <ScrollView style={styles.scroolView}>
-          <View style={styles.downFormWrapper}>
-            <Image source={Picture.childrenChildren} style={styles.image} />
-            <TextInput
-              value={username}
-              onChangeText={text => inputUsername(text)}
-              style={styles.input}
-              placeholder="username"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="set password"
-              secureTextEntry={true}
-              value={password}
-              onChangeText={text => inputPassword(text)}
-            />
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+              {imageSet ? (
+                <TouchableOpacity onPress={_pickImage}>
+                  <Image
+                    source={{ uri: image }}
+                    style={{
+                      width: 200,
+                      height: 200,
+                      borderRadius: 30,
+                      marginTop: 15,
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={_pickImage}>
+                  <View
+                    style={{
+                      width: 200,
+                      height: 200,
+                      borderRadius: 30,
+                      marginTop: 15,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      backgroundColor: "#efefef",
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="image-search"
+                      size={90}
+                      color="#EE7600"
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
+            </View>
             <View>
               {!birthdayStatus ? (
                 <TouchableOpacity
@@ -186,50 +201,13 @@ export default function RegisterChild({ navigation }) {
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
               />
-            </View>
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              {imageSet ? (
-                <TouchableOpacity onPress={_pickImage}>
-                  <Image
-                    source={{ uri: image }}
-                    style={{
-                      width: 200,
-                      height: 200,
-                      borderRadius: 30,
-                      marginTop: 15,
-                    }}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={_pickImage}>
-                  <View
-                    style={{
-                      width: 200,
-                      height: 200,
-                      borderRadius: 30,
-                      marginTop: 15,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      backgroundColor: "#efefef",
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="image-search"
-                      size={90}
-                      color="#EE7600"
-                    />
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-            <TouchableOpacity
-              style={styles.submit}
-              onPress={submitChildRegister}
-            >
-              <Text style={styles.register}>Invite</Text>
-            </TouchableOpacity>
           </View>
-        </ScrollView>
+          <TouchableOpacity
+              style={styles.submit}
+              onPress={submitChildUpdate}
+            >
+              <Text style={styles.register}>Submit</Text>
+            </TouchableOpacity>
       </SafeAreaView>
     </View>
   );
@@ -245,7 +223,7 @@ const styles = StyleSheet.create({
   upperFormWrapper: {
     flex: 1,
     width: "100%",
-    paddingVertical: "10%",
+    paddingVertical: "4%",
     paddingHorizontal: "10%",
     backgroundColor: "#EE7600",
     borderBottomLeftRadius: 30,
@@ -304,7 +282,7 @@ const styles = StyleSheet.create({
   },
   submit: {
     backgroundColor: "#EE7600",
-    width: "80%",
+    width: "70%",
     marginBottom: 20,
     borderRadius: 100,
     alignItems: "center",
