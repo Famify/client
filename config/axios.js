@@ -2,7 +2,7 @@ import axios from "axios";
 
 // SERVER DEPLOY
 const instance = axios.create({
-  baseURL: "http://107.178.223.28",
+  baseURL: "http://35.197.142.247",
 });
 
 // DEBUG LOCAL

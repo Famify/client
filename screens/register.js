@@ -7,22 +7,39 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { useDispatch, useSelector } from "react-redux";
-import { parentRegister } from "../store/action/userAction";
+import { parentRegister, clearError, clearRegisterStatus } from "../store/action/userAction";
 
 export default function Register({ navigation }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   
   const moveLogin = () => {
     navigation.navigate("login");
   };
+
+  useEffect(()=>{
+    if (user.register) {
+      navigation.navigate('login')
+      dispatch(clearRegisterStatus())
+      Alert.alert(
+        'Success!',
+        `Register Success`,
+        [
+          {text: 'OK', onPress: () => dispatch(clearError()) },
+        ],
+        {cancelable: false},
+      )
+    }
+  },[user.register])
 
   const inputUsername = input => {
     setUsername(input);
@@ -43,46 +60,136 @@ export default function Register({ navigation }) {
       password,
     };
     dispatch(parentRegister(payload));
-    navigation.navigate('login')
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.upperFormWrapper}>
-        <Text style={styles.title}>Sign Up</Text>
-      </View>
-      <KeyboardAvoidingView
-        style={styles.downFormWrapper}
-        enabled
-        behavior="padding"
-      >
-        <Image source={Picture.register} style={styles.image} />
-        <TextInput
-          value={username}
-          onChangeText={text => inputUsername(text)}
-          style={styles.input}
-          placeholder="username"
-        />
-        <TextInput
-          value={password}
-          style={styles.input}
-          placeholder="password"
-          secureTextEntry={true}
-          onChangeText={text => inputPassword(text)}
-        />
-        <TextInput
-          value={email}
-          onChangeText={text => inputEmail(text)}
-          style={styles.input}
-          placeholder="email"
-        />
-        <TouchableOpacity style={styles.submit} onPress={submitRegister}>
-          <Text style={styles.register}>Register</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={moveLogin}>
-          <Text style={styles.moveLogin}>Already have account ?</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
+      {
+        user.loading ?
+        <>
+          <View style={styles.upperFormWrapper}>
+            <Text style={styles.title}>Sign Up</Text>
+          </View>
+          <KeyboardAvoidingView
+            style={styles.downFormWrapper}
+            enabled
+            behavior="padding"
+          >
+            <Image source={Picture.register} style={styles.image} />
+            <TextInput
+              value={username}
+              onChangeText={text => inputUsername(text)}
+              style={styles.input}
+              placeholder="username"
+            />
+            <TextInput
+              value={password}
+              style={styles.input}
+              placeholder="password"
+              secureTextEntry={true}
+              onChangeText={text => inputPassword(text)}
+            />
+            <TextInput
+              value={email}
+              onChangeText={text => inputEmail(text)}
+              style={styles.input}
+              placeholder="email"
+            />
+            <TouchableOpacity style={styles.submit} onPress={submitRegister}>
+              <Text style={styles.register}>Register</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={moveLogin}>
+              <Text style={styles.moveLogin}>Already have account ?</Text>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
+          </> :
+        user.error ? 
+        <>
+          {
+            Alert.alert(
+              'Warning!',
+              `${ user.error }`,
+              [
+                {text: 'OK', onPress: () => dispatch(clearError()) },
+              ],
+              {cancelable: false},
+            )
+          }
+          <View style={styles.upperFormWrapper}>
+            <Text style={styles.title}>Sign Up</Text>
+          </View>
+          <KeyboardAvoidingView
+            style={styles.downFormWrapper}
+            enabled
+            behavior="padding"
+          >
+            <Image source={Picture.register} style={styles.image} />
+            <TextInput
+              value={username}
+              onChangeText={text => inputUsername(text)}
+              style={styles.input}
+              placeholder="username"
+            />
+            <TextInput
+              value={password}
+              style={styles.input}
+              placeholder="password"
+              secureTextEntry={true}
+              onChangeText={text => inputPassword(text)}
+            />
+            <TextInput
+              value={email}
+              onChangeText={text => inputEmail(text)}
+              style={styles.input}
+              placeholder="email"
+            />
+            <TouchableOpacity style={styles.submit} onPress={submitRegister}>
+              <Text style={styles.register}>Register</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={moveLogin}>
+              <Text style={styles.moveLogin}>Already have account ?</Text>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
+          </>
+        : 
+        <>
+          <View style={styles.upperFormWrapper}>
+          <Text style={styles.title}>Sign Up</Text>
+          </View>
+          <KeyboardAvoidingView
+            style={styles.downFormWrapper}
+            enabled
+            behavior="padding"
+          >
+            <Image source={Picture.register} style={styles.image} />
+            <TextInput
+              value={username}
+              onChangeText={text => inputUsername(text)}
+              style={styles.input}
+              placeholder="username"
+            />
+            <TextInput
+              value={password}
+              style={styles.input}
+              placeholder="password"
+              secureTextEntry={true}
+              onChangeText={text => inputPassword(text)}
+            />
+            <TextInput
+              value={email}
+              onChangeText={text => inputEmail(text)}
+              style={styles.input}
+              placeholder="email"
+            />
+            <TouchableOpacity style={styles.submit} onPress={submitRegister}>
+              <Text style={styles.register}>Register</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={moveLogin}>
+              <Text style={styles.moveLogin}>Already have account ?</Text>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
+          </>
+    }
     </View>
   );
 }

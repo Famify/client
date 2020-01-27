@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  Alert
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
@@ -15,8 +16,13 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
+import { parentRegister2 } from '../store/action/userAction';
+import { useDispatch, useSelector } from 'react-redux'
+import { clearError } from '../store/action/userAction'
 
 export default function RegisterParent({ navigation }) {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [birthday, setBirthday] = useState(
     moment(new Date()).format("MMMM D, YYYY")
@@ -24,6 +30,13 @@ export default function RegisterParent({ navigation }) {
   const [birthdayStatus, setBirthStatus] = useState(false);
   const [image, setImage] = useState(null);
   const [imageSet, setStatusImageSet] = useState(false);
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  useEffect(()=>{
+    // console.log(user);
+  },[user])
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -70,130 +83,447 @@ export default function RegisterParent({ navigation }) {
     navigation.navigate("family");
   };
 
+  const inputUsername = input => {
+    setUsername(input)
+  }
+
+  const inputEmail = input => {
+    setEmail(input)
+  }
+
+  const inputPassword = input => {
+    setPassword(input)
+  }
+
+  const submitHandle = () => {
+    const payload = {
+      username,
+      email,
+      password,
+      'dateOfBirth' : birthday,
+      'avatar' : image
+    }
+    dispatch(parentRegister2({
+      payload,
+      token : user.token
+    }));
+}
+
   return (
     <View style={styles.container}>
-      <View style={styles.upperFormWrapper}>
-        <View style={{ alignItems: "flex-end" }}>
-          <TouchableOpacity
-            onPress={back}
-            style={{ height: 30, width: 30, top: -20 }}
-          >
-            <MaterialCommunityIcons name="backburger" color="white" size={30} />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.title}>Register Other Parent</Text>
-      </View>
-      <SafeAreaView style={styles.downFormWrapper}>
-        <Image
-          source={Picture.backgroundTransparent}
-          style={{
-            width: "150%",
-            position: "absolute",
-            resizeMode: "contain",
-            zIndex: 1,
-          }}
-        />
-        <Image
-          source={Picture.kidsGirl}
-          style={{
-            width: "30%",
-            position: "absolute",
-            resizeMode: "contain",
-            zIndex: 3,
-            bottom: -150,
-            right: -10,
-          }}
-        />
-        <ScrollView style={styles.scroolView}>
-          <View style={styles.downFormWrapper}>
-            <Image source={Picture.parentParent} style={styles.image} />
-            <TextInput style={styles.input} placeholder="username" />
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              autoCompleteType="email"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="set password"
-              secureTextEntry={true}
-            />
-            <View>
-              {!birthdayStatus ? (
-                <TouchableOpacity
-                  style={styles.birthBtn}
-                  onPress={showDatePicker}
-                >
-                  <AntDesign
-                    name="calendar"
-                    size={25}
-                    color="#00BFFF"
-                    style={{ marginRight: 5 }}
-                  />
-                  <Text style={styles.birthday}>BirthDay</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={styles.birthBtn}
-                  onPress={showDatePicker}
-                >
-                  <AntDesign
-                    name="calendar"
-                    size={25}
-                    color="#00BFFF"
-                    style={{ marginRight: 5 }}
-                  />
-                  <Text style={styles.birthday}>{birthday}</Text>
-                </TouchableOpacity>
-              )}
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-              />
-            </View>
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              {imageSet ? (
-                <TouchableOpacity onPress={_pickImage}>
-                  <Image
-                    source={{ uri: image }}
-                    style={{
-                      width: 200,
-                      height: 200,
-                      borderRadius: 30,
-                      marginTop: 15,
-                    }}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={_pickImage}>
-                  <View
-                    style={{
-                      width: 200,
-                      height: 200,
-                      borderRadius: 30,
-                      marginTop: 15,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      backgroundColor: "#efefef",
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="image-search"
-                      size={90}
-                      color="#00BFFF"
-                    />
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-            <TouchableOpacity style={styles.submit}>
-              <Text style={styles.register}>Add Parent</Text>
+      {
+        user.loading ?
+        <>
+          <View style={styles.upperFormWrapper}>
+          <View style={{ alignItems: "flex-end" }}>
+            <TouchableOpacity
+              onPress={back}
+              style={{ height: 30, width: 30, top: -20 }}
+            >
+              <MaterialCommunityIcons name="backburger" color="white" size={30} />
             </TouchableOpacity>
           </View>
-        </ScrollView>
-      </SafeAreaView>
+          <Text style={styles.title}>Register Other Parent</Text>
+          </View>
+          <SafeAreaView style={styles.downFormWrapper}>
+            <Image
+              source={Picture.backgroundTransparent}
+              style={{
+                width: "150%",
+                position: "absolute",
+                resizeMode: "contain",
+                zIndex: 1,
+              }}
+            />
+            <Image
+              source={Picture.kidsGirl}
+              style={{
+                width: "30%",
+                position: "absolute",
+                resizeMode: "contain",
+                zIndex: 3,
+                bottom: -150,
+                right: -10,
+              }}
+            />
+            <ScrollView style={styles.scroolView}>
+              <View style={styles.downFormWrapper}>
+                <Image source={Picture.parentParent} style={styles.image} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="username"
+                  onChangeText={ text => { inputUsername(text) } }
+                  value={ username }
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  autoCompleteType="email"
+                  onChangeText={ text => { inputEmail(text) } }
+                  value={ email }
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="set password"
+                  secureTextEntry={true}
+                  onChangeText={ text => { inputPassword(text) } }
+                />
+                <View>
+                  {!birthdayStatus ? (
+                    <TouchableOpacity
+                      style={styles.birthBtn}
+                      onPress={showDatePicker}
+                    >
+                      <AntDesign
+                        name="calendar"
+                        size={25}
+                        color="#00BFFF"
+                        style={{ marginRight: 5 }}
+                      />
+                      <Text style={styles.birthday}>BirthDay</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.birthBtn}
+                      onPress={showDatePicker}
+                    >
+                      <AntDesign
+                        name="calendar"
+                        size={25}
+                        color="#00BFFF"
+                        style={{ marginRight: 5 }}
+                      />
+                      <Text style={styles.birthday}>{birthday}</Text>
+                    </TouchableOpacity>
+                  )}
+                  <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    mode="date"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                  />
+                </View>
+                <View style={{ alignItems: "center", justifyContent: "center" }}>
+                  {imageSet ? (
+                    <TouchableOpacity onPress={_pickImage}>
+                      <Image
+                        source={{ uri: image }}
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderRadius: 30,
+                          marginTop: 15,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={_pickImage}>
+                      <View
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderRadius: 30,
+                          marginTop: 15,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: "#efefef",
+                        }}
+                      >
+                        <MaterialCommunityIcons
+                          name="image-search"
+                          size={90}
+                          color="#00BFFF"
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <TouchableOpacity style={styles.submit} onPress={ submitHandle }>
+                  <Text style={styles.register}>Invite</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </SafeAreaView>
+        </>
+        :
+        user.error ? 
+        <>
+          {
+            Alert.alert(
+              'Warning!',
+              `${ user.error }`,
+              [
+                {text: 'OK', onPress: () => dispatch(clearError()) },
+              ],
+              {cancelable: false},
+            )
+          }
+          <View style={styles.upperFormWrapper}>
+          <View style={{ alignItems: "flex-end" }}>
+            <TouchableOpacity
+              onPress={back}
+              style={{ height: 30, width: 30, top: -20 }}
+            >
+              <MaterialCommunityIcons name="backburger" color="white" size={30} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.title}>Register Other Parent</Text>
+          </View>
+          <SafeAreaView style={styles.downFormWrapper}>
+            <Image
+              source={Picture.backgroundTransparent}
+              style={{
+                width: "150%",
+                position: "absolute",
+                resizeMode: "contain",
+                zIndex: 1,
+              }}
+            />
+            <Image
+              source={Picture.kidsGirl}
+              style={{
+                width: "30%",
+                position: "absolute",
+                resizeMode: "contain",
+                zIndex: 3,
+                bottom: -150,
+                right: -10,
+              }}
+            />
+            <ScrollView style={styles.scroolView}>
+              <View style={styles.downFormWrapper}>
+                <Image source={Picture.parentParent} style={styles.image} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="username"
+                  onChangeText={ text => { inputUsername(text) } }
+                  value={ username }
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  autoCompleteType="email"
+                  onChangeText={ text => { inputEmail(text) } }
+                  value={ email }
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="set password"
+                  secureTextEntry={true}
+                  onChangeText={ text => { inputPassword(text) } }
+                />
+                <View>
+                  {!birthdayStatus ? (
+                    <TouchableOpacity
+                      style={styles.birthBtn}
+                      onPress={showDatePicker}
+                    >
+                      <AntDesign
+                        name="calendar"
+                        size={25}
+                        color="#00BFFF"
+                        style={{ marginRight: 5 }}
+                      />
+                      <Text style={styles.birthday}>BirthDay</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.birthBtn}
+                      onPress={showDatePicker}
+                    >
+                      <AntDesign
+                        name="calendar"
+                        size={25}
+                        color="#00BFFF"
+                        style={{ marginRight: 5 }}
+                      />
+                      <Text style={styles.birthday}>{birthday}</Text>
+                    </TouchableOpacity>
+                  )}
+                  <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    mode="date"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                  />
+                </View>
+                <View style={{ alignItems: "center", justifyContent: "center" }}>
+                  {imageSet ? (
+                    <TouchableOpacity onPress={_pickImage}>
+                      <Image
+                        source={{ uri: image }}
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderRadius: 30,
+                          marginTop: 15,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={_pickImage}>
+                      <View
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderRadius: 30,
+                          marginTop: 15,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: "#efefef",
+                        }}
+                      >
+                        <MaterialCommunityIcons
+                          name="image-search"
+                          size={90}
+                          color="#00BFFF"
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <TouchableOpacity style={styles.submit} onPress={ submitHandle }>
+                  <Text style={styles.register}>Invite</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </SafeAreaView>
+        </>
+        : 
+        <>
+          <View style={styles.upperFormWrapper}>
+          <View style={{ alignItems: "flex-end" }}>
+            <TouchableOpacity
+              onPress={back}
+              style={{ height: 30, width: 30, top: -20 }}
+            >
+              <MaterialCommunityIcons name="backburger" color="white" size={30} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.title}>Register Other Parent</Text>
+          </View>
+          <SafeAreaView style={styles.downFormWrapper}>
+            <Image
+              source={Picture.backgroundTransparent}
+              style={{
+                width: "150%",
+                position: "absolute",
+                resizeMode: "contain",
+                zIndex: 1,
+              }}
+            />
+            <Image
+              source={Picture.kidsGirl}
+              style={{
+                width: "30%",
+                position: "absolute",
+                resizeMode: "contain",
+                zIndex: 3,
+                bottom: -150,
+                right: -10,
+              }}
+            />
+            <ScrollView style={styles.scroolView}>
+              <View style={styles.downFormWrapper}>
+                <Image source={Picture.parentParent} style={styles.image} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="username"
+                  onChangeText={ text => { inputUsername(text) } }
+                  value={ username }
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  autoCompleteType="email"
+                  onChangeText={ text => { inputEmail(text) } }
+                  value={ email }
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="set password"
+                  secureTextEntry={true}
+                  onChangeText={ text => { inputPassword(text) } }
+                />
+                <View>
+                  {!birthdayStatus ? (
+                    <TouchableOpacity
+                      style={styles.birthBtn}
+                      onPress={showDatePicker}
+                    >
+                      <AntDesign
+                        name="calendar"
+                        size={25}
+                        color="#00BFFF"
+                        style={{ marginRight: 5 }}
+                      />
+                      <Text style={styles.birthday}>BirthDay</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.birthBtn}
+                      onPress={showDatePicker}
+                    >
+                      <AntDesign
+                        name="calendar"
+                        size={25}
+                        color="#00BFFF"
+                        style={{ marginRight: 5 }}
+                      />
+                      <Text style={styles.birthday}>{birthday}</Text>
+                    </TouchableOpacity>
+                  )}
+                  <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    mode="date"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                  />
+                </View>
+                <View style={{ alignItems: "center", justifyContent: "center" }}>
+                  {imageSet ? (
+                    <TouchableOpacity onPress={_pickImage}>
+                      <Image
+                        source={{ uri: image }}
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderRadius: 30,
+                          marginTop: 15,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={_pickImage}>
+                      <View
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderRadius: 30,
+                          marginTop: 15,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: "#efefef",
+                        }}
+                      >
+                        <MaterialCommunityIcons
+                          name="image-search"
+                          size={90}
+                          color="#00BFFF"
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <TouchableOpacity style={styles.submit} onPress={ submitHandle }>
+                  <Text style={styles.register}>Invite</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </SafeAreaView>
+        </>
+      }
+      
     </View>
   );
 }

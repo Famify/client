@@ -8,7 +8,9 @@ class Fire {
 
   init = () => {
     if (!firebase.apps.length) {
-      firebase.initializeApp();
+      firebase.initializeApp({
+        // KEYFIRE
+      });
     }
   };
 

@@ -7,13 +7,14 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Picker
+  Picker,
+  Alert
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { withNavigation } from "react-navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { parentLogin, childLogin } from "../store/action/userAction";
+import { parentLogin, childLogin, clearError } from "../store/action/userAction";
 
 function Login({ navigation }) {
   const dispatch = useDispatch();
@@ -28,14 +29,19 @@ function Login({ navigation }) {
 
   useEffect(()=>{
     if (user.token) {
-      if (user.data.role === 'parent') {
+      if (user.data.role) {
         navigation.navigate(`${user.data.role} dashboard`);
-      }
-      if (user.data.role === 'children') {
-        navigation.navigate(`${user.data.role} dashboard`);
+        Alert.alert(
+          `Hai! ${username} Selamat datang!`,
+          `Login ${user.data.role} Success`,
+          [
+            {text: 'OK', onPress: () => dispatch(clearError()) },
+          ],
+          {cancelable: false},
+        )
       }
     }
-  },[user.data])
+  },[user.token])
 
   const handleSubmit = () => {
     const payload = {
@@ -46,48 +52,149 @@ function Login({ navigation }) {
       dispatch(parentLogin(payload))
     } else {
       dispatch(childLogin(payload))
-      // user.error ? alert(user.error) : navigation.navigate("child dashboard");
     }
   };
 
+  const inputUsername = input => {
+    setUsername(input);
+  };
+
+  const inputPassword = input => {
+    setPassword(input)
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.upperFormWrapper}>
-        <Text style={styles.title}>Sign In</Text>
-      </View>
-      <KeyboardAvoidingView
-        style={styles.downFormWrapper}
-        enabled
-        behavior="padding"
-      >
-        <Image source={Picture.register} style={styles.image} />
-        <TextInput style={styles.input} placeholder="username or email" onChangeText={ text => setUsername(text) }  />
-        <TextInput style={styles.input} placeholder="password" onChangeText={ text => setPassword(text) } />
-        <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
-          <Text style={styles.login}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={moveRegister}>
-          <Text
-            style={{
-              marginTop: 20,
-              fontFamily: "sf-regular",
-              fontSize: 14,
-              color: "#512DA8",
-            }}
+      {
+        user.loading ? 
+          <>
+          <View style={styles.upperFormWrapper}>
+          <Text style={styles.title}>Sign In</Text>
+          </View>
+          <KeyboardAvoidingView
+            style={styles.downFormWrapper}
+            enabled
+            behavior="padding"
           >
-            Don't have account ?
-          </Text>
-        </TouchableOpacity>
-        <Picker
-          selectedValue={loginBy}
-          style={{height: 50, width: 140}}
-          onValueChange={(itemValue, itemIndex) =>
-            setLoginBy(itemValue)
-          }>
-          <Picker.Item label="Parent" value="parent" />
-          <Picker.Item label="Children" value="children" />
-        </Picker>
-      </KeyboardAvoidingView>
+            <Image source={Picture.register} style={styles.image} />
+            <TextInput style={styles.input} placeholder="username or email" onChangeText={ text => inputUsername(text) } value={ username }   />
+            <TextInput style={styles.input} placeholder="password" onChangeText={ text => inputPassword(text) } secureTextEntry={true} />
+            <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
+              <Text style={styles.login}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={moveRegister}>
+              <Text
+                style={{
+                  marginTop: 20,
+                  fontFamily: "sf-regular",
+                  fontSize: 14,
+                  color: "#512DA8",
+                }}
+              >
+                Don't have account ?
+              </Text>
+            </TouchableOpacity>
+            <Picker
+              selectedValue={loginBy}
+              style={{height: 50, width: 140}}
+              onValueChange={(itemValue, itemIndex) =>
+                setLoginBy(itemValue)
+              }>
+              <Picker.Item label="Parent" value="parent" />
+              <Picker.Item label="Children" value="children" />
+            </Picker>
+          </KeyboardAvoidingView>
+          </>
+          :
+          user.error ? 
+          <>
+          {
+            Alert.alert(
+              'Warning!',
+              `${ user.error }`,
+              [
+                {text: 'OK', onPress: () => dispatch(clearError()) },
+              ],
+              {cancelable: false},
+            )
+          }
+          <View style={styles.upperFormWrapper}>
+          <Text style={styles.title}>Sign In</Text>
+          </View>
+          <KeyboardAvoidingView
+            style={styles.downFormWrapper}
+            enabled
+            behavior="padding"
+          >
+            <Image source={Picture.register} style={styles.image} />
+            <TextInput style={styles.input} placeholder="username or email" onChangeText={ text => inputUsername(text)  } value={ username }  />
+            <TextInput style={styles.input} placeholder="password" onChangeText={ text => setPassword(text) } secureTextEntry={true} />
+            <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
+              <Text style={styles.login}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={moveRegister}>
+              <Text
+                style={{
+                  marginTop: 20,
+                  fontFamily: "sf-regular",
+                  fontSize: 14,
+                  color: "#512DA8",
+                }}
+              >
+                Don't have account ?
+              </Text>
+            </TouchableOpacity>
+            <Picker
+              selectedValue={loginBy}
+              style={{height: 50, width: 140}}
+              onValueChange={(itemValue, itemIndex) =>
+                setLoginBy(itemValue)
+              }>
+              <Picker.Item label="Parent" value="parent" />
+              <Picker.Item label="Children" value="children" />
+            </Picker>
+          </KeyboardAvoidingView>
+          </> : 
+          <>
+          <View style={styles.upperFormWrapper}>
+          <Text style={styles.title}>Sign In</Text>
+          </View>
+          <KeyboardAvoidingView
+            style={styles.downFormWrapper}
+            enabled
+            behavior="padding"
+          >
+            <Image source={Picture.register} style={styles.image} />
+            <TextInput style={styles.input} placeholder="username or email" onChangeText={ text => inputUsername(text) } value={ username }  />
+            <TextInput style={styles.input} placeholder="password" onChangeText={ text => setPassword(text) } secureTextEntry={true} />
+            <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
+              <Text style={styles.login}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={moveRegister}>
+              <Text
+                style={{
+                  marginTop: 20,
+                  fontFamily: "sf-regular",
+                  fontSize: 14,
+                  color: "#512DA8",
+                }}
+              >
+                Don't have account ?
+              </Text>
+            </TouchableOpacity>
+            <Picker
+              selectedValue={loginBy}
+              style={{height: 50, width: 140}}
+              onValueChange={(itemValue, itemIndex) =>
+                setLoginBy(itemValue)
+              }>
+              <Picker.Item label="Parent" value="parent" />
+              <Picker.Item label="Children" value="children" />
+            </Picker>
+          </KeyboardAvoidingView>
+          </>
+      }
+      
     </View>
   );
 }
