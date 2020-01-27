@@ -10,7 +10,7 @@ const detailChallengeStack = createStackNavigator(
       screen: RewardDashboard,
       navigationOptions: ({ navigation }) => ({
         headerTransparent: true,
-        title: "Challenges",
+        title: "Rewards",
         headerRight: props => {
           return (
             <TouchableOpacity

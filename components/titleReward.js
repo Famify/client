@@ -51,7 +51,7 @@ function TitleReward({ navigation }) {
     if (title && desc && date) {
       dispatch(setTitleDesc(payload));
       clearInput();
-      navigation.navigate("image");
+      navigation.navigate("image reward");
     } else {
       alert("harus diisi semua");
     }

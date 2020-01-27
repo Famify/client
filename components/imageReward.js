@@ -37,7 +37,7 @@ function ImageReward({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [6, 9],
+      aspect: [4, 3],
       quality: 1,
     });
 
