@@ -152,7 +152,7 @@ function ChallengeDashboard({ navigation }) {
         </TouchableOpacity>
       </View>
     </View>
-  );
+  )}
 }
 
 export default withNavigation(ChallengeDashboard);
@@ -287,4 +287,4 @@ const styles = StyleSheet.create({
     fontSize: 30,
     paddingLeft: 5,
   },
-});
+})

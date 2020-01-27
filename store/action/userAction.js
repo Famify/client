@@ -1,6 +1,10 @@
+import React from 'react'
+import {
+  Alert
+} from 'react-native'
 import axios from "../../config/axios";
 
-export const parentRegister = payload => {
+export const parentRegister = (payload) => {
   return dispatch => {
     dispatch({
       type: "PARENT_REGISTER_LOADING",
@@ -16,8 +20,11 @@ export const parentRegister = payload => {
           type: "PARENT_REGISTER_SUCCESS",
           data,
           loading: true,
-          error: ''
         });
+        dispatch({
+          type: "USER_REGISTER_SUCCESS",
+          status: true
+        })
       })
       .catch(error => {
         let err = error.response.data.error.join(", ");
@@ -30,6 +37,24 @@ export const parentRegister = payload => {
   };
 };
 
+export const clearError = () => {
+  return dispatch => {
+    dispatch({
+      type: "USER_ERROR_CLEAR",
+      error: ""
+    })
+  }
+}
+
+export const clearRegisterStatus = () => {
+  return dispatch => {
+    dispatch({
+      type: "USER_REGISTER_CLEAR",
+      status: false
+    })
+  }
+}
+
 export const parentRegister2 = payload => {
   return dispatch => {
     dispatch({
@@ -38,8 +63,9 @@ export const parentRegister2 = payload => {
     });
     axios({
       url: "/parents/signup",
-      data: payload,
+      data: payload.payload,
       method: "POST",
+      headers : payload.token
     })
       .then(({ data }) => {
         dispatch({
@@ -61,7 +87,6 @@ export const parentRegister2 = payload => {
 
 export const parentLogin = (payload) => {
   return dispatch => {
-    console.log(payload);
     dispatch({
       type: "PARENT_LOGIN_LOADING",
       loading: true,
@@ -77,11 +102,9 @@ export const parentLogin = (payload) => {
         loading: false,
         data,
       });
-      console.log(data);
     })
       .catch(error => {
         let err = error.response.data.error.join(", ");
-        console.log(err);
         dispatch({
           type: "PARENT_LOGIN_ERROR",
           loading: false,
@@ -126,18 +149,15 @@ export const childRegister = payload => {
       type: "CHILD_REGISTER_LOADING",
       loading: true,
     });
-    console.log("masuk", payload);
     axios({
       url: "/children/signup",
       method: "POST",
       data: payload,
       headers: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1ODAwMDY3Njd9.ngbaO_uY1A0HvGn_mjGKcnnsACMXDVkvz_a4WVJvvUI",
+        access_token: payload.token
       },
     })
       .then(({ data }) => {
-        console.log("success", data);
         dispatch({
           type: "CHILD_REGISTER_SUCCESS",
           loading: false,
@@ -166,8 +186,7 @@ export const getAllFamily = payload => {
       url: "/parents",
       method: "GET",
       headers: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1ODAwMDY3Njd9.ngbaO_uY1A0HvGn_mjGKcnnsACMXDVkvz_a4WVJvvUI",
+        access_token: payload.token
       },
     })
       .then(({ data }) => {
@@ -176,8 +195,7 @@ export const getAllFamily = payload => {
           url: "/children",
           method: "GET",
           headers: {
-            access_token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1ODAwMDY3Njd9.ngbaO_uY1A0HvGn_mjGKcnnsACMXDVkvz_a4WVJvvUI",
+            access_token: payload.token
           },
         });
       })

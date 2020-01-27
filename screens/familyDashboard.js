@@ -19,13 +19,16 @@ import { withNavigation } from "react-navigation";
 function FamilyDashboard({ navigation }) {
   const dispatch = useDispatch();
   const family = useSelector(state => state.user.family);
+  const user = useSelector(state => state.user);
 
   const addFamily = e => {
     navigation.navigate("add family form");
   };
 
   useEffect(() => {
-    dispatch(getAllFamily());
+    dispatch(getAllFamily({
+      token: user.token
+    }));
   }, []);
 
   return (

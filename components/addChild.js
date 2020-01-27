@@ -221,7 +221,7 @@ export default function RegisterChild({ navigation }) {
               style={styles.submit}
               onPress={submitChildRegister}
             >
-              <Text style={styles.register}>Add Child</Text>
+              <Text style={styles.register}>Invite</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

@@ -27,14 +27,26 @@ const initialUserState = {
   isLogin: false,
   token: "",
   family: [],
+  register: false
 };
 
 export function userReducer(state = initialUserState, actions) {
   switch (actions.type) {
+    case "USER_ERROR_CLEAR":
+      return produce(state, newState => {
+        newState.error = actions.error
+      })
+    case "USER_REGISTER_SUCCESS":
+      return produce(state, newState => {
+        newState.register = actions.status;
+      });
+    case "USER_REGISTER_CLEAR":
+      return produce(state, newState => {
+        newState.register = actions.status;
+      });
     case PARENT_REGISTER_LOADING:
       return produce(state, newState => {
         newState.loading = actions.loading;
-        newState.error = actions.error
       });
     case PARENT_REGISTER_ERROR:
       return produce(state, newState => {
@@ -44,7 +56,6 @@ export function userReducer(state = initialUserState, actions) {
     case PARENT_REGISTER_SUCCESS:
       return produce(state, newState => {
         newState.loading = actions.loading;
-        newState.error = actions.error
       });
     case PARENT_LOGIN_LOADING:
       return produce(state, newState => {
@@ -108,6 +119,8 @@ export function userReducer(state = initialUserState, actions) {
         newState.error = actions.error;
       });
     case ALL_FAMILY_SUCCESS:
+      console.log('test');
+      
       return produce(state, newState => {
         newState.loading = actions.loading;
         newState.family = actions.data;
