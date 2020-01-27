@@ -34,12 +34,14 @@ function ChallengeDashboard({ navigation }) {
       navigation.navigate("detail challenge", {
         id: payload.id,
       });
-    } else if (payload.status === "unclaimed" && user.data.role === "child") {
+    } else if (payload.status === "unclaimed") {
       navigation.navigate("detail challenge", {
         id: payload.id,
       });
     } else {
-      alert("Challenge has been claimed");
+      navigation.navigate("detail challenge", {
+        id: payload.id,
+      });
     }
   };
 

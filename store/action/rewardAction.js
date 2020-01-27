@@ -99,12 +99,12 @@ export const claimReward = payload => {
   return dispatch => {
     dispatch({
       type: "CLAIM_REWARD_LOADING",
-      loading: false,
+      loading: true,
     });
 
     axios({
       url: `/rewards/${payload.id}`,
-      type: "PATCH",
+      method: "PATCH",
       headers: {
         access_token: payload.token,
       },
