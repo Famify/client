@@ -41,6 +41,10 @@ export default function ParentSetting({ navigation }) {
     }
   },[user.data])
 
+  useEffect(()=>{
+    console.log(user.data);
+  })
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -72,10 +76,12 @@ export default function ParentSetting({ navigation }) {
     getPermissionAsync();
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
+      base64: true,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
+
     if (!result.cancelled) {
       setImage(result.uri);
       setStatusImageSet(true);
@@ -205,9 +211,11 @@ export default function ParentSetting({ navigation }) {
                 <TouchableOpacity style={styles.submit} onPress={submitHandle}>
                   <Text style={styles.register}>Submit</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.logout} onPress={logout}>
-                  <Text style={styles.register}>Logout</Text>
-                </TouchableOpacity>
+                <View style={{ justifyContent: 'flex-end', flex: 1 }} >
+                  <TouchableOpacity style={styles.logout} onPress={logout}>
+                    <Text style={styles.register}>Logout</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
           </SafeAreaView>
     </View>
@@ -247,6 +255,7 @@ const styles = StyleSheet.create({
   logout: {
     backgroundColor: "#DB5C5D",
     width: "40%",
+    paddingHorizontal: 40,
     marginBottom: 20,
     borderRadius: 100,
     alignItems: "center",

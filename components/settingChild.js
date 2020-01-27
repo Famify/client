@@ -17,6 +17,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllFamily, childUpdate } from "../store/action/userAction";
 import * as ImagePicker from "expo-image-picker";
+import { Logs } from "expo";
 
 export default function RegisterChild({ navigation }) {
   const dispatch = useDispatch();
