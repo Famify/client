@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
+import Fire from "../config/Fire"
+// import { connect, useSelector } from "react-redux"
 
 function ChallengeDetail({ navigation }) {
   const dispatch = useDispatch();
@@ -40,180 +42,120 @@ function ChallengeDetail({ navigation }) {
     let id = navigation.state.params.id;
     dispatch(getChallenge({ id, token }));
   }, []);
+
   return (
     <View style={{ flex: 1 }}>
       {challenge.loading ? (
         <Text>Loading</Text>
       ) : (
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <ImageBackground
-            style={{
-              flex: 1 / 2,
-              resizeMode: "contain",
-            }}
-            source={{ uri: `${currentChallenge.image}` }}
-            blurRadius={5}
-          >
-            <LinearGradient
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              colors={["transparent", "black"]}
-            >
-              <Image
-                source={{ uri: `${currentChallenge.image}` }}
-                style={{
-                  width: 200,
-                  height: 300,
-                  borderRadius: 5,
-                  resizeMode: "contain",
-                }}
-              />
-            </LinearGradient>
-          </ImageBackground>
           <View
             style={{
-              flex: 1 / 2,
-              backgroundColor: "black",
-              justifyContent: "flex-start",
-              alignItems: "center",
+              flex: 1,
             }}
           >
-            <Text
-              style={{ fontSize: 40, fontFamily: "sf-medium", color: "white" }}
-            >
-              {currentChallenge.title}
-            </Text>
-            <Text
+            <ImageBackground
               style={{
-                color: "white",
-                fontSize: 18,
-                fontFamily: "sf-light",
-                width: "80%",
-                textAlign: "center",
+                flex: 1 / 2,
+                resizeMode: "contain",
               }}
+              source={{ uri: `${currentChallenge.image}` }}
+              blurRadius={5}
             >
-              {currentChallenge.description}
-            </Text>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: 30,
-              }}
-            >
-              <View
+              <LinearGradient
                 style={{
-                  width: "50%",
+                  flex: 1,
+                  justifyContent: "center",
                   alignItems: "center",
                 }}
+                colors={["transparent", "black"]}
               >
-                <Text
+                <Image
+                  source={{ uri: `${currentChallenge.image}` }}
                   style={{
-                    fontSize: 20,
-                    color: "white",
-                    fontFamily: "sf-semibold",
+                    width: 200,
+                    height: 300,
+                    borderRadius: 5,
+                    resizeMode: "contain",
                   }}
-                >
-                  Deadline
-                </Text>
-                <Text
-                  style={{ fontSize: 25, color: "yellow", textAlign: "center" }}
-                >
-                  {moment(currentChallenge.deadline).format("LL")}
-                </Text>
-              </View>
-              <View style={{ width: "50%", alignItems: "center" }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    color: "white",
-                    fontFamily: "sf-semibold",
-                  }}
-                >
-                  Poin
-                </Text>
-                <Text
-                  style={{ fontSize: 25, color: "yellow", textAlign: "center" }}
-                >
-                  {currentChallenge.points}
-                </Text>
-              </View>
-            </View>
-            {currentChallenge.status === "unclaimed" &&
-            user.role === "child" ? (
-              <TouchableOpacity
+                />
+              </LinearGradient>
+            </ImageBackground>
+            <View
+              style={{
+                flex: 1 / 2,
+                backgroundColor: "black",
+                justifyContent: "flex-start",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{ fontSize: 40, fontFamily: "sf-medium", color: "white" }}
+              >
+                {currentChallenge.title}
+              </Text>
+              <Text
                 style={{
-                  marginTop: 30,
-                  backgroundColor: "green",
-                  borderRadius: 20,
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 8,
-                  },
-                  shadowOpacity: 0.46,
-                  shadowRadius: 11.14,
-                  elevation: 17,
+                  color: "white",
+                  fontSize: 18,
+                  fontFamily: "sf-light",
+                  width: "80%",
+                  textAlign: "center",
                 }}
-                onPress={() => getClaimChallenge(currentChallenge._id)}
               >
-                <Text
-                  style={{
-                    color: "white",
-                    paddingVertical: 10,
-                    paddingHorizontal: 20,
-                    fontFamily: "sf-semibold",
-                    letterSpacing: 2,
-                  }}
-                >
-                  Take Challenge
-                </Text>
-              </TouchableOpacity>
-            ) : currentChallenge.status === "claimed" &&
-              user.role === "child" ? (
-              <TouchableOpacity
+                {currentChallenge.description}
+              </Text>
+              <View
                 style={{
+                  width: "80%",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                   marginTop: 30,
-                  backgroundColor: "yellow",
-                  borderRadius: 20,
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 8,
-                  },
-                  shadowOpacity: 0.46,
-                  shadowRadius: 11.14,
-                  elevation: 17,
                 }}
-                onPress={() => getDoneChallenge(currentChallenge._id)}
               >
-                <Text
+                <View
                   style={{
-                    color: "black",
-                    paddingVertical: 10,
-                    paddingHorizontal: 20,
-                    fontFamily: "sf-semibold",
-                    letterSpacing: 2,
+                    width: "50%",
+                    alignItems: "center",
                   }}
                 >
-                  Done
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: "white",
+                      fontFamily: "sf-semibold",
+                    }}
+                  >
+                    Deadline
                 </Text>
-              </TouchableOpacity>
-            ) : (
-              user.role === "child" && (
+                  <Text
+                    style={{ fontSize: 25, color: "yellow", textAlign: "center" }}
+                  >
+                    {moment(currentChallenge.deadline).format("LL")}
+                  </Text>
+                </View>
+                <View style={{ width: "50%", alignItems: "center" }}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: "white",
+                      fontFamily: "sf-semibold",
+                    }}
+                  >
+                    Poin
+                </Text>
+                  <Text
+                    style={{ fontSize: 25, color: "yellow", textAlign: "center" }}
+                  >
+                    {currentChallenge.points}
+                  </Text>
+                </View>
+              </View>
+              {
                 <TouchableOpacity
                   style={{
                     marginTop: 30,
-                    backgroundColor: "red",
+                    backgroundColor: "green",
                     borderRadius: 20,
                     shadowColor: "#000",
                     shadowOffset: {
@@ -222,7 +164,20 @@ function ChallengeDetail({ navigation }) {
                     },
                     shadowOpacity: 0.46,
                     shadowRadius: 11.14,
-                    elevation: 17,
+                    elevation: 17
+                  }}
+                  onPress={() => {
+                    Fire.shared.send([{
+                      // createdAt: new Date(),
+                      text: `Link to challenge: ${navigation.state.params.id}`,
+                      user: {
+                        _id: Fire.shared.uid,
+                        familyId: user.familyId,
+                        username: user.username,
+                        avatar: user.avatar ? user.avatar : ''
+                      }
+                    }])
+                    navigation.navigate("message")
                   }}
                 >
                   <Text
@@ -234,16 +189,117 @@ function ChallengeDetail({ navigation }) {
                       letterSpacing: 2,
                     }}
                   >
-                    Finished
-                  </Text>
+                    Share to chat
+            </Text>
                 </TouchableOpacity>
-              )
-            )}
+              }
+              {currentChallenge.status === "unclaimed" &&
+                user.role === "child" ? (
+                  <TouchableOpacity
+                    style={{
+                      marginTop: 30,
+                      backgroundColor: "green",
+                      borderRadius: 20,
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 8,
+                      },
+                      shadowOpacity: 0.46,
+                      shadowRadius: 11.14,
+                      elevation: 17,
+                    }}
+                    onPress={() => getClaimChallenge(currentChallenge._id)}
+                  >
+                    <Text
+                      style={{
+                        color: "white",
+                        paddingVertical: 10,
+                        paddingHorizontal: 20,
+                        fontFamily: "sf-semibold",
+                        letterSpacing: 2,
+                      }}
+                    >
+                      Take Challenge
+                </Text>
+                  </TouchableOpacity>
+                ) : currentChallenge.status === "claimed" &&
+                  user.role === "child" ? (
+                    <TouchableOpacity
+                      style={{
+                        marginTop: 30,
+                        backgroundColor: "yellow",
+                        borderRadius: 20,
+                        shadowColor: "#000",
+                        shadowOffset: {
+                          width: 0,
+                          height: 8,
+                        },
+                        shadowOpacity: 0.46,
+                        shadowRadius: 11.14,
+                        elevation: 17,
+                      }}
+                      onPress={() => getDoneChallenge(currentChallenge._id)}
+                    >
+                      <Text
+                        style={{
+                          color: "black",
+                          paddingVertical: 10,
+                          paddingHorizontal: 20,
+                          fontFamily: "sf-semibold",
+                          letterSpacing: 2,
+                        }}
+                      >
+                        Done
+                </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    user.role === "child" && (
+                      <TouchableOpacity
+                        style={{
+                          marginTop: 30,
+                          backgroundColor: "red",
+                          borderRadius: 20,
+                          shadowColor: "#000",
+                          shadowOffset: {
+                            width: 0,
+                            height: 8,
+                          },
+                          shadowOpacity: 0.46,
+                          shadowRadius: 11.14,
+                          elevation: 17,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: "white",
+                            paddingVertical: 10,
+                            paddingHorizontal: 20,
+                            fontFamily: "sf-semibold",
+                            letterSpacing: 2,
+                          }}
+                        >
+                          Finished
+                  </Text>
+                      </TouchableOpacity>
+                    )
+                  )}
+            </View>
           </View>
-        </View>
-      )}
+        )}
     </View>
   );
 }
+
+// const mapStateToProps = state => {
+//   console.log('ini state', state.user.data);
+
+//   return {
+//     _id: state.user.data._id,
+//     familyId: state.user.data.familyId,
+//     username: state.user.data.username,
+//     avatar: state.user.data.avatar ? state.user.data.avatar : ''
+//   }
+// }
 
 export default withNavigation(ChallengeDetail);

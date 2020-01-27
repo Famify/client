@@ -135,6 +135,7 @@ function ChildDashboard({ navigation }) {
             style={{
               width: "90%",
             }}
+            onPress={ () => navigation.navigate('message', {back: user.role})}
           >
             <LinearGradient
               style={styles.gradientChat}
