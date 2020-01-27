@@ -1,10 +1,8 @@
-import React from 'react'
-import {
-  Alert
-} from 'react-native'
+import React from "react";
+import { Alert } from "react-native";
 import axios from "../../config/axios";
 
-export const parentRegister = (payload) => {
+export const parentRegister = payload => {
   return dispatch => {
     dispatch({
       type: "PARENT_REGISTER_LOADING",
@@ -23,8 +21,8 @@ export const parentRegister = (payload) => {
         });
         dispatch({
           type: "USER_REGISTER_SUCCESS",
-          status: true
-        })
+          status: true,
+        });
       })
       .catch(error => {
         let err = error.response.data.error.join(", ");
@@ -41,21 +39,22 @@ export const clearError = () => {
   return dispatch => {
     dispatch({
       type: "USER_ERROR_CLEAR",
-      error: ""
-    })
-  }
-}
+      error: "",
+    });
+  };
+};
 
 export const clearRegisterStatus = () => {
   return dispatch => {
     dispatch({
       type: "USER_REGISTER_CLEAR",
-      status: false
-    })
-  }
-}
+      status: false,
+    });
+  };
+};
 
 export const parentRegister2 = payload => {
+  console.log(payload);
   return dispatch => {
     dispatch({
       type: "PARENT_REGISTER_2_LOADING",
@@ -65,7 +64,9 @@ export const parentRegister2 = payload => {
       url: "/parents/signup",
       data: payload.payload,
       method: "POST",
-      headers : payload.token
+      headers: {
+        access_token: payload.token,
+      },
     })
       .then(({ data }) => {
         dispatch({
@@ -85,7 +86,7 @@ export const parentRegister2 = payload => {
   };
 };
 
-export const parentLogin = (payload) => {
+export const parentLogin = payload => {
   return dispatch => {
     dispatch({
       type: "PARENT_LOGIN_LOADING",
@@ -96,13 +97,13 @@ export const parentLogin = (payload) => {
       method: "POST",
       data: payload,
     })
-    .then(({ data }) => {
-      dispatch({
-        type: "PARENT_LOGIN_SUCCESS",
-        loading: false,
-        data,
-      });
-    })
+      .then(({ data }) => {
+        dispatch({
+          type: "PARENT_LOGIN_SUCCESS",
+          loading: false,
+          data,
+        });
+      })
       .catch(error => {
         let err = error.response.data.error.join(", ");
         dispatch({
@@ -152,9 +153,9 @@ export const childRegister = payload => {
     axios({
       url: "/children/signup",
       method: "POST",
-      data: payload,
+      data: payload.data,
       headers: {
-        access_token: payload.token
+        access_token: payload.token,
       },
     })
       .then(({ data }) => {
@@ -187,7 +188,7 @@ export const getAllFamily = payload => {
       url: "/parents",
       method: "GET",
       headers: {
-        access_token: payload.token
+        access_token: payload.token,
       },
     })
       .then(({ data }) => {
@@ -196,7 +197,7 @@ export const getAllFamily = payload => {
           url: "/children",
           method: "GET",
           headers: {
-            access_token: payload.token
+            access_token: payload.token,
           },
         });
       })

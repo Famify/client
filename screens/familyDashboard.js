@@ -26,9 +26,11 @@ function FamilyDashboard({ navigation }) {
   };
 
   useEffect(() => {
-    dispatch(getAllFamily({
-      token: user.token
-    }));
+    dispatch(
+      getAllFamily({
+        token: user.token,
+      })
+    );
   }, []);
 
   return (
@@ -92,18 +94,20 @@ function FamilyDashboard({ navigation }) {
           )}
         </SafeAreaView>
       </View>
-      <View style={styles.famsBtn}>
-        <TouchableOpacity style={styles.touchFamsBtn} onPress={addFamily}>
-          <View style={styles.addFamilyBtn}>
-            <Ionicons
-              name="ios-add"
-              size={60}
-              color="white"
-              style={styles.plusIcon}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
+      {user.data.role === "parent" && (
+        <View style={styles.famsBtn}>
+          <TouchableOpacity style={styles.touchFamsBtn} onPress={addFamily}>
+            <View style={styles.addFamilyBtn}>
+              <Ionicons
+                name="ios-add"
+                size={60}
+                color="white"
+                style={styles.plusIcon}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }

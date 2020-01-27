@@ -18,16 +18,24 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 function RewardDashboard({ navigation }) {
   const dispatch = useDispatch();
   const reward = useSelector(state => state.reward.rewardList);
-  const role = "child";
-  const addFamily = e => {
+  const token = useSelector(state => state.user.token);
+  const user = useSelector(state => state.user.data);
+
+  const addReward = e => {
     navigation.navigate("title");
+  };
+
+  const detailReward = id => {
+    if (user.role === "child") {
+      navigation.navigate("detail");
+    }
   };
 
   const history = () => {
     navigation.navigate("history reward");
   };
   useEffect(() => {
-    dispatch(getAllReward());
+    dispatch(getAllReward({ token }));
   }, []);
 
   return (
@@ -37,7 +45,7 @@ function RewardDashboard({ navigation }) {
           source={Picture.familyScreen}
           style={{ width: "80%", resizeMode: "contain", flex: 1 }}
         />
-        {role === "child" && (
+        {user.role === "child" && (
           <View style={styles.historyBtn}>
             <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
               <View style={styles.addChallengeBtn}>
@@ -62,7 +70,10 @@ function RewardDashboard({ navigation }) {
               style={{ marginTop: 50, width: "60%" }}
               showsVerticalScrollIndicator={false}
               renderItem={({ item, index }) => (
-                <TouchableOpacity style={styles.containerCardOne}>
+                <TouchableOpacity
+                  style={styles.containerCardOne}
+                  onPress={() => detailReward(item._id)}
+                >
                   <View style={styles.card}>
                     <Image
                       source={{ uri: `${item.image}` }}
@@ -73,6 +84,17 @@ function RewardDashboard({ navigation }) {
                       <Text style={styles.fontCardBirth}>
                         {item.description}
                       </Text>
+                      {item.status ? (
+                        <Text
+                          style={{ color: "green", fontFamily: "sf-medium" }}
+                        >
+                          Unclaimed
+                        </Text>
+                      ) : (
+                        <Text style={{ color: "red", fontFamily: "sf-medium" }}>
+                          Claimed
+                        </Text>
+                      )}
                     </View>
                     <View
                       style={{
@@ -96,18 +118,20 @@ function RewardDashboard({ navigation }) {
           )}
         </SafeAreaView>
       </View>
-      <View style={styles.famsBtn}>
-        <TouchableOpacity style={styles.touchFamsBtn} onPress={addFamily}>
-          <View style={styles.addFamilyBtn}>
-            <Ionicons
-              name="ios-add"
-              size={60}
-              color="white"
-              style={styles.plusIcon}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
+      {user.role === "parent" && (
+        <View style={styles.famsBtn}>
+          <TouchableOpacity style={styles.touchFamsBtn} onPress={addReward}>
+            <View style={styles.addFamilyBtn}>
+              <Ionicons
+                name="ios-add"
+                size={60}
+                color="white"
+                style={styles.plusIcon}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -212,7 +236,7 @@ const styles = StyleSheet.create({
   cardMid: {
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
     flexWrap: "wrap",
     maxWidth: 150,
     marginRight: 5,

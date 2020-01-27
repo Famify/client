@@ -19,20 +19,32 @@ import moment from "moment";
 
 function ChallengeDetail({ navigation }) {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user.data);
+  const challenge = useSelector(state => state.challenge);
   const currentChallenge = useSelector(state => state.challenge.data);
+  const token = useSelector(state => state.user.token);
 
   const getClaimChallenge = id => {
-    dispatch(claimChallenge({ id }));
-    dispatch(getAllChallenge());
+    dispatch(claimChallenge({ id, token }));
+    dispatch(getAllChallenge({ token }));
+    navigation.goBack();
+  };
+
+  const getDoneChallenge = id => {
+    dispatch(finishChallenge({ id, token }));
+    dispatch(getAllChallenge({ token }));
+    navigation.goBack();
   };
 
   useEffect(() => {
     let id = navigation.state.params.id;
-    dispatch(getChallenge({ id }));
+    dispatch(getChallenge({ id, token }));
   }, []);
   return (
     <View style={{ flex: 1 }}>
-      {currentChallenge && (
+      {challenge.loading ? (
+        <Text>Loading</Text>
+      ) : (
         <View
           style={{
             flex: 1,
@@ -136,7 +148,8 @@ function ChallengeDetail({ navigation }) {
                 </Text>
               </View>
             </View>
-            {currentChallenge.status === "unclaimed" ? (
+            {currentChallenge.status === "unclaimed" &&
+            user.role === "child" ? (
               <TouchableOpacity
                 style={{
                   marginTop: 30,
@@ -165,7 +178,8 @@ function ChallengeDetail({ navigation }) {
                   Take Challenge
                 </Text>
               </TouchableOpacity>
-            ) : currentChallenge.status === "claimed" ? (
+            ) : currentChallenge.status === "claimed" &&
+              user.role === "child" ? (
               <TouchableOpacity
                 style={{
                   marginTop: 30,
@@ -180,10 +194,11 @@ function ChallengeDetail({ navigation }) {
                   shadowRadius: 11.14,
                   elevation: 17,
                 }}
+                onPress={() => getDoneChallenge(currentChallenge._id)}
               >
                 <Text
                   style={{
-                    color: "white",
+                    color: "black",
                     paddingVertical: 10,
                     paddingHorizontal: 20,
                     fontFamily: "sf-semibold",
@@ -194,33 +209,35 @@ function ChallengeDetail({ navigation }) {
                 </Text>
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity
-                style={{
-                  marginTop: 30,
-                  backgroundColor: "green",
-                  borderRadius: 20,
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 8,
-                  },
-                  shadowOpacity: 0.46,
-                  shadowRadius: 11.14,
-                  elevation: 17,
-                }}
-              >
-                <Text
+              user.role === "child" && (
+                <TouchableOpacity
                   style={{
-                    color: "white",
-                    paddingVertical: 10,
-                    paddingHorizontal: 20,
-                    fontFamily: "sf-semibold",
-                    letterSpacing: 2,
+                    marginTop: 30,
+                    backgroundColor: "red",
+                    borderRadius: 20,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 8,
+                    },
+                    shadowOpacity: 0.46,
+                    shadowRadius: 11.14,
+                    elevation: 17,
                   }}
                 >
-                  Finished
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{
+                      color: "white",
+                      paddingVertical: 10,
+                      paddingHorizontal: 20,
+                      fontFamily: "sf-semibold",
+                      letterSpacing: 2,
+                    }}
+                  >
+                    Finished
+                  </Text>
+                </TouchableOpacity>
+              )
             )}
           </View>
         </View>

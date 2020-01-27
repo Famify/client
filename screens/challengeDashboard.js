@@ -19,21 +19,22 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 function ChallengeDashboard({ navigation }) {
   const dispatch = useDispatch();
   const challengeList = useSelector(state => state.challenge.challengeList);
-  console.log(challengeList);
-  const id = "5e2c74a2ccd987128a26a5eb";
-  const role = "parent";
+  const token = useSelector(state => state.user.token);
+  const user = useSelector(state => state.user);
 
   const addChallenge = () => {
     navigation.navigate("add challenge");
   };
 
   const challangeDetail = payload => {
+    // alert(JSON.stringify(payload, null, 4), user.data);
+    // alert(JSON.stringify(user.data, null, 4));
     if (
       (payload.status === "claimed" || payload.status === "finished") &&
-      payload.owner === id
+      payload.owner === user.data._id
     ) {
       navigation.navigate("detail", { id: payload.id });
-    } else if (payload.status === "unclaimed") {
+    } else if (payload.status === "unclaimed" && user.data.role === "child") {
       navigation.navigate("detail", { id: payload.id });
     } else {
       alert("Challenge has been claimed");
@@ -45,13 +46,13 @@ function ChallengeDashboard({ navigation }) {
   };
 
   useEffect(() => {
-    dispatch(getAllChallenge());
+    dispatch(getAllChallenge({ token }));
   }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.bodyTop}>
-        {role === "child" && (
+        {user.role === "child" && (
           <View style={styles.historyBtn}>
             <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
               <View style={styles.addChallengeBtn}>
@@ -83,7 +84,7 @@ function ChallengeDashboard({ navigation }) {
                   challangeDetail({
                     id: item._id,
                     status: item.status,
-                    owner: "" || item,
+                    owner: "" || item.childId,
                   })
                 }
               >
@@ -115,7 +116,7 @@ function ChallengeDashboard({ navigation }) {
                           fontFamily: "sf-regular",
                         }}
                       >
-                        claimed
+                        {item.status}
                       </Text>
                     )}
                   </View>
@@ -140,20 +141,22 @@ function ChallengeDashboard({ navigation }) {
           />
         </SafeAreaView>
       </View>
-      <View style={styles.famsBtn}>
-        <TouchableOpacity style={styles.touchFamsBtn} onPress={addChallenge}>
-          <View style={styles.addChallengeBtn}>
-            <Ionicons
-              name="ios-add"
-              size={60}
-              color="white"
-              style={styles.plusIcon}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
+      {user.role === "parent" && (
+        <View style={styles.famsBtn}>
+          <TouchableOpacity style={styles.touchFamsBtn} onPress={addChallenge}>
+            <View style={styles.addChallengeBtn}>
+              <Ionicons
+                name="ios-add"
+                size={60}
+                color="white"
+                style={styles.plusIcon}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
-  )}
+  );
 }
 
 export default withNavigation(ChallengeDashboard);
@@ -288,4 +291,4 @@ const styles = StyleSheet.create({
     fontSize: 30,
     paddingLeft: 5,
   },
-})
+});

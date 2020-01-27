@@ -9,17 +9,16 @@ export const createChallenge = payload => {
     axios({
       url: "/tasks",
       method: "POST",
-      data: payload,
+      data: payload.data,
       headers: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
+        access_token: payload.token,
       },
     })
       .then(({ data }) => {
+        alert(data.message);
         dispatch({
           type: "CREATE_CHALLENGE_SUCCESS",
           loading: false,
-          data,
         });
       })
       .catch(error => {
@@ -43,8 +42,7 @@ export const getChallenge = payload => {
       url: `/tasks/${payload.id}`,
       method: "GET",
       headers: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
+        access_token: payload.token,
       },
     })
       .then(({ data }) => {
@@ -76,8 +74,7 @@ export const getAllChallenge = payload => {
       url: "/tasks",
       method: "GET",
       headers: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
+        access_token: payload.token,
       },
     })
       .then(({ data }) => {
@@ -99,8 +96,6 @@ export const getAllChallenge = payload => {
 };
 
 export const claimChallenge = payload => {
-  alert("kepanggil");
-  console.log(payload);
   return dispatch => {
     dispatch({
       type: "CLAIM_CHALLENGE_LOADING",
@@ -111,8 +106,7 @@ export const claimChallenge = payload => {
       url: `/tasks/${payload.id}/claim`,
       method: "PATCH",
       headers: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJkNmNhYjJiNzgwOTRiYTdjMWVlMTYiLCJ1c2VybmFtZSI6ImZhbnRhIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1ODAwMzgxODJ9.kW8n_v90nrfh4w5b9Tf88k_uegReVzaKA4EVNWvhFlc",
+        access_token: payload.token,
       },
     })
       .then(({ data }) => {
