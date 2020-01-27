@@ -32,17 +32,46 @@ const initialUserState = {
 
 export function userReducer(state = initialUserState, actions) {
   switch (actions.type) {
-    case "USER_ERROR_CLEAR":
+    case "LOGOUT_USER":
       return produce(state, newState => {
+        newState.loading = false
+        newState.error = ""
+        newState.data = {}
+        newState.isLogin = false
+        newState.token = ""
+        newState.family = []
+        newState.register = false
+      })
+    case "PARENT_UPDATE_LOADING":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+      });
+    case "PARENT_UPDATE_SUCCESS":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.data = actions.data
+      });
+    case "PARENT_UPDATE_ERROR":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
         newState.error = actions.error;
       });
-    case "USER_REGISTER_SUCCESS":
+    case "CHILD_UPDATE_LOADING":
       return produce(state, newState => {
-        newState.register = actions.status;
+        newState.loading = actions.loading;
       });
-    case "USER_REGISTER_CLEAR":
+    case "CHILD_UPDATE_SUCCESS":
       return produce(state, newState => {
-        newState.register = actions.status;
+        newState.loading = actions.loading;
+      });
+    case "CHILD_UPDATE_ERROR":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.error = actions.error;
+      });
+    case "PARENT_ERROR_CLEAR":
+      return produce(state, newState => {
+        newState.error = actions.error;
       });
     case PARENT_REGISTER_LOADING:
       return produce(state, newState => {

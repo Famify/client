@@ -1,3 +1,6 @@
+import React from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from "react-navigation-stack";
 import ChildDashboard from "../screens/childDashboard";
 import FamilyDashboard from "../screens/familyDashboard";
@@ -5,6 +8,7 @@ import ChallengesDashboard from "../screens/challengeDashboard";
 import RewardsDashboard from "../screens/rewardDashboard";
 import historyChallenge from "../screens/historyChallenge";
 import historyReward from "../screens/historyReward";
+import SettingChild from "./settingChildStack"
 
 const childStack = createStackNavigator(
   {
@@ -16,10 +20,21 @@ const childStack = createStackNavigator(
     },
     family: {
       screen: FamilyDashboard,
-      navigationOptions: {
+      navigationOptions: ({ navigation }) => ({
         headerTransparent: true,
         title: "Family",
-      },
+        headerRight: props => {
+          return (
+          <TouchableOpacity onPress={()=>{ navigation.navigate('setting child') }} style={{ marginRight: 20 }} >
+              <Ionicons
+                name="ios-settings"
+                size={30}
+                color="purple"
+              />
+          </TouchableOpacity>
+          );
+        },
+      }),
     },
     challenge: {
       screen: ChallengesDashboard,
@@ -45,6 +60,14 @@ const childStack = createStackNavigator(
       screen : historyReward,
       navigationOptions: {
         title: "History Rewards",
+      },
+    },
+    "setting child" : {
+      screen: SettingChild,
+      navigationOptions: {
+        headerTintColor: 'white',
+        headerTransparent: true,
+        title: 'Setting'
       },
     }
   },

@@ -1,3 +1,6 @@
+import React from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from "react-navigation-stack";
 import Constants from "expo-constants";
 import ParentDashboard from "../screens/parentDashboard";
@@ -6,6 +9,7 @@ import RewardsDashboard from "../screens/rewardDashboard";
 import ChallengeStack from "./challengeStack";
 import RewardStack from "./rewardStack";
 import DetailChallengeStack from "./detailChallengeStack";
+import SettingParent from './settingParentStack'
 
 const parentStack = createStackNavigator(
   {
@@ -17,10 +21,21 @@ const parentStack = createStackNavigator(
     },
     family: {
       screen: FamilyDashboard,
-      navigationOptions: {
+      navigationOptions: ({ navigation }) => ({
         headerTransparent: true,
         title: "Family",
-      },
+        headerRight: props => {
+          return (
+          <TouchableOpacity onPress={()=>{ navigation.navigate('setting parent') }} style={{ marginRight: 20 }} >
+              <Ionicons
+                name="ios-settings"
+                size={30}
+                color="purple"
+              />
+          </TouchableOpacity>
+          );
+        },
+      }),
     },
     challenge: {
       screen: DetailChallengeStack,
@@ -59,6 +74,14 @@ const parentStack = createStackNavigator(
         },
       },
     },
+    "setting parent" : {
+      screen: SettingParent,
+      navigationOptions: {
+        headerTintColor: 'white',
+        headerTransparent: true,
+        title: 'Setting'
+      },
+    }
   },
   {
     defaultNavigationOptions: {

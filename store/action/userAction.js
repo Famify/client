@@ -219,3 +219,78 @@ export const getAllFamily = payload => {
       });
   };
 };
+
+export const childUpdate = payload => {
+  return dispatch => {
+    console.log(payload);
+    
+    dispatch({
+      type: "CHILD_UPDATE_LOADING",
+      loading: true,
+    });
+    axios({
+      url: "/children/"+payload.id,
+      method: "PATCH",
+      data: payload.data,
+      headers: {
+        access_token: payload.token,
+      },
+    })
+    .then(({ data }) => {
+      alert("success register");
+      dispatch({
+        type: "CHILD_UPDATE_SUCCESS",
+        loading: false,
+      });
+    })
+    .catch(error => {
+      let err = error.response.data.error.join(", ");
+      dispatch({
+        type: "CHILD_UPDATE_ERROR",
+        loading: false,
+        error: err,
+      });
+    });
+  }
+};
+
+export const userLogout = () => {
+  return dispatch => {
+    dispatch({
+      type: "LOGOUT_USER"
+    })
+  }
+}
+
+export const parentUpdate = payload => {
+  return dispatch => {
+    dispatch({
+      type: "PARENT_UPDATE_LOADING",
+      loading: true,
+    });
+    axios({
+      url: "/parents/"+payload.id,
+      method: "PATCH",
+      data: payload.payload,
+      headers: {
+        access_token: payload.token,
+      },
+    })
+    .then(({ data }) => {
+      dispatch({
+        type: "PARENT_UPDATE_SUCCESS",
+        loading: false,
+        data
+      });
+    })
+    .catch(error => {
+      let err = error.response.data.error.join(", ");
+      dispatch({
+        type: "PARENT_UPDATE_ERROR",
+        loading: false,
+        error: err,
+      });
+    });
+  }
+};
+
