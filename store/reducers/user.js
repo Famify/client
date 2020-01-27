@@ -17,6 +17,12 @@ import {
   ALL_FAMILY_ERROR,
   ALL_FAMILY_LOADING,
   ALL_FAMILY_SUCCESS,
+  MIN_POIN_LOADING,
+  MIN_POIN_SUCCESS,
+  MIN_POIN_ERROR,
+  ADD_POIN_LOADING,
+  ADD_POIN_SUCCESS,
+  ADD_POIN_ERROR,
 } from "./constantUser";
 import produce from "immer";
 
@@ -39,14 +45,14 @@ export function userReducer(state = initialUserState, actions) {
 
     case "LOGOUT_USER":
       return produce(state, newState => {
-        newState.loading = false
-        newState.error = ""
-        newState.data = {}
-        newState.isLogin = false
-        newState.token = ""
-        newState.family = []
-        newState.register = false
-      })
+        newState.loading = false;
+        newState.error = "";
+        newState.data = {};
+        newState.isLogin = false;
+        newState.token = "";
+        newState.family = [];
+        newState.register = false;
+      });
     case "PARENT_UPDATE_LOADING":
       return produce(state, newState => {
         newState.loading = actions.loading;
@@ -54,7 +60,7 @@ export function userReducer(state = initialUserState, actions) {
     case "PARENT_UPDATE_SUCCESS":
       return produce(state, newState => {
         newState.loading = actions.loading;
-        newState.data = actions.data
+        newState.data = actions.data;
       });
     case "PARENT_UPDATE_ERROR":
       return produce(state, newState => {
@@ -154,6 +160,34 @@ export function userReducer(state = initialUserState, actions) {
         newState.family = actions.data;
       });
     case ALL_FAMILY_ERROR:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.error = actions.error;
+      });
+    case MIN_POIN_LOADING:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+      });
+    case MIN_POIN_SUCCESS:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.data = actions.data;
+      });
+    case MIN_POIN_ERROR:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.error = actions.error;
+      });
+    case ADD_POIN_LOADING:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+      });
+    case ADD_POIN_SUCCESS:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.data = actions.data;
+      });
+    case ADD_POIN_ERROR:
       return produce(state, newState => {
         newState.loading = actions.loading;
         newState.error = actions.error;

@@ -141,7 +141,7 @@ function RewardDetail({ navigation }) {
                 </Text>
               </View>
             </View>
-            {currentReward.status === "unclaimed" && user.role === "child" ? (
+            {currentReward.status === true && user.role === "child" ? (
               <TouchableOpacity
                 style={{
                   marginTop: 30,
@@ -167,36 +167,7 @@ function RewardDetail({ navigation }) {
                     letterSpacing: 2,
                   }}
                 >
-                  Take Challenge
-                </Text>
-              </TouchableOpacity>
-            ) : currentReward.status === "claimed" && user.role === "child" ? (
-              <TouchableOpacity
-                style={{
-                  marginTop: 30,
-                  backgroundColor: "yellow",
-                  borderRadius: 20,
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 8,
-                  },
-                  shadowOpacity: 0.46,
-                  shadowRadius: 11.14,
-                  elevation: 17,
-                }}
-                onPress={() => getDoneChallenge(currentReward._id)}
-              >
-                <Text
-                  style={{
-                    color: "black",
-                    paddingVertical: 10,
-                    paddingHorizontal: 20,
-                    fontFamily: "sf-semibold",
-                    letterSpacing: 2,
-                  }}
-                >
-                  Done
+                  Claim Reward
                 </Text>
               </TouchableOpacity>
             ) : (
@@ -215,17 +186,18 @@ function RewardDetail({ navigation }) {
                     shadowRadius: 11.14,
                     elevation: 17,
                   }}
+                  onPress={() => alert("Reward sudah di ambil")}
                 >
                   <Text
                     style={{
-                      color: "white",
+                      color: "black",
                       paddingVertical: 10,
                       paddingHorizontal: 20,
                       fontFamily: "sf-semibold",
                       letterSpacing: 2,
                     }}
                   >
-                    Finished
+                    Reward has been claimed
                   </Text>
                 </TouchableOpacity>
               )

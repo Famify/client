@@ -12,18 +12,21 @@ import { withNavigation } from "react-navigation";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { LinearGradient } from "expo-linear-gradient";
+import { useSelector } from "react-redux";
 
 function ParentDashboard({ navigation }) {
+  const user = useSelector(state => state.user.data);
+
   const family = () => {
     navigation.navigate("family parent");
   };
 
   const challenge = () => {
-    navigation.navigate("challenge parent");
+    navigation.navigate("challenge parent", { back: user.role });
   };
 
   const reward = () => {
-    navigation.navigate("reward parent");
+    navigation.navigate("reward parent", { back: user.role });
   };
 
   const message = () => {
