@@ -37,7 +37,7 @@ function TitleChallenge({ navigation }) {
   };
 
   const goNext = () => {
-    navigation.navigate("image");
+    navigation.navigate("image challenge");
   };
 
   const clearInput = () => {

@@ -27,15 +27,17 @@ function ChallengeDashboard({ navigation }) {
   };
 
   const challangeDetail = payload => {
-    // alert(JSON.stringify(payload, null, 4), user.data);
-    // alert(JSON.stringify(user.data, null, 4));
     if (
       (payload.status === "claimed" || payload.status === "finished") &&
-      payload.owner === user.data._id
+      payload.owner == user.data._id
     ) {
-      navigation.navigate("detail", { id: payload.id });
+      navigation.navigate("detail challenge", {
+        id: payload.id,
+      });
     } else if (payload.status === "unclaimed" && user.data.role === "child") {
-      navigation.navigate("detail", { id: payload.id });
+      navigation.navigate("detail challenge", {
+        id: payload.id,
+      });
     } else {
       alert("Challenge has been claimed");
     }
@@ -52,7 +54,7 @@ function ChallengeDashboard({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.bodyTop}>
-        {user.role === "child" && (
+        {user.data.role === "child" && (
           <View style={styles.historyBtn}>
             <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
               <View style={styles.addChallengeBtn}>
@@ -141,7 +143,7 @@ function ChallengeDashboard({ navigation }) {
           />
         </SafeAreaView>
       </View>
-      {user.role === "parent" && (
+      {user.data.role === "parent" && (
         <View style={styles.famsBtn}>
           <TouchableOpacity style={styles.touchFamsBtn} onPress={addChallenge}>
             <View style={styles.addChallengeBtn}>
@@ -158,7 +160,6 @@ function ChallengeDashboard({ navigation }) {
     </View>
   );
 }
-
 
 export default withNavigation(ChallengeDashboard);
 
