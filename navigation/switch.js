@@ -6,7 +6,7 @@ import ChildStack from "./childStack";
 import FamilyTopTab from './familyTopTab'
 // import MessageScreen from '../screens/messageDasboard'
 import Chat from '../screens/chat'
-import Location from '../screens/login'
+import Location from '../screens/location'
 
 const switchNavigation = createSwitchNavigator({
   register: {
