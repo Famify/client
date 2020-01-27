@@ -18,4 +18,5 @@ export default {
   parentParent: require("./family/parent.png"),
   backgroundTransparent: require("./family/transparetBackground.png"),
   ps2: require("./challenge-and-award/ps2.jpg"),
+  location: require("./challenge-and-award/location.png"),
 };

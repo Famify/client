@@ -6,6 +6,7 @@ import ChildStack from "./childStack";
 import FamilyTopTab from './familyTopTab'
 // import MessageScreen from '../screens/messageDasboard'
 import Chat from '../screens/chat'
+import Location from '../screens/login'
 
 const switchNavigation = createSwitchNavigator({
   register: {
@@ -25,6 +26,9 @@ const switchNavigation = createSwitchNavigator({
   },
   "message" : {
     screen: Chat,
+  },
+  "location" : {
+    screen: Location,
   }
 }, {
   backBehavior: 'history'

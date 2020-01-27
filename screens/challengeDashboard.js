@@ -19,7 +19,6 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 function ChallengeDashboard({ navigation }) {
   const dispatch = useDispatch();
   const challengeList = useSelector(state => state.challenge.challengeList);
-  console.log(challengeList);
   const id = "5e2c74a2ccd987128a26a5eb";
   const role = "parent";
 
@@ -154,7 +153,6 @@ function ChallengeDashboard({ navigation }) {
       </View>
     </View>
   )}
-}
 
 export default withNavigation(ChallengeDashboard);
 
