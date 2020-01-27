@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
+import db from '../config/db'
 
 function ChildDashboard({ navigation }) {
   const user = useSelector(state => state.user.data);
@@ -21,6 +22,36 @@ function ChildDashboard({ navigation }) {
     navigation.navigate("family child");
   };
 
+  const child = useSelector((state) => {
+    return state.user.data
+  })
+
+  function addLocation(latitude, longitude) {
+    db.ref(`locations/${child._id}`).set({
+      longitude,
+      latitude,
+      familyId: child.familyId,
+      avatar: "https://www.catster.com/wp-content/uploads/2018/07/Savannah-cat-long-body-shot.jpg",
+      name: child.username
+    }).then((data) => {
+      alert('succes add data')
+    }).catch(err => {
+      alert(JSON.stringify(err))
+    })
+  }
+
+  const findCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const latitude = JSON.stringify(position.coords.latitude)
+        const longitude = JSON.stringify(position.coords.longitude)
+
+        addLocation(latitude, longitude)
+      },
+      { enableHighAccuracy: true, timeout: 2000, maximumAge: 1000 }
+    )
+  }
+
   const challenge = () => {
     navigation.navigate("challenge child", { back: user.role });
   };
@@ -28,6 +59,10 @@ function ChildDashboard({ navigation }) {
   const reward = () => {
     navigation.navigate("reward child", { back: user.role });
   };
+
+  useEffect(() => {
+    findCurrentLocation()
+  })
 
   return (
     <View style={styles.container}>
