@@ -3,12 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   Image,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView,
-  Alert,
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
@@ -16,7 +13,11 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
-import { parentUpdate, userLogout, getAllFamily } from "../store/action/userAction";
+import {
+  parentUpdate,
+  userLogout,
+  getAllFamily,
+} from "../store/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ParentSetting({ navigation }) {
@@ -30,16 +31,18 @@ export default function ParentSetting({ navigation }) {
   const [image, setImage] = useState(null);
   const [imageSet, setStatusImageSet] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (user.data.dateOfBirth) {
-      setBirthday(moment(new Date(user.data.dateOfBirth)).format("MMMM D, YYYY") )
-      setBirthStatus(true)
+      setBirthday(
+        moment(new Date(user.data.dateOfBirth)).format("MMMM D, YYYY")
+      );
+      setBirthStatus(true);
     }
     if (user.data.avatar) {
-      setImage(user.data.avatar)
-      setStatusImageSet(true)
+      setImage(user.data.avatar);
+      setStatusImageSet(true);
     }
-  },[user.data])
+  }, [user.data]);
 
   useEffect(()=>{
     console.log(user.data);
@@ -89,135 +92,136 @@ export default function ParentSetting({ navigation }) {
   };
 
   const submitHandle = () => {
-    const payload = {
-      dateOfBirth: birthday,
-      avatar: image,
-    };
+    let bodyFormData = new FormData();
+    bodyFormData.append("avatar", {
+      uri: pict,
+      name: `${image}`,
+      type: "image/jgp",
+    });
+    bodyFormData.append("dateOfBirth", birthday);
     dispatch(
       parentUpdate({
-        payload,
+        payload: bodyFormData,
         token: user.token,
-        id : user.data._id
+        id: user.data._id,
       })
     );
-    navigation.navigate('family')
-    dispatch(getAllFamily({
-      token: user.token
-    }))
+    navigation.navigate("family");
+    dispatch(
+      getAllFamily({
+        token: user.token,
+      })
+    );
   };
 
   const logout = () => {
-    dispatch(userLogout())
-    navigation.navigate('login')
-  }
+    dispatch(userLogout());
+    navigation.navigate("login");
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.upperFormWrapper}></View>
-        <SafeAreaView style={styles.downFormWrapper}>
-            <Image
-              source={Picture.backgroundTransparent}
-              style={{
-                width: "150%",
-                position: "absolute",
-                resizeMode: "contain",
-                zIndex: 0,
-              }}
-            />
-            <Image
-              source={Picture.kidsGirl}
-              style={{
-                width: "30%",
-                position: "absolute",
-                resizeMode: "contain",
-                zIndex: 3,
-                bottom: -150,
-                right: -10,
-              }}
-            />
-              <View style={styles.downFormWrapper}>
+      <SafeAreaView style={styles.downFormWrapper}>
+        <Image
+          source={Picture.backgroundTransparent}
+          style={{
+            width: "150%",
+            position: "absolute",
+            resizeMode: "contain",
+            zIndex: 0,
+          }}
+        />
+        <Image
+          source={Picture.kidsGirl}
+          style={{
+            width: "30%",
+            position: "absolute",
+            resizeMode: "contain",
+            zIndex: 3,
+            bottom: -150,
+            right: -10,
+          }}
+        />
+        <View style={styles.downFormWrapper}>
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            {imageSet ? (
+              <TouchableOpacity onPress={_pickImage}>
+                <Image
+                  source={{ uri: image }}
+                  style={{
+                    width: 200,
+                    height: 200,
+                    borderRadius: 30,
+                    marginTop: 15,
+                  }}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={_pickImage}>
                 <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
+                  style={{
+                    width: 200,
+                    height: 200,
+                    borderRadius: 30,
+                    marginTop: 15,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#efefef",
+                  }}
                 >
-                  {imageSet ? (
-                    <TouchableOpacity onPress={_pickImage}>
-                      <Image
-                        source={{ uri: image }}
-                        style={{
-                          width: 200,
-                          height: 200,
-                          borderRadius: 30,
-                          marginTop: 15,
-                        }}
-                      />
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity onPress={_pickImage}>
-                      <View
-                        style={{
-                          width: 200,
-                          height: 200,
-                          borderRadius: 30,
-                          marginTop: 15,
-                          justifyContent: "center",
-                          alignItems: "center",
-                          backgroundColor: "#efefef",
-                        }}
-                      >
-                        <MaterialCommunityIcons
-                          name="image-search"
-                          size={90}
-                          color="#00BFFF"
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  )}
-                </View>
-                <View>
-                  {!birthdayStatus ? (
-                    <TouchableOpacity
-                      style={styles.birthBtn}
-                      onPress={showDatePicker}
-                    >
-                      <AntDesign
-                        name="calendar"
-                        size={25}
-                        color="#00BFFF"
-                        style={{ marginRight: 5 }}
-                      />
-                      <Text style={styles.birthday}>BirthDay</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity
-                      style={styles.birthBtn}
-                      onPress={showDatePicker}
-                    >
-                      <AntDesign
-                        name="calendar"
-                        size={25}
-                        color="#00BFFF"
-                        style={{ marginRight: 5 }}
-                      />
-                      <Text style={styles.birthday}>{birthday}</Text>
-                    </TouchableOpacity>
-                  )}
-                  <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
+                  <MaterialCommunityIcons
+                    name="image-search"
+                    size={90}
+                    color="#00BFFF"
                   />
                 </View>
-                <TouchableOpacity style={styles.submit} onPress={submitHandle}>
-                  <Text style={styles.register}>Submit</Text>
-                </TouchableOpacity>
-                <View style={{ justifyContent: 'flex-end', flex: 1 }} >
-                  <TouchableOpacity style={styles.logout} onPress={logout}>
-                    <Text style={styles.register}>Logout</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-          </SafeAreaView>
+              </TouchableOpacity>
+            )}
+          </View>
+          <View>
+            {!birthdayStatus ? (
+              <TouchableOpacity
+                style={styles.birthBtn}
+                onPress={showDatePicker}
+              >
+                <AntDesign
+                  name="calendar"
+                  size={25}
+                  color="#00BFFF"
+                  style={{ marginRight: 5 }}
+                />
+                <Text style={styles.birthday}>BirthDay</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.birthBtn}
+                onPress={showDatePicker}
+              >
+                <AntDesign
+                  name="calendar"
+                  size={25}
+                  color="#00BFFF"
+                  style={{ marginRight: 5 }}
+                />
+                <Text style={styles.birthday}>{birthday}</Text>
+              </TouchableOpacity>
+            )}
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+          </View>
+          <TouchableOpacity style={styles.submit} onPress={submitHandle}>
+            <Text style={styles.register}>Submit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.logout} onPress={logout}>
+            <Text style={styles.register}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </View>
   );
 }

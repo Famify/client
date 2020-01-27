@@ -6,7 +6,10 @@ import ChildStack from "./childStack";
 import FamilyTopTab from './familyTopTab'
 // import MessageScreen from '../screens/messageDasboard'
 import Chat from '../screens/chat'
-import Location from '../screens/login'
+import Location from '../screens/location'
+import { HeaderBackButton } from "react-navigation-stack";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import React from 'react'
 
 const switchNavigation = createSwitchNavigator({
   register: {
@@ -26,6 +29,15 @@ const switchNavigation = createSwitchNavigator({
   },
   "message" : {
     screen: Chat,
+    navigationOptions: ({navigation}) => {
+      HeaderBackButton : () => {
+        return (
+          <TouchableOpacity onPress={() => navigation.navigate(`${navigation.state.params.back} dashboard`)}>
+            <Text>Back</Text>
+          </TouchableOpacity>
+        )
+      }
+    }
   },
   "location" : {
     screen: Location,

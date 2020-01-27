@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ActivityIndicator } from "react-native";
 import * as Font from "expo-font";
 import Navigation from "./navigation/switch";
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import store from './store'
 
 export default function App() {

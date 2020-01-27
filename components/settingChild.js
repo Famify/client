@@ -22,8 +22,6 @@ import * as ImagePicker from "expo-image-picker";
 export default function RegisterChild({ navigation }) {
   const dispatch = useDispatch();
   const token = useSelector(state => state.user.token);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [birthday, setBirthday] = useState(
     moment(new Date()).format("MMMM D, YYYY")
@@ -33,18 +31,16 @@ export default function RegisterChild({ navigation }) {
   const [imageSet, setStatusImageSet] = useState(false);
   const user = useSelector(state => state.user);
 
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
 
-  useEffect(()=>{
-    setImage(user.data.avatar)
-    setStatusImageSet(true)
-    setUsername(user.data.username)
-    setBirthday(moment(new Date( user.data.dateOfBirth )).format("MMMM D, YYYY"))
-    setBirthStatus(true)
-  },[])
+  useEffect(() => {
+    setImage(user.data.avatar);
+    setStatusImageSet(true);
+    setBirthday(moment(new Date(user.data.dateOfBirth)).format("MMMM D, YYYY"));
+    setBirthStatus(true);
+  }, []);
 
   const hideDatePicker = date => {
     setDatePickerVisibility(false);
@@ -84,25 +80,28 @@ export default function RegisterChild({ navigation }) {
   };
 
   const clearInput = () => {
-    setUsername("");
     setImage(null);
     setStatusImageSet(false);
   };
 
   const submitChildUpdate = () => {
     if (birthday && image) {
+      let bodyFormData = new FormData();
+      bodyFormData.append("avatar", {
+        uri: pict,
+        name: `${image}`,
+        type: "image/jgp",
+      });
+      bodyFormData.append("dateOfBirth", birthday);
       let payload = {
-        data: {
-          avatar: image,
-          dateOfBirth: birthday,
-        },
+        data: bodyFormData,
         token,
-        id: user.data._id
+        id: user.data._id,
       };
       dispatch(childUpdate(payload));
       clearInput();
       dispatch(getAllFamily({ token }));
-      back()
+      back();
     } else {
       alert("astagfirullah");
     }
@@ -133,91 +132,82 @@ export default function RegisterChild({ navigation }) {
       />
       <SafeAreaView style={styles.downFormWrapper}>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-              {imageSet ? (
-                <TouchableOpacity onPress={_pickImage}>
-                  <Image
-                    source={{ uri: image }}
-                    style={{
-                      width: 200,
-                      height: 200,
-                      borderRadius: 30,
-                      marginTop: 15,
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={_pickImage}>
-                  <View
-                    style={{
-                      width: 200,
-                      height: 200,
-                      borderRadius: 30,
-                      marginTop: 15,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      backgroundColor: "#efefef",
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="image-search"
-                      size={90}
-                      color="#EE7600"
-                    />
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-            <View>
-              {!birthdayStatus ? (
-                <TouchableOpacity
-                  style={styles.birthBtn}
-                  onPress={showDatePicker}
-                >
-                  <AntDesign
-                    name="calendar"
-                    size={25}
-                    color="#EE7600"
-                    style={{ marginRight: 5 }}
-                  />
-                  <Text style={styles.birthday}>BirthDay</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={styles.birthBtn}
-                  onPress={showDatePicker}
-                >
-                  <AntDesign
-                    name="calendar"
-                    size={25}
-                    color="#EE7600"
-                    style={{ marginRight: 5 }}
-                  />
-                  <Text style={styles.birthday}>{birthday}</Text>
-                </TouchableOpacity>
-              )}
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
+          {imageSet ? (
+            <TouchableOpacity onPress={_pickImage}>
+              <Image
+                source={{ uri: image }}
+                style={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 30,
+                  marginTop: 15,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               />
-          </View>
-          <TouchableOpacity
-              style={styles.submit}
-              onPress={submitChildUpdate}
-            >
-              <Text style={styles.register}>Submit</Text>
-          </TouchableOpacity>
-          <View style={{ justifyContent: 'flex-end', flex: 1 }} >
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={_pickImage}>
+              <View
+                style={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 30,
+                  marginTop: 15,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#efefef",
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="image-search"
+                  size={90}
+                  color="#EE7600"
+                />
+              </View>
+            </TouchableOpacity>
+          )}
+        </View>
+        <View>
+          {!birthdayStatus ? (
+            <TouchableOpacity style={styles.birthBtn} onPress={showDatePicker}>
+              <AntDesign
+                name="calendar"
+                size={25}
+                color="#EE7600"
+                style={{ marginRight: 5 }}
+              />
+              <Text style={styles.birthday}>BirthDay</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.birthBtn} onPress={showDatePicker}>
+              <AntDesign
+                name="calendar"
+                size={25}
+                color="#EE7600"
+                style={{ marginRight: 5 }}
+              />
+              <Text style={styles.birthday}>{birthday}</Text>
+            </TouchableOpacity>
+          )}
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
+        </View>
+        <TouchableOpacity style={styles.submit} onPress={submitChildUpdate}>
+          <Text style={styles.register}>Submit</Text>
+        </TouchableOpacity>
+        <View style={{ justifyContent: 'flex-end', flex: 1 }} >
             <TouchableOpacity
                 style={ styles.logout }
                 onPress={logout}
               >
               <Text style={styles.register}>logout</Text>
             </TouchableOpacity>
-          </View>
+        </View>
       </SafeAreaView>
     </View>
   );

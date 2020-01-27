@@ -1,4 +1,6 @@
 import firebase from "firebase"; // 4.8.1
+import { Text } from 'react-native'
+import React from 'react'
 import {
   FIRE_API_KEY,
   FIRE_AUTH_DOMAIN,
@@ -7,6 +9,7 @@ import {
   FIRE_STORAGE_BUCKET,
   FIRE_MESSAGING_SENDER_ID
 } from 'react-native-dotenv'
+import TextLink from '../components/textLink'
 
 class Fire {
   constructor() {
@@ -17,14 +20,14 @@ class Fire {
   init = () => {
     if (!firebase.apps.length) {
       firebase.initializeApp({
-        apiKey: FIRE_API_KEY,
-        authDomain: FIRE_AUTH_DOMAIN,
-        databaseURL: FIRE_DATABASE_URL,
-        projectId: FIRE_PROJECT_ID,
-        storageBucket: FIRE_STORAGE_BUCKET,
-        messagingSenderId: FIRE_MESSAGING_SENDER_ID
-      })
-    }
+          apiKey: FIRE_API_KEY,
+          authDomain: FIRE_AUTH_DOMAIN,
+          databaseURL: FIRE_DATABASE_URL,
+          projectId: FIRE_PROJECT_ID,
+          storageBucket: FIRE_STORAGE_BUCKET,
+          messagingSenderId: FIRE_MESSAGING_SENDER_ID
+      });
+  }
   };
 
   observeAuth = () =>
@@ -49,13 +52,36 @@ class Fire {
   }
 
   parse = snapshot => {
-    const { timestamp: numberStamp, text, user } = snapshot.val();
+    let { timestamp: numberStamp, text, user } = snapshot.val()
+
+    const textMessage = () => {
+
+      let chunks, navigateTo, id
+
+      if (text.includes(':')) {
+        chunks = text.split(':')
+        navigateTo = chunks[0].trim().includes("challenge")
+          ? "detail challenge" : "detail reward"
+        id = chunks[1].trim()
+      }
+
+      if (text.includes('Link to')) {
+        return <TextLink
+          navigateTo={navigateTo}
+          text={text}
+          id={id}
+        />
+      }
+
+      return text
+    }
+
     const { key: _id } = snapshot;
     const timestamp = new Date(numberStamp);
     const message = {
       _id,
       timestamp,
-      text,
+      text: textMessage(),
       user,
     };
     return message;
@@ -64,13 +90,17 @@ class Fire {
   on = callback =>
     this.ref
       .limitToLast(20)
-      .on("child_added", snapshot => callback(this.parse(snapshot)));
+      .on("child_added", snapshot => {
+        callback(this.parse(snapshot))
+      });
 
   get timestamp() {
     return firebase.database.ServerValue.TIMESTAMP;
   }
   // send the message to the Backend
   send = messages => {
+    console.log('ini message0', messages[0].user)
+    
     for (let i = 0; i < messages.length; i++) {
       const { text, user } = messages[i];
       const message = {

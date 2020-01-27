@@ -30,7 +30,7 @@ function ParentDashboard({ navigation }) {
   };
 
   const message = () => {
-    navigation.navigate("message");
+    navigation.navigate("message", { back: user.role });
   };
 
   const location = () => {

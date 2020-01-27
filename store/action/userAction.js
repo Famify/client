@@ -230,6 +230,7 @@ export const childUpdate = payload => {
       data: payload.data,
       headers: {
         access_token: payload.token,
+        "Content-Type": "multipart/form-data",
       },
     })
     .then(({ data }) => {
@@ -270,6 +271,7 @@ export const parentUpdate = payload => {
       data: payload.payload,
       headers: {
         access_token: payload.token,
+        "Content-Type": "multipart/form-data",
       },
     })
       .then(({ data }) => {
