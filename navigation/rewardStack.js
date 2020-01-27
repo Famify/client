@@ -4,13 +4,13 @@ import ImageReward from "../components/imageReward";
 
 const rewardStack = createMaterialTopTabNavigator(
   {
-    title: {
+    "title reward": {
       screen: TitleReward,
       navigationOptions: {
         title: "Description",
       },
     },
-    image: {
+    "image reward": {
       screen: ImageReward,
       navigationOptions: {
         title: "Image",

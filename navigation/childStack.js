@@ -4,11 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from "react-navigation-stack";
 import ChildDashboard from "../screens/childDashboard";
 import FamilyDashboard from "../screens/familyDashboard";
-import ChallengesDashboard from "../screens/challengeDashboard";
-import RewardsDashboard from "../screens/rewardDashboard";
 import historyChallenge from "../screens/historyChallenge";
 import historyReward from "../screens/historyReward";
 import SettingChild from "./settingChildStack"
+import DetailChallengeStack from "./detailChallengeStack";
+import DetailRewardStack from "./detailRewardStack";
 
 const childStack = createStackNavigator(
   {
@@ -18,7 +18,7 @@ const childStack = createStackNavigator(
         headerShown: false,
       },
     },
-    family: {
+    "family child": {
       screen: FamilyDashboard,
       navigationOptions: ({ navigation }) => ({
         headerTransparent: true,
@@ -36,28 +36,26 @@ const childStack = createStackNavigator(
         },
       }),
     },
-    challenge: {
-      screen: ChallengesDashboard,
+    "challenge child": {
+      screen: DetailChallengeStack,
       navigationOptions: {
-        headerTransparent: true,
-        title: "Challenges",
+        headerShown: false,
       },
     },
-    reward: {
-      screen: RewardsDashboard,
+    "reward child": {
+      screen: DetailRewardStack,
       navigationOptions: {
-        headerTransparent: true,
-        title: "Rewards",
+        headerShown: false,
       },
     },
-    "history challenge":{
-      screen : historyChallenge,
+    "history challenge": {
+      screen: historyChallenge,
       navigationOptions: {
         title: "History Challenges",
       },
     },
-    "history reward":{
-      screen : historyReward,
+    "history reward": {
+      screen: historyReward,
       navigationOptions: {
         title: "History Rewards",
       },

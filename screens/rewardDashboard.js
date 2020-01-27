@@ -22,13 +22,11 @@ function RewardDashboard({ navigation }) {
   const user = useSelector(state => state.user.data);
 
   const addReward = e => {
-    navigation.navigate("title");
+    navigation.navigate("title reward");
   };
 
   const detailReward = id => {
-    if (user.role === "child") {
-      navigation.navigate("detail");
-    }
+    navigation.navigate("detail reward", { id });
   };
 
   const history = () => {
