@@ -99,6 +99,8 @@ export const getAllChallenge = payload => {
 };
 
 export const claimChallenge = payload => {
+  alert("kepanggil");
+  console.log(payload);
   return dispatch => {
     dispatch({
       type: "CLAIM_CHALLENGE_LOADING",
@@ -106,13 +108,15 @@ export const claimChallenge = payload => {
     });
 
     axios({
-      url: "/tasks/${payload.id}/claim",
-      type: "PATCH",
+      url: `/tasks/${payload.id}/claim`,
+      method: "PATCH",
       headers: {
-        access_token: payload.token,
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJkNmNhYjJiNzgwOTRiYTdjMWVlMTYiLCJ1c2VybmFtZSI6ImZhbnRhIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1ODAwMzgxODJ9.kW8n_v90nrfh4w5b9Tf88k_uegReVzaKA4EVNWvhFlc",
       },
     })
       .then(({ data }) => {
+        alert("success");
         dispatch({
           type: "CLAIM_CHALLENGE_SUCCESS",
           loading: false,
@@ -120,7 +124,9 @@ export const claimChallenge = payload => {
         });
       })
       .catch(error => {
+        alert("error");
         let err = error.response.data.error;
+        console.log(error.response.data, "error");
         dispatch({
           type: "CLAIM_CHALLENGE_ERROR",
           loading: false,

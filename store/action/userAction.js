@@ -158,6 +158,7 @@ export const childRegister = payload => {
       },
     })
       .then(({ data }) => {
+        alert("success register");
         dispatch({
           type: "CHILD_REGISTER_SUCCESS",
           loading: false,

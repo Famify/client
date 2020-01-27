@@ -19,7 +19,9 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 function ChallengeDashboard({ navigation }) {
   const dispatch = useDispatch();
   const challengeList = useSelector(state => state.challenge.challengeList);
+  console.log(challengeList);
   const id = "5e2c74a2ccd987128a26a5eb";
+  const role = "parent";
 
   const addChallenge = () => {
     navigation.navigate("add challenge");
@@ -36,7 +38,7 @@ function ChallengeDashboard({ navigation }) {
     } else {
       alert("Challenge has been claimed");
     }
-
+  };
 
   const history = () => {
     navigation.navigate("history challenge");
@@ -45,22 +47,24 @@ function ChallengeDashboard({ navigation }) {
   useEffect(() => {
     dispatch(getAllChallenge());
   }, []);
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.bodyTop}>
-        <View style={styles.historyBtn}>
-          <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
-            <View style={styles.addChallengeBtn}>
-              <MaterialCommunityIcons
-                name="history"
-                size={40}
-                color="white"
-                style={styles.historyIcon}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
+        {role === "child" && (
+          <View style={styles.historyBtn}>
+            <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
+              <View style={styles.addChallengeBtn}>
+                <MaterialCommunityIcons
+                  name="history"
+                  size={40}
+                  color="white"
+                  style={styles.historyIcon}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
         <Image
           source={Picture.familyScreen}
           style={{ width: "80%", resizeMode: "contain", flex: 1 }}
@@ -79,7 +83,7 @@ function ChallengeDashboard({ navigation }) {
                   challangeDetail({
                     id: item._id,
                     status: item.status,
-                    owner: item.childId,
+                    owner: "" || item,
                   })
                 }
               >
@@ -104,18 +108,15 @@ function ChallengeDashboard({ navigation }) {
                         {item.status}
                       </Text>
                     ) : (
-                      item.status === "claimed" ||
-                      (item.status === "finished" && (
-                        <Text
-                          style={{
-                            color: "red",
-                            fontSize: 14,
-                            fontFamily: "sf-regular",
-                          }}
-                        >
-                          claimed
-                        </Text>
-                      ))
+                      <Text
+                        style={{
+                          color: "red",
+                          fontSize: 14,
+                          fontFamily: "sf-regular",
+                        }}
+                      >
+                        claimed
+                      </Text>
                     )}
                   </View>
                   <View
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
   },
   historyIcon: {
     top: 3,
-    right: 1.5
+    right: 1.5,
   },
   touchHistoryBtn: {
     height: 50,
