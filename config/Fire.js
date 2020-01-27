@@ -17,7 +17,6 @@ class Fire {
   init = () => {
     if (!firebase.apps.length) {
       firebase.initializeApp({
-<<<<<<< HEAD
           apiKey: FIRE_API_KEY,
           authDomain: FIRE_AUTH_DOMAIN,
           databaseURL: FIRE_DATABASE_URL,
@@ -26,16 +25,6 @@ class Fire {
           messagingSenderId: FIRE_MESSAGING_SENDER_ID
       });
   }
-=======
-        apiKey: FIRE_API_KEY,
-        authDomain: FIRE_AUTH_DOMAIN,
-        databaseURL: FIRE_DATABASE_URL,
-        projectId: FIRE_PROJECT_ID,
-        storageBucket: FIRE_STORAGE_BUCKET,
-        messagingSenderId: FIRE_MESSAGING_SENDER_ID
-      })
-    }
->>>>>>> 41eabcd16858d855c83dd7a147535a23bfabfc15
   };
 
   observeAuth = () =>
