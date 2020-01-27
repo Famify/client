@@ -23,6 +23,7 @@ export default function Register({ navigation }) {
   const user = useSelector(state => state.user);
   
   const moveLogin = () => {
+    dispatch(clearError())
     navigation.navigate("login");
   };
 

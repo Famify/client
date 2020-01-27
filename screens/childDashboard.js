@@ -32,6 +32,7 @@ function ChildDashboard({ navigation }) {
       latitude,
       familyId: child.familyId,
       avatar: "https://www.catster.com/wp-content/uploads/2018/07/Savannah-cat-long-body-shot.jpg",
+      name: child.username
     }).then((data) => {
       alert('succes add data')
     }).catch(err => {

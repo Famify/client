@@ -29,7 +29,7 @@ const switchNavigation = createSwitchNavigator({
   },
   "location" : {
     screen: Location,
-  }
+  },
 }, {
   backBehavior: 'history'
 });

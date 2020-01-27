@@ -24,6 +24,7 @@ function Login({ navigation }) {
   const user = useSelector(state => state.user);
 
   const moveRegister = () => {
+    dispatch(clearError())
     navigation.navigate("register");
   };
 

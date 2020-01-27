@@ -17,6 +17,12 @@ import {
   ALL_FAMILY_ERROR,
   ALL_FAMILY_LOADING,
   ALL_FAMILY_SUCCESS,
+  MIN_POIN_LOADING,
+  MIN_POIN_SUCCESS,
+  MIN_POIN_ERROR,
+  ADD_POIN_LOADING,
+  ADD_POIN_SUCCESS,
+  ADD_POIN_ERROR,
 } from "./constantUser";
 import produce from "immer";
 
@@ -32,17 +38,47 @@ const initialUserState = {
 
 export function userReducer(state = initialUserState, actions) {
   switch (actions.type) {
-    case "USER_ERROR_CLEAR":
+    case "USER_ERROR_CLEAR": 
       return produce(state, newState => {
         newState.error = actions.error;
       });
-    case "USER_REGISTER_SUCCESS":
+
+    case "LOGOUT_USER":
       return produce(state, newState => {
-        newState.register = actions.status;
+        newState.loading = false;
+        newState.error = "";
+        newState.data = {};
+        newState.isLogin = false;
+        newState.token = "";
+        newState.family = [];
+        newState.register = false;
       });
-    case "USER_REGISTER_CLEAR":
+    case "PARENT_UPDATE_LOADING":
       return produce(state, newState => {
-        newState.register = actions.status;
+        newState.loading = actions.loading;
+      });
+    case "PARENT_UPDATE_SUCCESS":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.data = actions.data;
+      });
+    case "PARENT_UPDATE_ERROR":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.error = actions.error;
+      });
+    case "CHILD_UPDATE_LOADING":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+      });
+    case "CHILD_UPDATE_SUCCESS":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+      });
+    case "CHILD_UPDATE_ERROR":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.error = actions.error;
       });
     case PARENT_REGISTER_LOADING:
       return produce(state, newState => {
@@ -124,6 +160,34 @@ export function userReducer(state = initialUserState, actions) {
         newState.family = actions.data;
       });
     case ALL_FAMILY_ERROR:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.error = actions.error;
+      });
+    case MIN_POIN_LOADING:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+      });
+    case MIN_POIN_SUCCESS:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.data = actions.data;
+      });
+    case MIN_POIN_ERROR:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.error = actions.error;
+      });
+    case ADD_POIN_LOADING:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+      });
+    case ADD_POIN_SUCCESS:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.data = actions.data;
+      });
+    case ADD_POIN_ERROR:
       return produce(state, newState => {
         newState.loading = actions.loading;
         newState.error = actions.error;

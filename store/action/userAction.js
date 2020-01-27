@@ -1,5 +1,3 @@
-import React from "react";
-import { Alert } from "react-native";
 import axios from "../../config/axios";
 
 export const parentRegister = payload => {
@@ -215,6 +213,143 @@ export const getAllFamily = payload => {
           type: "ALL_FAMILY_ERROR",
           loading: false,
           error: err,
+        });
+      });
+  };
+};
+
+export const childUpdate = payload => {
+  return dispatch => {
+    dispatch({
+      type: "CHILD_UPDATE_LOADING",
+      loading: true,
+    });
+    axios({
+      url: "/children/" + payload.id,
+      method: "PATCH",
+      data: payload.data,
+      headers: {
+        access_token: payload.token,
+      },
+    })
+      .then(({ data }) => {
+        alert("success register");
+        dispatch({
+          type: "CHILD_UPDATE_SUCCESS",
+          loading: false,
+        });
+      })
+      .catch(error => {
+        let err = error.response.data.error.join(", ");
+        dispatch({
+          type: "CHILD_UPDATE_ERROR",
+          loading: false,
+          error: err,
+        });
+      });
+  };
+};
+
+export const userLogout = () => {
+  return dispatch => {
+    dispatch({
+      type: "LOGOUT_USER",
+    });
+  };
+};
+
+export const parentUpdate = payload => {
+  return dispatch => {
+    dispatch({
+      type: "PARENT_UPDATE_LOADING",
+      loading: true,
+    });
+    axios({
+      url: "/parents/" + payload.id,
+      method: "PATCH",
+      data: payload.payload,
+      headers: {
+        access_token: payload.token,
+      },
+    })
+      .then(({ data }) => {
+        dispatch({
+          type: "PARENT_UPDATE_SUCCESS",
+          loading: false,
+          data,
+        });
+      })
+      .catch(error => {
+        let err = error.response.data.error.join(", ");
+        dispatch({
+          type: "PARENT_UPDATE_ERROR",
+          loading: false,
+          error: err,
+        });
+      });
+  };
+};
+
+export const minPoin = payload => {
+  return dispatch => {
+    dispatch({
+      type: "MIN_POIN_LOADING",
+      loading: true,
+    });
+    axios({
+      url: `/children/${payload.id}/min`,
+      method: "PATCH",
+      data: payload.data,
+      headers: {
+        access_token: payload.token,
+      },
+    })
+      .then(({ data }) => {
+        dispatch({
+          type: "MIN_POIN_SUCCESS",
+          data,
+          loading: false,
+        });
+      })
+      .catch(error => {
+        let err = error.response.data.message.join(", ");
+        dispatch({
+          type: "MIN_POIN_ERROR",
+          loading: false,
+          error: err,
+        });
+      });
+  };
+};
+
+export const addPoin = payload => {
+  return dispatch => {
+    dispatch({
+      type: "ADD_POIN_LOADING",
+      loading: true,
+    });
+
+    axios({
+      url: `/children/${payload.id}/add`,
+      method: "PATCH",
+      data: payload.data,
+      headers: {
+        access_token: payload.token,
+      },
+    })
+      .then(({ data }) => {
+        dispatch({
+          type: "ADD_POIN_SUCCESS",
+          data,
+          loading: false,
+        });
+      })
+      .catch(error => {
+        let err = error.response.data.message.join(", ");
+        dispatch({
+          type: "ADD_POIN_SUCCESS",
+          error: err,
+          loading: false,
         });
       });
   };
