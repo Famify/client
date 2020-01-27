@@ -13,11 +13,16 @@ import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
+<<<<<<< HEAD
 import db from '../config/db'
+=======
+>>>>>>> fba48668e28d40a546e937a4da62efd2ff7ceff8
 
 function ChildDashboard({ navigation }) {
+  const user = useSelector(state => state.user.data);
+
   const family = () => {
-    navigation.navigate("family");
+    navigation.navigate("family child");
   };
 
   const child = useSelector((state) => {
@@ -50,11 +55,11 @@ function ChildDashboard({ navigation }) {
   }
 
   const challenge = () => {
-    navigation.navigate("challenge");
+    navigation.navigate("challenge child", { back: user.role });
   };
 
   const reward = () => {
-    navigation.navigate("reward");
+    navigation.navigate("reward child", { back: user.role });
   };
 
   useEffect(() => {
