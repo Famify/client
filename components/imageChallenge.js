@@ -11,15 +11,18 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   createChallenge,
   setTitleAndDescription,
+  getAllChallenge,
 } from "../store/action/challengeAction";
+import { withNavigation } from "react-navigation";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 
-export default function ImageChallenge(props) {
+function ImageChallenge({ navigation }) {
   const dispatch = useDispatch();
   const titleDesc = useSelector(state => state.challenge.titleDesc);
+  const token = useSelector(state => state.user.token);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState();
 
@@ -51,15 +54,20 @@ export default function ImageChallenge(props) {
     setPoin(5);
     setPict("");
     dispatch(setTitleAndDescription({}));
+    dispatch(getAllChallenge({ token }));
+    navigation.navigate("challenge");
   };
 
   const submitChallenge = () => {
     let payload = {
-      title: titleDesc.title,
-      description: titleDesc.desc,
-      deadline: titleDesc.date,
-      image: pict,
-      points: poin,
+      data: {
+        title: titleDesc.title,
+        description: titleDesc.desc,
+        deadline: titleDesc.date,
+        image: pict,
+        points: poin,
+      },
+      token,
     };
     dispatch(createChallenge(payload));
     clearInput();
@@ -169,6 +177,8 @@ export default function ImageChallenge(props) {
     </View>
   );
 }
+
+export default withNavigation(ImageChallenge);
 
 const styles = StyleSheet.create({
   container: {

@@ -14,12 +14,13 @@ import Picture from "../assets/index";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { childRegister, getAllFamily } from "../store/action/userAction";
 import * as ImagePicker from "expo-image-picker";
 
 export default function RegisterChild({ navigation }) {
   const dispatch = useDispatch();
+  const token = useSelector(state => state.user.token);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -89,14 +90,17 @@ export default function RegisterChild({ navigation }) {
   const submitChildRegister = () => {
     if (username && password && birthday && image) {
       let payload = {
-        username,
-        password,
-        avatar: image,
-        dateOfBirth: birthday,
+        data: {
+          username,
+          password,
+          avatar: image,
+          dateOfBirth: birthday,
+        },
+        token,
       };
       dispatch(childRegister(payload));
       clearInput();
-      getAllFamily();
+      dispatch(getAllFamily({ token }));
     } else {
       alert("astagfirullah");
     }

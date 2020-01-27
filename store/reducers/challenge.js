@@ -38,7 +38,6 @@ export function challengeReducer(state = initialStateChallenge, actions) {
     case CREATE_CHALLENGE_SUCCESS:
       return produce(state, newState => {
         newState.loading = actions.loading;
-        newState.data = actions.data;
       });
     case CREATE_CHALLENGE_ERROR:
       return produce(state, newState => {

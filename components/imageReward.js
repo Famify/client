@@ -10,7 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { withNavigation } from "react-navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { createReward } from "../store/action/rewardAction";
+import { createReward, getAllReward } from "../store/action/rewardAction";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -18,6 +18,7 @@ import * as ImagePicker from "expo-image-picker";
 function ImageReward({ navigation }) {
   const dispatch = useDispatch();
   const titleDesc = useSelector(state => state.reward.titleDesc);
+  const token = useSelector(state => state.user.token);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState();
 
@@ -51,13 +52,17 @@ function ImageReward({ navigation }) {
 
   const submitReward = () => {
     let payload = {
-      title: titleDesc.title,
-      description: titleDesc.desc,
-      image: pict,
-      points: poin,
+      data: {
+        title: titleDesc.title,
+        description: titleDesc.desc,
+        image: pict,
+        points: poin,
+      },
+      token,
     };
     clearInput();
     dispatch(createReward(payload));
+    dispatch(getAllReward({ token }));
     navigation.navigate("reward");
   };
 

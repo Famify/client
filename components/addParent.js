@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Alert
+  Alert,
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
@@ -16,13 +16,13 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
-import { parentRegister2 } from '../store/action/userAction';
-import { useDispatch, useSelector } from 'react-redux'
-import { clearError } from '../store/action/userAction'
+import { parentRegister2 } from "../store/action/userAction";
+import { useDispatch, useSelector } from "react-redux";
+import { clearError } from "../store/action/userAction";
 
 export default function RegisterParent({ navigation }) {
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [birthday, setBirthday] = useState(
     moment(new Date()).format("MMMM D, YYYY")
@@ -30,13 +30,9 @@ export default function RegisterParent({ navigation }) {
   const [birthdayStatus, setBirthStatus] = useState(false);
   const [image, setImage] = useState(null);
   const [imageSet, setStatusImageSet] = useState(false);
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  useEffect(()=>{
-    // console.log(user);
-  },[user])
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -84,46 +80,51 @@ export default function RegisterParent({ navigation }) {
   };
 
   const inputUsername = input => {
-    setUsername(input)
-  }
+    setUsername(input);
+  };
 
   const inputEmail = input => {
-    setEmail(input)
-  }
+    setEmail(input);
+  };
 
   const inputPassword = input => {
-    setPassword(input)
-  }
+    setPassword(input);
+  };
 
   const submitHandle = () => {
     const payload = {
       username,
       email,
       password,
-      'dateOfBirth' : birthday,
-      'avatar' : image
-    }
-    dispatch(parentRegister2({
-      payload,
-      token : user.token
-    }));
-}
+      dateOfBirth: birthday,
+      avatar: image,
+    };
+    dispatch(
+      parentRegister2({
+        payload,
+        token: user.token,
+      })
+    );
+  };
 
   return (
     <View style={styles.container}>
-      {
-        user.loading ?
+      {user.loading ? (
         <>
           <View style={styles.upperFormWrapper}>
-          <View style={{ alignItems: "flex-end" }}>
-            <TouchableOpacity
-              onPress={back}
-              style={{ height: 30, width: 30, top: -20 }}
-            >
-              <MaterialCommunityIcons name="backburger" color="white" size={30} />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.title}>Register Other Parent</Text>
+            <View style={{ alignItems: "flex-end" }}>
+              <TouchableOpacity
+                onPress={back}
+                style={{ height: 30, width: 30, top: -20 }}
+              >
+                <MaterialCommunityIcons
+                  name="backburger"
+                  color="white"
+                  size={30}
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.title}>Register Other Parent</Text>
           </View>
           <SafeAreaView style={styles.downFormWrapper}>
             <Image
@@ -152,21 +153,27 @@ export default function RegisterParent({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder="username"
-                  onChangeText={ text => { inputUsername(text) } }
-                  value={ username }
+                  onChangeText={text => {
+                    inputUsername(text);
+                  }}
+                  value={username}
                 />
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
                   autoCompleteType="email"
-                  onChangeText={ text => { inputEmail(text) } }
-                  value={ email }
+                  onChangeText={text => {
+                    inputEmail(text);
+                  }}
+                  value={email}
                 />
                 <TextInput
                   style={styles.input}
                   placeholder="set password"
                   secureTextEntry={true}
-                  onChangeText={ text => { inputPassword(text) } }
+                  onChangeText={text => {
+                    inputPassword(text);
+                  }}
                 />
                 <View>
                   {!birthdayStatus ? (
@@ -203,7 +210,9 @@ export default function RegisterParent({ navigation }) {
                     onCancel={hideDatePicker}
                   />
                 </View>
-                <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <View
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
                   {imageSet ? (
                     <TouchableOpacity onPress={_pickImage}>
                       <Image
@@ -238,36 +247,35 @@ export default function RegisterParent({ navigation }) {
                     </TouchableOpacity>
                   )}
                 </View>
-                <TouchableOpacity style={styles.submit} onPress={ submitHandle }>
+                <TouchableOpacity style={styles.submit} onPress={submitHandle}>
                   <Text style={styles.register}>Invite</Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>
           </SafeAreaView>
         </>
-        :
-        user.error ? 
+      ) : user.error ? (
         <>
-          {
-            Alert.alert(
-              'Warning!',
-              `${ user.error }`,
-              [
-                {text: 'OK', onPress: () => dispatch(clearError()) },
-              ],
-              {cancelable: false},
-            )
-          }
+          {Alert.alert(
+            "Warning!",
+            `${user.error}`,
+            [{ text: "OK", onPress: () => dispatch(clearError()) }],
+            { cancelable: false }
+          )}
           <View style={styles.upperFormWrapper}>
-          <View style={{ alignItems: "flex-end" }}>
-            <TouchableOpacity
-              onPress={back}
-              style={{ height: 30, width: 30, top: -20 }}
-            >
-              <MaterialCommunityIcons name="backburger" color="white" size={30} />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.title}>Register Other Parent</Text>
+            <View style={{ alignItems: "flex-end" }}>
+              <TouchableOpacity
+                onPress={back}
+                style={{ height: 30, width: 30, top: -20 }}
+              >
+                <MaterialCommunityIcons
+                  name="backburger"
+                  color="white"
+                  size={30}
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.title}>Register Other Parent</Text>
           </View>
           <SafeAreaView style={styles.downFormWrapper}>
             <Image
@@ -296,21 +304,27 @@ export default function RegisterParent({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder="username"
-                  onChangeText={ text => { inputUsername(text) } }
-                  value={ username }
+                  onChangeText={text => {
+                    inputUsername(text);
+                  }}
+                  value={username}
                 />
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
                   autoCompleteType="email"
-                  onChangeText={ text => { inputEmail(text) } }
-                  value={ email }
+                  onChangeText={text => {
+                    inputEmail(text);
+                  }}
+                  value={email}
                 />
                 <TextInput
                   style={styles.input}
                   placeholder="set password"
                   secureTextEntry={true}
-                  onChangeText={ text => { inputPassword(text) } }
+                  onChangeText={text => {
+                    inputPassword(text);
+                  }}
                 />
                 <View>
                   {!birthdayStatus ? (
@@ -347,7 +361,9 @@ export default function RegisterParent({ navigation }) {
                     onCancel={hideDatePicker}
                   />
                 </View>
-                <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <View
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
                   {imageSet ? (
                     <TouchableOpacity onPress={_pickImage}>
                       <Image
@@ -382,25 +398,29 @@ export default function RegisterParent({ navigation }) {
                     </TouchableOpacity>
                   )}
                 </View>
-                <TouchableOpacity style={styles.submit} onPress={ submitHandle }>
+                <TouchableOpacity style={styles.submit} onPress={submitHandle}>
                   <Text style={styles.register}>Invite</Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>
           </SafeAreaView>
         </>
-        : 
+      ) : (
         <>
           <View style={styles.upperFormWrapper}>
-          <View style={{ alignItems: "flex-end" }}>
-            <TouchableOpacity
-              onPress={back}
-              style={{ height: 30, width: 30, top: -20 }}
-            >
-              <MaterialCommunityIcons name="backburger" color="white" size={30} />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.title}>Register Other Parent</Text>
+            <View style={{ alignItems: "flex-end" }}>
+              <TouchableOpacity
+                onPress={back}
+                style={{ height: 30, width: 30, top: -20 }}
+              >
+                <MaterialCommunityIcons
+                  name="backburger"
+                  color="white"
+                  size={30}
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.title}>Register Other Parent</Text>
           </View>
           <SafeAreaView style={styles.downFormWrapper}>
             <Image
@@ -429,21 +449,27 @@ export default function RegisterParent({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder="username"
-                  onChangeText={ text => { inputUsername(text) } }
-                  value={ username }
+                  onChangeText={text => {
+                    inputUsername(text);
+                  }}
+                  value={username}
                 />
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
                   autoCompleteType="email"
-                  onChangeText={ text => { inputEmail(text) } }
-                  value={ email }
+                  onChangeText={text => {
+                    inputEmail(text);
+                  }}
+                  value={email}
                 />
                 <TextInput
                   style={styles.input}
                   placeholder="set password"
                   secureTextEntry={true}
-                  onChangeText={ text => { inputPassword(text) } }
+                  onChangeText={text => {
+                    inputPassword(text);
+                  }}
                 />
                 <View>
                   {!birthdayStatus ? (
@@ -480,7 +506,9 @@ export default function RegisterParent({ navigation }) {
                     onCancel={hideDatePicker}
                   />
                 </View>
-                <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <View
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
                   {imageSet ? (
                     <TouchableOpacity onPress={_pickImage}>
                       <Image
@@ -515,15 +543,14 @@ export default function RegisterParent({ navigation }) {
                     </TouchableOpacity>
                   )}
                 </View>
-                <TouchableOpacity style={styles.submit} onPress={ submitHandle }>
+                <TouchableOpacity style={styles.submit} onPress={submitHandle}>
                   <Text style={styles.register}>Invite</Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>
           </SafeAreaView>
         </>
-      }
-      
+      )}
     </View>
   );
 }

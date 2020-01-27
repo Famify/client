@@ -10,10 +10,9 @@ export const createReward = payload => {
     axios({
       url: "/rewards",
       method: "POST",
-      data: payload,
+      data: payload.data,
       headers: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
+        access_token: payload.token,
       },
     })
       .then(({ data }) => {
@@ -75,8 +74,7 @@ export const getAllReward = payload => {
       url: "/rewards",
       method: "GET",
       headers: {
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTJjNzRhMmNjZDk4NzEyOGEyNmE1ZWIiLCJ1c2VybmFtZSI6ImRhbmFuZyIsImVtYWlsIjoiZGFuYW5nQG1haWwuY29tIiwiZmFtaWx5SWQiOiI3NjVlMWI1MC0zZjk0LTExZWEtOTc2NC03Zjc3YzNlZGEyOTAiLCJpYXQiOjE1Nzk5NzE4Njh9.N-mm4gzo5pqNrx_jkvqkwqI6UL0lvesjsU3LuWlhlMk",
+        access_token: payload.token,
       },
     })
       .then(({ data }) => {
@@ -105,7 +103,7 @@ export const claimReward = payload => {
     });
 
     axios({
-      url: "/rewards/${payload.id}",
+      url: `/rewards/${payload.id}`,
       type: "PATCH",
       headers: {
         access_token: payload.token,

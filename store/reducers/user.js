@@ -23,19 +23,19 @@ import produce from "immer";
 const initialUserState = {
   loading: false,
   error: "",
-  data: {familyId: 'qwerty', username: 'orang1'},
+  data: { familyId: "qwerty", username: "orang1" },
   isLogin: false,
   token: "",
   family: [],
-  register: false
+  register: false,
 };
 
 export function userReducer(state = initialUserState, actions) {
   switch (actions.type) {
     case "USER_ERROR_CLEAR":
       return produce(state, newState => {
-        newState.error = actions.error
-      })
+        newState.error = actions.error;
+      });
     case "USER_REGISTER_SUCCESS":
       return produce(state, newState => {
         newState.register = actions.status;
@@ -119,8 +119,6 @@ export function userReducer(state = initialUserState, actions) {
         newState.error = actions.error;
       });
     case ALL_FAMILY_SUCCESS:
-      console.log('test');
-      
       return produce(state, newState => {
         newState.loading = actions.loading;
         newState.family = actions.data;
