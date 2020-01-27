@@ -15,15 +15,15 @@ import { LinearGradient } from "expo-linear-gradient";
 
 function ParentDashboard({ navigation }) {
   const family = () => {
-    navigation.navigate("family");
+    navigation.navigate("family parent");
   };
 
   const challenge = () => {
-    navigation.navigate("challenge");
+    navigation.navigate("challenge parent");
   };
 
   const reward = () => {
-    navigation.navigate("reward");
+    navigation.navigate("reward parent");
   };
 
   const message = () => {
@@ -32,7 +32,7 @@ function ParentDashboard({ navigation }) {
 
   const location = () => {
     navigation.navigate("location");
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -114,7 +114,7 @@ function ParentDashboard({ navigation }) {
             style={{
               width: "90%",
             }}
-            onPress={ message }
+            onPress={message}
           >
             <LinearGradient
               style={styles.gradientChat}
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   location: {
     width: "80%",
     height: "50%",
-    resizeMode: "contain"
+    resizeMode: "contain",
   },
   gradientCard: {
     height: 300,

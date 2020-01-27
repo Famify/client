@@ -1,14 +1,14 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
-import DetailChallenge from "../components/challengeDetail";
-import ChallengesDashboard from "../screens/challengeDashboard";
+import RewardDetail from "../components/rewardDetail";
+import RewardDashboard from "../screens/rewardDashboard";
 
 const detailChallengeStack = createStackNavigator(
   {
-    challenge: {
-      screen: ChallengesDashboard,
-      navigationOptions: ({ screenProps, navigation }) => ({
+    reward: {
+      screen: RewardDashboard,
+      navigationOptions: ({ navigation }) => ({
         headerTransparent: true,
         title: "Challenges",
         headerRight: props => {
@@ -33,8 +33,8 @@ const detailChallengeStack = createStackNavigator(
         },
       }),
     },
-    "detail challenge": {
-      screen: DetailChallenge,
+    "detail reward": {
+      screen: RewardDetail,
       navigationOptions: {
         title: "Detail",
       },

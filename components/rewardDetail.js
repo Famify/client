@@ -19,7 +19,7 @@ import moment from "moment";
 function RewardDetail({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.data);
-  const challenge = useSelector(state => state.challenge);
+  const reward = useSelector(state => state.reward);
   const currentReward = useSelector(state => state.reward.data);
   const token = useSelector(state => state.user.token);
 
@@ -35,7 +35,7 @@ function RewardDetail({ navigation }) {
   }, []);
   return (
     <View style={{ flex: 1 }}>
-      {challenge.loading ? (
+      {reward.loading ? (
         <Text>Loading</Text>
       ) : (
         <View

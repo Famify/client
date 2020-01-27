@@ -4,13 +4,13 @@ import ImageChallenge from "../components/imageChallenge";
 
 const challengeStack = createMaterialTopTabNavigator(
   {
-    title: {
+    "title challenge": {
       screen: TitleChallenge,
       navigationOptions: {
         title: "Description",
       },
     },
-    image: {
+    "image challenge": {
       screen: ImageChallenge,
       navigationOptions: {
         title: "Image",
