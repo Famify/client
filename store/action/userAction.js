@@ -1,5 +1,3 @@
-import React from "react";
-import { Alert } from "react-native";
 import axios from "../../config/axios";
 
 export const parentRegister = payload => {
@@ -222,8 +220,6 @@ export const getAllFamily = payload => {
 
 export const childUpdate = payload => {
   return dispatch => {
-    console.log(payload);
-
     dispatch({
       type: "CHILD_UPDATE_LOADING",
       loading: true,

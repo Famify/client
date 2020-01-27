@@ -38,6 +38,11 @@ const initialUserState = {
 
 export function userReducer(state = initialUserState, actions) {
   switch (actions.type) {
+    case "USER_ERROR_CLEAR": 
+      return produce(state, newState => {
+        newState.error = actions.error;
+      });
+
     case "LOGOUT_USER":
       return produce(state, newState => {
         newState.loading = false;
@@ -73,10 +78,6 @@ export function userReducer(state = initialUserState, actions) {
     case "CHILD_UPDATE_ERROR":
       return produce(state, newState => {
         newState.loading = actions.loading;
-        newState.error = actions.error;
-      });
-    case "PARENT_ERROR_CLEAR":
-      return produce(state, newState => {
         newState.error = actions.error;
       });
     case PARENT_REGISTER_LOADING:
