@@ -56,7 +56,11 @@ function FamilyDashboard({ navigation }) {
                     style={styles.card}
                     onPress={() => alert(`id : ${item._id}`)}
                   >
-                    <Image source={Picture.kidsBoy} style={styles.circle} />
+                    {
+                      item.avatar ? 
+                      <Image source={{ uri: item.avatar }} style={styles.circle} /> :
+                      <Image source={ Picture.kidsBoy } style={styles.circle} />
+                    }
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>
                         {item.username} ({item.role})

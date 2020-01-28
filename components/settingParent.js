@@ -44,6 +44,10 @@ export default function ParentSetting({ navigation }) {
     }
   }, [user.data]);
 
+  useEffect(()=>{
+    console.log(user.data);
+  })
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -75,10 +79,12 @@ export default function ParentSetting({ navigation }) {
     getPermissionAsync();
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
+      base64: true,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
+
     if (!result.cancelled) {
       setImage(result.uri);
       setStatusImageSet(true);
@@ -253,6 +259,7 @@ const styles = StyleSheet.create({
   logout: {
     backgroundColor: "#DB5C5D",
     width: "40%",
+    paddingHorizontal: 40,
     marginBottom: 20,
     borderRadius: 100,
     alignItems: "center",
