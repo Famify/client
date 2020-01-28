@@ -24,11 +24,12 @@ export const createChallenge = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message;
+      if (typeof response.data.error === "string") {
+        err = response.data;
       } else {
-        err = response.data.message.join(", ");
+        err = response.data.join(", ");
       }
+      alert(err);
       dispatch({
         type: "CREATE_CHALLENGE_ERROR",
         loading: false,
@@ -60,11 +61,12 @@ export const getChallenge = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message;
+      if (typeof response.data.error === "string") {
+        err = response.data;
       } else {
-        err = response.data.message.join(", ");
+        err = response.data.join(", ");
       }
+      alert(err);
       dispatch({
         type: "GET_CHALLENGE_ERROR",
         loading: false,
@@ -96,11 +98,12 @@ export const getAllChallenge = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message;
+      if (typeof response.data.error === "string") {
+        err = response.data;
       } else {
-        err = response.data.message.join(", ");
+        err = response.data.join(", ");
       }
+      alert(err);
       dispatch({
         type: "ALL_CHALLENGE_ERROR",
         loading: false,
@@ -132,11 +135,12 @@ export const claimChallenge = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message;
+      if (typeof response.data.error === "string") {
+        err = response.data;
       } else {
-        err = response.data.message.join(", ");
+        err = response.data.join(", ");
       }
+      alert(err);
       dispatch({
         type: "CLAIM_CHALLENGE_ERROR",
         loading: false,
@@ -168,11 +172,12 @@ export const finishChallenge = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message;
+      if (typeof response.data.error === "string") {
+        err = response.data;
       } else {
-        err = response.data.message.join(", ");
+        err = response.data.join(", ");
       }
+      alert(err);
       dispatch({
         type: "CLAIM_CHALLENGE_ERROR",
         loading: false,
@@ -204,11 +209,12 @@ export const deleteChallenge = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message;
+      if (typeof response.data.error === "string") {
+        err = response.data;
       } else {
-        err = response.data.message.join(", ");
+        err = response.data.join(", ");
       }
+      alert(err);
       dispatch({
         type: "DELETE_CHALLENGE_ERROR",
         loading: false,
