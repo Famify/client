@@ -29,27 +29,38 @@ import produce from "immer";
 const initialUserState = {
   loading: false,
   error: "",
-  data: { familyId: "qwerty", username: "orang1" },
+  data: {},
   isLogin: false,
-  token: "",
   family: [],
   register: false,
 };
 
 export function userReducer(state = initialUserState, actions) {
   switch (actions.type) {
-    case "USER_ERROR_CLEAR": 
+    case "LOGIN":
+      return produce(state, newState => {
+        newState.isLogin = true;
+        newState.data = actions.data;
+        newState.error = "";
+      });
+    case "USER_ERROR_CLEAR":
       return produce(state, newState => {
         newState.error = actions.error;
       });
-
+    case "USER_REGISTER_SUCCESS":
+      return produce(state, newState => {
+        newState.register = actions.status;
+      });
+    case "USER_REGISTER_CLEAR":
+      return produce(state, newState => {
+        newState.register = actions.status;
+      });
     case "LOGOUT_USER":
       return produce(state, newState => {
         newState.loading = false;
         newState.error = "";
         newState.data = {};
         newState.isLogin = false;
-        newState.token = "";
         newState.family = [];
         newState.register = false;
       });
@@ -83,6 +94,7 @@ export function userReducer(state = initialUserState, actions) {
     case PARENT_REGISTER_LOADING:
       return produce(state, newState => {
         newState.loading = actions.loading;
+        newState.family = [];
       });
     case PARENT_REGISTER_ERROR:
       return produce(state, newState => {
@@ -101,7 +113,7 @@ export function userReducer(state = initialUserState, actions) {
       return produce(state, newState => {
         newState.loading = actions.loading;
         newState.data = actions.data.parent;
-        newState.token = actions.data.token;
+        newState.isLogin = true;
       });
     case PARENT_LOGIN_ERROR:
       return produce(state, newState => {
@@ -120,10 +132,12 @@ export function userReducer(state = initialUserState, actions) {
     case PARENT_REGISTER_2_LOADING:
       return produce(state, newState => {
         newState.loading = actions.loading;
+        newState.family = [];
       });
     case CHILD_REGISTER_LOADING:
       return produce(state, newState => {
         newState.loading = actions.loading;
+        newState.family = [];
       });
     case CHILD_REGISTER_SUCCESS:
       return produce(state, newState => {
@@ -142,7 +156,7 @@ export function userReducer(state = initialUserState, actions) {
       return produce(state, newState => {
         newState.loading = actions.loading;
         newState.data = actions.data.child;
-        newState.token = actions.data.token;
+        newState.isLogin = true;
       });
     case CHILD_LOGIN_ERROR:
       return produce(state, newState => {

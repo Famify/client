@@ -7,40 +7,55 @@ import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Alert
+  Alert,
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import { useDispatch, useSelector } from "react-redux";
-import { parentRegister, clearError, clearRegisterStatus } from "../store/action/userAction";
+import {
+  parentRegister,
+  clearError,
+  clearRegisterStatus,
+  checkLogin,
+} from "../store/action/userAction";
 
 export default function Register({ navigation }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
-  
+  const { register, isLogin, loading, error, data } = useSelector(
+    state => state.user
+  );
+
   const moveLogin = () => {
-    dispatch(clearError())
+    dispatch(clearError());
     navigation.navigate("login");
   };
 
-  useEffect(()=>{
-    if (user.register) {
-      navigation.navigate('login')
-      dispatch(clearRegisterStatus())
-      Alert.alert(
-        'Success!',
-        `Register Success`,
-        [
-          {text: 'OK', onPress: () => dispatch(clearError()) },
-        ],
-        {cancelable: false},
-      )
+  useEffect(() => {
+    dispatch(checkLogin());
+  }, []);
+
+  useEffect(() => {
+    if (isLogin) {
+      navigation.navigate(`${data.role} dashboard`);
     }
-  },[user.register])
+  }, [isLogin]);
+
+  useEffect(() => {
+    if (register) {
+      navigation.navigate("login");
+      dispatch(clearRegisterStatus());
+      Alert.alert(
+        "Success!",
+        `Register Success`,
+        [{ text: "OK", onPress: () => dispatch(clearError()) }],
+        { cancelable: false }
+      );
+    }
+  }, [register]);
 
   const inputUsername = input => {
     setUsername(input);
@@ -65,8 +80,7 @@ export default function Register({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {
-        user.loading ?
+      {loading ? (
         <>
           <View style={styles.upperFormWrapper}>
             <Text style={styles.title}>Sign Up</Text>
@@ -82,6 +96,7 @@ export default function Register({ navigation }) {
               onChangeText={text => inputUsername(text)}
               style={styles.input}
               placeholder="username"
+              autoCapitalize="none"
             />
             <TextInput
               value={password}
@@ -89,12 +104,14 @@ export default function Register({ navigation }) {
               placeholder="password"
               secureTextEntry={true}
               onChangeText={text => inputPassword(text)}
+              autoCapitalize="none"
             />
             <TextInput
               value={email}
               onChangeText={text => inputEmail(text)}
               style={styles.input}
               placeholder="email"
+              autoCapitalize="none"
             />
             <TouchableOpacity style={styles.submit} onPress={submitRegister}>
               <Text style={styles.register}>Register</Text>
@@ -103,19 +120,15 @@ export default function Register({ navigation }) {
               <Text style={styles.moveLogin}>Already have account ?</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
-          </> :
-        user.error ? 
+        </>
+      ) : error ? (
         <>
-          {
-            Alert.alert(
-              'Warning!',
-              `${ user.error }`,
-              [
-                {text: 'OK', onPress: () => dispatch(clearError()) },
-              ],
-              {cancelable: false},
-            )
-          }
+          {Alert.alert(
+            "Warning!",
+            `${error}`,
+            [{ text: "OK", onPress: () => dispatch(clearError()) }],
+            { cancelable: false }
+          )}
           <View style={styles.upperFormWrapper}>
             <Text style={styles.title}>Sign Up</Text>
           </View>
@@ -130,6 +143,7 @@ export default function Register({ navigation }) {
               onChangeText={text => inputUsername(text)}
               style={styles.input}
               placeholder="username"
+              autoCapitalize="none"
             />
             <TextInput
               value={password}
@@ -137,12 +151,14 @@ export default function Register({ navigation }) {
               placeholder="password"
               secureTextEntry={true}
               onChangeText={text => inputPassword(text)}
+              autoCapitalize="none"
             />
             <TextInput
               value={email}
               onChangeText={text => inputEmail(text)}
               style={styles.input}
               placeholder="email"
+              autoCapitalize="none"
             />
             <TouchableOpacity style={styles.submit} onPress={submitRegister}>
               <Text style={styles.register}>Register</Text>
@@ -151,11 +167,11 @@ export default function Register({ navigation }) {
               <Text style={styles.moveLogin}>Already have account ?</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
-          </>
-        : 
+        </>
+      ) : (
         <>
           <View style={styles.upperFormWrapper}>
-          <Text style={styles.title}>Sign Up</Text>
+            <Text style={styles.title}>Sign Up</Text>
           </View>
           <KeyboardAvoidingView
             style={styles.downFormWrapper}
@@ -168,6 +184,7 @@ export default function Register({ navigation }) {
               onChangeText={text => inputUsername(text)}
               style={styles.input}
               placeholder="username"
+              autoCapitalize="none"
             />
             <TextInput
               value={password}
@@ -175,12 +192,14 @@ export default function Register({ navigation }) {
               placeholder="password"
               secureTextEntry={true}
               onChangeText={text => inputPassword(text)}
+              autoCapitalize="none"
             />
             <TextInput
               value={email}
               onChangeText={text => inputEmail(text)}
               style={styles.input}
               placeholder="email"
+              autoCapitalize="none"
             />
             <TouchableOpacity style={styles.submit} onPress={submitRegister}>
               <Text style={styles.register}>Register</Text>
@@ -189,8 +208,8 @@ export default function Register({ navigation }) {
               <Text style={styles.moveLogin}>Already have account ?</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
-          </>
-    }
+        </>
+      )}
     </View>
   );
 }

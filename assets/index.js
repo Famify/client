@@ -19,4 +19,5 @@ export default {
   backgroundTransparent: require("./family/transparetBackground.png"),
   ps2: require("./challenge-and-award/ps2.jpg"),
   location: require("./challenge-and-award/location.png"),
+  loading: require("./loading.gif"),
 };

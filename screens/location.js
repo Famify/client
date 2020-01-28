@@ -1,353 +1,168 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Alert, StyleSheet, Text, View, Button } from "react-native";
 import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
-import Constants from "expo-constants";
-import Picture from "../assets/index";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
-import moment from "moment";
-import { useDispatch } from "react-redux";
-import { childRegister, getAllFamily } from "../store/action/userAction";
-import * as ImagePicker from "expo-image-picker";
+  INFINITE_ANIMATION_ITERATIONS,
+  LatLng,
+  WebViewLeaflet,
+  WebViewLeafletEvents,
+  WebviewLeafletMessage,
+  AnimationType,
+  MapShapeType
+} from "react-native-webview-leaflet";
+const mapboxToken = 'pk.eyJ1IjoicG90YWxsZWd0YSIsImEiOiJjazV1eDUydHAxZTI5M2xuNWgwZWhqbmU1In0.EpMhSp3imkXRtyoJcNPX-w'
+import lodashSample from "lodash.sample";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import db from '../config/db'
+import { useSelector } from 'react-redux'
 
-export default function RegisterChild({ navigation }) {
-  const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [birthday, setBirthday] = useState(
-    moment(new Date()).format("MMMM D, YYYY")
-  );
-  const [birthdayStatus, setBirthStatus] = useState(false);
-  const [image, setImage] = useState(null);
-  const [imageSet, setStatusImageSet] = useState(false);
+const getDuration = () => Math.floor(Math.random() * 3) + 1;
+const getDelay = () => Math.floor(Math.random()) * 0.5;
+const iterationCount = "infinite";
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
+export default function App() {
+  const parent = useSelector(state => {
+    return state.user.data
+  })
+  const [locations, setLocations] = useState([])
 
-  const hideDatePicker = date => {
-    setDatePickerVisibility(false);
-    if (new Date(date) >= new Date()) {
-      alert("astagfirullah");
-    } else {
-      setBirthday(moment(new Date(date)).format(" D MMMM YYYY"));
-      setBirthStatus(true);
-    }
-  };
-
-  const handleConfirm = date => {
-    hideDatePicker(date);
-  };
-
-  const getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+  function trackLocation() {
+    db.ref('locations').on('value', function (snapshot) {
+      const object = snapshot.val()
+      const rawData = Object.values(object)
+      const data = []
+      for (let i = 0; i < rawData.length; i++) {
+        if (rawData[i].familyId == parent.familyId) {
+          let obj = {
+            position: { lat: rawData[i].latitude, lng: rawData[i].longitude },
+            icon: rawData[i].avatar,
+            name: rawData[i].name,
+          }
+          data.push(obj)
+        }
       }
+      setLocations(data)
+    })
+  }
+
+  useEffect(() => {
+    trackLocation()
+  }, [])
+
+  const [mapCenterPosition, setMapCenterPosition] = useState({
+    lat: -6.174760,
+    lng: 106.827072
+  });
+  const [webViewLeafletRef, setWebViewLeafletRef] = useState(null);
+
+  const onMessageReceived = (message) => {
+    switch (message.event) {
+      case WebViewLeafletEvents.ON_MAP_MARKER_CLICKED:
+        Alert.alert(
+          `${message.payload.mapMarkerID || "unknown"} ada disini`
+        );
+
+        break;
+      case WebViewLeafletEvents.ON_MAP_TOUCHED:
+        const position = message.payload
+          .touchLatLng;
+        Alert.alert(`Anda menyentuh posisi:`, `${position.lat}, ${position.lng}`);
+        break;
+      default:
+      // console.log("App received", message);
     }
-  };
-
-  const _pickImage = async () => {
-    getPermissionAsync();
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (!result.cancelled) {
-      setImage(result.uri);
-      setStatusImageSet(true);
-    }
-  };
-
-  const inputUsername = input => {
-    setUsername(input);
-  };
-
-  const inputPassword = input => {
-    setPassword(input);
-  };
-
-  const clearInput = () => {
-    setUsername("");
-    setPassword("");
-    setImage(null);
-    setStatusImageSet(false);
-  };
-
-  const submitChildRegister = () => {
-    if (username && password && birthday && image) {
-      let payload = {
-        username,
-        password,
-        avatar: image,
-        dateOfBirth: birthday,
-      };
-      dispatch(childRegister(payload));
-      clearInput();
-      getAllFamily();
-    } else {
-      alert("astagfirullah");
-    }
-  };
-
-  const back = () => {
-    navigation.navigate("family");
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.upperFormWrapper}>
-        <View style={{ alignItems: "flex-end" }}>
-          <TouchableOpacity
-            onPress={back}
-            style={{ height: 30, width: 30, top: -20 }}
-          >
-            <MaterialCommunityIcons name="backburger" color="white" size={30} />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.title}>Child Register</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>React Native Webview Leaflet Demo</Text>
       </View>
-      <Image
-        source={Picture.kidsBoy04}
-        style={{
-          width: "33%",
-          position: "absolute",
-          resizeMode: "contain",
-          zIndex: 1,
-          bottom: -160,
-          left: -10,
-        }}
-      />
-      <SafeAreaView style={styles.downFormWrapper}>
-        <ScrollView style={styles.scroolView}>
-          <View style={styles.downFormWrapper}>
-            <Image source={Picture.childrenChildren} style={styles.image} />
-            <TextInput
-              value={username}
-              onChangeText={text => inputUsername(text)}
-              style={styles.input}
-              placeholder="username"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="set password"
-              secureTextEntry={true}
-              value={password}
-              onChangeText={text => inputPassword(text)}
-            />
-            <View>
-              {!birthdayStatus ? (
-                <TouchableOpacity
-                  style={styles.birthBtn}
-                  onPress={showDatePicker}
-                >
-                  <AntDesign
-                    name="calendar"
-                    size={25}
-                    color="#EE7600"
-                    style={{ marginRight: 5 }}
-                  />
-                  <Text style={styles.birthday}>BirthDay</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={styles.birthBtn}
-                  onPress={showDatePicker}
-                >
-                  <AntDesign
-                    name="calendar"
-                    size={25}
-                    color="#EE7600"
-                    style={{ marginRight: 5 }}
-                  />
-                  <Text style={styles.birthday}>{birthday}</Text>
-                </TouchableOpacity>
-              )}
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-              />
-            </View>
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              {imageSet ? (
-                <TouchableOpacity onPress={_pickImage}>
-                  <Image
-                    source={{ uri: image }}
-                    style={{
-                      width: 200,
-                      height: 200,
-                      borderRadius: 30,
-                      marginTop: 15,
-                    }}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={_pickImage}>
-                  <View
-                    style={{
-                      width: 200,
-                      height: 200,
-                      borderRadius: 30,
-                      marginTop: 15,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      backgroundColor: "#efefef",
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="image-search"
-                      size={90}
-                      color="#EE7600"
-                    />
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-            <TouchableOpacity
-              style={styles.submit}
-              onPress={submitChildRegister}
-            >
-              <Text style={styles.register}>Invite</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <View style={{ flex: 1 }}>
+        {
+          <WebViewLeaflet
+            ref={(ref) => {
+              setWebViewLeafletRef(ref);
+            }}
+            backgroundColor={"green"}
+            onMessageReceived={onMessageReceived}
+            mapLayers={[
+              {
+                attribution:
+                  '&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                baseLayerIsChecked: true,
+                baseLayerName: "OpenStreetMap.Mapnik",
+                url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              },
+              {
+                baseLayerName: "Mapbox",
+                //url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                url: `https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=${mapboxToken}`,
+                attribution:
+                  "&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+              }
+            ]}
+            mapMarkers={[
+              ...locations.map(location => {
+                return {
+                  id: location.name.replace(" ", "-"),
+                  position: location.position,
+                  icon: location.icon,
+                  animation: {
+                    duration: getDuration(),
+                    delay: getDelay(),
+                    iterationCount,
+                    type: AnimationType.WAGGLE
+                  },
+                  size: [32, 32]
+                };
+              }),
+            ]}
+            mapCenterPosition={mapCenterPosition}
+            zoom={7}
+          />
+        }
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-  },
-  upperFormWrapper: {
     flex: 1,
-    width: "100%",
-    paddingVertical: "10%",
-    paddingHorizontal: "10%",
-    backgroundColor: "#EE7600",
-    borderBottomLeftRadius: 30,
+    backgroundColor: "#fff"
   },
-  title: {
-    fontFamily: "sf-semibold",
-    fontSize: 36,
+  header: {
+    height: 60,
+    backgroundColor: "dodgerblue",
+    paddingHorizontal: 10,
+    paddingTop: 30,
+    width: "100%"
+  },
+  headerText: {
     color: "white",
-    shadowColor: "white",
-    shadowOffset: {
-      width: 10,
-      height: 3,
-    },
-    shadowOpacity: 0.44,
-    shadowRadius: 3,
-    elevation: 15,
+    fontSize: 18,
+    fontWeight: "600"
   },
-  downFormWrapper: {
-    flex: 25,
-    backgroundColor: "white",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "#512DA8",
-  },
-  scroolView: {
-    flex: 25,
-    backgroundColor: "white",
-    width: "100%",
-  },
-  input: {
-    textAlign: "center",
-    borderWidth: 1,
-    width: "80%",
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    marginVertical: 10,
-    backgroundColor: "white",
-    borderColor: "#EE7600",
-    borderRadius: 100,
-    borderWidth: 1.5,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.44,
-    shadowRadius: 3,
-    elevation: 5,
-  },
-  image: {
-    width: 250,
-    height: 300,
-    resizeMode: "contain",
-    marginTop: -60,
-  },
-  submit: {
-    backgroundColor: "#EE7600",
-    width: "80%",
-    marginBottom: 20,
-    borderRadius: 100,
-    alignItems: "center",
-    marginTop: 15,
-    shadowColor: "#512DA8",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.44,
-    shadowRadius: 3,
-    elevation: 5,
-  },
-  birthBtn: {
-    justifyContent: "center",
+  mapControls: {
+    backgroundColor: "rgba(255,255,255,.5)",
+    borderRadius: 5,
+    bottom: 25,
     flexDirection: "row",
-    backgroundColor: "white",
-    width: 250,
-    borderRadius: 100,
+    justifyContent: "space-between",
+    left: 0,
+    marginHorizontal: 10,
+    padding: 7,
+    position: "absolute",
+    right: 0
+  },
+  mapButton: {
     alignItems: "center",
-    marginTop: 15,
-    shadowColor: "#512DA8",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.44,
-    shadowRadius: 3,
-    elevation: 5,
+    height: 42,
+    justifyContent: "center",
+    width: 42
   },
-  register: {
-    color: "white",
-    paddingVertical: 5,
-    fontFamily: "sf-semibold",
-    fontSize: 16,
-    letterSpacing: 1.5,
-  },
-  birthday: {
-    color: "#EE7600",
-    paddingVertical: 5,
-    fontFamily: "sf-semibold",
-    fontSize: 16,
-    letterSpacing: 1.5,
-  },
-  moveLogin: {
-    marginTop: 20,
-    fontFamily: "sf-regular",
-    fontSize: 14,
-    color: "#512DA8",
-  },
+  mapButtonEmoji: {
+    fontSize: 28
+  }
 });
