@@ -31,6 +31,7 @@ function RewardDashboard({ navigation }) {
   const history = () => {
     navigation.navigate("history reward");
   };
+  
   useEffect(() => {
     dispatch(getAllReward());
   }, []);
@@ -45,7 +46,7 @@ function RewardDashboard({ navigation }) {
         {user.role === "child" && (
           <View style={styles.historyBtn}>
             <TouchableOpacity style={styles.touchHistoryBtn} onPress={history}>
-              <View style={styles.addChallengeBtn}>
+              <View style={{ alignSelf: 'center' }}>
                 <MaterialCommunityIcons
                   name="history"
                   size={40}
