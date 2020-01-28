@@ -103,8 +103,6 @@ class Fire {
 
   // send the message to the Backend
   send = messages => {
-    console.log('ini messages', messages);
-
     for (let i = 0; i < messages.length; i++) {
       const { text, user, image } = messages[i];
       let displayedImage = image ? image : ''

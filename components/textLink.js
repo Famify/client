@@ -1,8 +1,11 @@
 import React from 'react'
 import { Text } from 'react-native'
+import { connect } from 'react-redux'
 import { withNavigation } from 'react-navigation';
 
 class TextLink extends React.Component {
+
+
   render() {
     return (
       <Text
@@ -19,4 +22,10 @@ class TextLink extends React.Component {
   }
 }
 
-export default withNavigation(TextLink)
+const mapStateToProps = state => {
+  return {
+    role: state.user.data.role
+  }
+}
+
+export default withNavigation(connect(mapStateToProps)(TextLink))
