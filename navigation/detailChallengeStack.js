@@ -1,6 +1,7 @@
 import React from "react";
-import { Text, TouchableOpacity, BackHandler } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "react-navigation-stack";
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import DetailChallenge from "../components/challengeDetail";
 import ChallengesDashboard from "../screens/challengeDashboard";
 
@@ -35,9 +36,25 @@ const detailChallengeStack = createStackNavigator(
     },
     "detail challenge": {
       screen: DetailChallenge,
-      navigationOptions: {
+      navigationOptions: ({ navigation }) => ({
         title: "Detail",
-      },
+        headerLeft: props => {
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                if (navigation.state.params.back) {
+                  navigation.navigate(`${navigation.state.params.back}`)
+                } else {
+                  navigation.navigate('challenge')
+                }
+              }}
+              style={{ marginLeft: 10 }}
+            >
+              <MaterialIcon name="arrow-back" size={30} />
+            </TouchableOpacity>
+          )
+        }
+      })
     },
   },
   {
