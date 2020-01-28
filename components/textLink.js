@@ -6,12 +6,15 @@ class TextLink extends React.Component {
   render() {
     return (
       <Text
-        title="Back"
-        style={{ textDecorationLine: 'underline' }}
         onPress={() => {
           this.props.navigation.navigate(this.props.navigateTo, { id: this.props.id, back: 'message' })
         }}
-      >{this.props.text}</Text>
+      ><Text
+        style={{ textDecorationLine: 'underline' }}
+      >
+          {this.props.text}
+        </Text>
+      </Text>
     );
   }
 }

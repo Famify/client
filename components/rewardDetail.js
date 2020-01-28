@@ -165,7 +165,8 @@ function RewardDetail({ navigation }) {
                 onPress={() => {
                   Fire.shared.send([
                     {
-                      text: `Link to reward: ${navigation.state.params.id}`,
+                      image: currentReward.image ? currentReward.image : '',
+                      text: `${currentReward.title} — link to reward: ${navigation.state.params.id}`,
                       user: {
                         _id: Fire.shared.uid,
                         familyId: user.familyId,

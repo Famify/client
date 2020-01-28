@@ -19,14 +19,14 @@ class Fire {
   init = () => {
     if (!firebase.apps.length) {
       firebase.initializeApp({
-          apiKey: FIRE_API_KEY,
-          authDomain: FIRE_AUTH_DOMAIN,
-          databaseURL: FIRE_DATABASE_URL,
-          projectId: FIRE_PROJECT_ID,
-          storageBucket: FIRE_STORAGE_BUCKET,
-          messagingSenderId: FIRE_MESSAGING_SENDER_ID
+        apiKey: FIRE_API_KEY,
+        authDomain: FIRE_AUTH_DOMAIN,
+        databaseURL: FIRE_DATABASE_URL,
+        projectId: FIRE_PROJECT_ID,
+        storageBucket: FIRE_STORAGE_BUCKET,
+        messagingSenderId: FIRE_MESSAGING_SENDER_ID
       });
-  }
+    }
   };
 
   observeAuth = () =>
@@ -51,22 +51,23 @@ class Fire {
   }
 
   parse = snapshot => {
-    let { timestamp: numberStamp, text, user } = snapshot.val()
+    let { timestamp: numberStamp, text, user, image } = snapshot.val()
+    let displayedImage = image ? image : ''
 
     const textMessage = () => {
 
       let chunks, navigateTo, id
 
-      if (text.includes(':')) {
-        chunks = text.split(':')
-        navigateTo = chunks[0].trim().includes("challenge")
-          ? "detail challenge"
-          : navigateTo = chunks[0].trim().includes("reward")
-            ? "detail reward" : null
-        id = chunks[1].trim()
-      }
+      if (text.includes(':') && text.includes('—') && text.includes('link to')) {
+        const firstChunk = text.split('—')
+        chunks = [firstChunk[0], ...firstChunk[1].split(':')]
 
-      if (text.includes('Link to')) {
+        navigateTo = chunks[1].trim().includes("challenge")
+          ? "detail challenge"
+          : navigateTo = chunks[1].trim().includes("reward")
+            ? "detail reward" : null
+        id = chunks[2].trim()
+
         return <TextLink
           navigateTo={navigateTo}
           text={text}
@@ -84,6 +85,7 @@ class Fire {
       timestamp,
       text: textMessage(),
       user,
+      image: displayedImage
     };
     return message;
   };
@@ -101,9 +103,14 @@ class Fire {
 
   // send the message to the Backend
   send = messages => {
+    console.log('ini messages', messages);
+
     for (let i = 0; i < messages.length; i++) {
-      const { text, user } = messages[i];
+      const { text, user, image } = messages[i];
+      let displayedImage = image ? image : ''
+
       const message = {
+        image: displayedImage,
         text,
         user,
         timestamp: this.timestamp,

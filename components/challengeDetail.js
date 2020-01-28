@@ -170,7 +170,8 @@ function ChallengeDetail({ navigation }) {
                 onPress={() => {
                   Fire.shared.send([
                     {
-                      text: `Link to challenge: ${navigation.state.params.id}`,
+                      image: currentChallenge.image ? currentChallenge.image : '',
+                      text: `${currentChallenge.title} — link to challenge: ${navigation.state.params.id}`,
                       user: {
                         _id: Fire.shared.uid,
                         familyId: user.familyId,
