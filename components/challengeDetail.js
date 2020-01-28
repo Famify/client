@@ -170,7 +170,6 @@ function ChallengeDetail({ navigation }) {
                 onPress={() => {
                   Fire.shared.send([
                     {
-                      // createdAt: new Date(),
                       text: `Link to challenge: ${navigation.state.params.id}`,
                       user: {
                         _id: Fire.shared.uid,
