@@ -19,7 +19,6 @@ import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
 import Fire from "../config/Fire";
-// import { connect, useSelector } from "react-redux"
 
 function ChallengeDetail({ navigation }) {
   const dispatch = useDispatch();
@@ -49,7 +48,8 @@ function ChallengeDetail({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       {challenge.loading ? (
-        <Text>Loading</Text>
+        // <Text>Loading</Text>
+        null
       ) : (
         <View
           style={{
