@@ -4,8 +4,6 @@ import { withNavigation } from 'react-navigation';
 
 class TextLink extends React.Component {
   render() {
-    console.log(this.props)
-    
     return (
       <Text
         title="Back"

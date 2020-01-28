@@ -21,10 +21,12 @@ class Chat extends React.Component {
   }
 
   render() {
+    const displayedMessages = this.state.messages.slice().sort((a, b) => b.timestamp - a.timestamp)
+
     return (
       <ImageBackground style={{ flex: 1 }} source={Picture.messageBackground}>
         <GiftedChat
-          messages={this.state.messages}
+          messages={displayedMessages}
           onSend={Fire.shared.send}
           user={this.user}
           renderUsernameOnMessage={true}
@@ -39,8 +41,10 @@ class Chat extends React.Component {
   componentDidMount() {
     Fire.shared.on(message => {
       if (message.user.familyId == this.props.familyId) {
+        console.log('---MESSAGE YG AKAN DIAPPEND---', message);
         this.setState(previousState => ({
           messages: GiftedChat.append(previousState.messages, message),
+          // messages: [...previousState.messages, message]
         }));
       }
     });
