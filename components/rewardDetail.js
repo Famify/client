@@ -11,6 +11,7 @@ import {
   claimReward,
   getAllReward,
 } from "../store/action/rewardAction";
+import { minPoin } from "../store/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,17 +22,21 @@ function RewardDetail({ navigation }) {
   const user = useSelector(state => state.user.data);
   const reward = useSelector(state => state.reward);
   const currentReward = useSelector(state => state.reward.data);
-  const token = useSelector(state => state.user.token);
 
-  const getClaimChallenge = id => {
-    dispatch(claimReward({ id, token }));
-    dispatch(getAllReward({ token }));
-    navigation.goBack();
+  const getClaimReward = async id => {
+    try {
+      await dispatch(claimReward({ id }));
+      dispatch(minPoin({ point: currentReward.points }));
+      dispatch(getAllReward());
+      navigation.goBack();
+    } catch (error) {
+      alert(error);
+    }
   };
 
   useEffect(() => {
     let id = navigation.state.params.id;
-    dispatch(getReward({ id, token }));
+    dispatch(getReward({ id }));
   }, []);
   return (
     <View style={{ flex: 1 }}>
@@ -156,7 +161,7 @@ function RewardDetail({ navigation }) {
                   shadowRadius: 11.14,
                   elevation: 17,
                 }}
-                onPress={() => getClaimChallenge(currentReward._id)}
+                onPress={() => getClaimReward(currentReward._id)}
               >
                 <Text
                   style={{

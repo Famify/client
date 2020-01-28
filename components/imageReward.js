@@ -6,7 +6,6 @@ import {
   Picker,
   Image,
   TouchableOpacity,
-  ToastAndroid,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { withNavigation } from "react-navigation";
@@ -165,11 +164,11 @@ function ImageReward({ navigation }) {
               setPoin(value);
             }}
           >
-            <Picker.Item label="5" value={5} />
-            <Picker.Item label="10" value={10} />
-            <Picker.Item label="15" value={15} />
-            <Picker.Item label="20" value={20} />
             <Picker.Item label="25" value={25} />
+            <Picker.Item label="50" value={50} />
+            <Picker.Item label="75" value={75} />
+            <Picker.Item label="100" value={100} />
+            <Picker.Item label="125" value={125} />
           </Picker>
         </View>
       </View>
