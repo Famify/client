@@ -21,10 +21,12 @@ class Chat extends React.Component {
   }
 
   render() {
+    const displayedMessages = this.state.messages.slice().sort((a, b) => b.timestamp - a.timestamp)
+
     return (
       <ImageBackground style={{ flex: 1 }} source={Picture.messageBackground}>
         <GiftedChat
-          messages={this.state.messages}
+          messages={displayedMessages}
           onSend={Fire.shared.send}
           user={this.user}
           renderUsernameOnMessage={true}
