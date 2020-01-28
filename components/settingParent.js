@@ -44,9 +44,9 @@ export default function ParentSetting({ navigation }) {
     }
   }, [user.data]);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(user.data);
-  })
+  });
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -94,7 +94,7 @@ export default function ParentSetting({ navigation }) {
   const submitHandle = () => {
     let bodyFormData = new FormData();
     bodyFormData.append("avatar", {
-      uri: pict,
+      uri: image,
       name: `${image}`,
       type: "image/jgp",
     });
@@ -106,7 +106,7 @@ export default function ParentSetting({ navigation }) {
         id: user.data._id,
       })
     );
-    navigation.navigate("family");
+    navigation.navigate("family dashboard");
     dispatch(
       getAllFamily({
         token: user.token,
