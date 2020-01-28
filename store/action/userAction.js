@@ -242,8 +242,6 @@ export const childRegister = payload => {
         data,
       });
     } catch ({ response }) {
-      console.log(response.data);
-
       let err = "";
       if (typeof response.data.error === "string") {
         err = response.data.error;
