@@ -34,7 +34,7 @@ function ChildDashboard({ navigation }) {
       avatar: "https://www.catster.com/wp-content/uploads/2018/07/Savannah-cat-long-body-shot.jpg",
       name: child.username
     }).then((data) => {
-      alert('succes add data')
+      // alert('succes add data')
     }).catch(err => {
       alert(JSON.stringify(err))
     })
