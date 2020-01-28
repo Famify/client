@@ -6,6 +6,7 @@ import {
   Picker,
   Image,
   TouchableOpacity,
+  ToastAndroid,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { withNavigation } from "react-navigation";
@@ -21,8 +22,9 @@ import * as ImagePicker from "expo-image-picker";
 
 function ImageReward({ navigation }) {
   const dispatch = useDispatch();
+  const loading = useSelector(state => state.reward.loading);
+  const error = useSelector(state => state.reward.error);
   const titleDesc = useSelector(state => state.reward.titleDesc);
-  const token = useSelector(state => state.user.token);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState();
 
@@ -60,7 +62,7 @@ function ImageReward({ navigation }) {
     bodyFormData.append("image", {
       uri: pict,
       name: `${pict}`,
-      type: "image/jgp",
+      type: "image/jpg",
     });
     bodyFormData.append("title", titleDesc.title);
     bodyFormData.append("description", titleDesc.desc);
@@ -68,10 +70,9 @@ function ImageReward({ navigation }) {
 
     let payload = {
       data: bodyFormData,
-      token,
     };
     dispatch(createReward(payload));
-    dispatch(getAllReward({ token }));
+    dispatch(getAllReward());
     setTitleDesc({});
     clearInput();
   };
