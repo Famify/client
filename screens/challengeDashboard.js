@@ -19,7 +19,6 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 function ChallengeDashboard({ navigation }) {
   const dispatch = useDispatch();
   const challengeList = useSelector(state => state.challenge.challengeList);
-  const token = useSelector(state => state.user.token);
   const user = useSelector(state => state.user);
 
   const addChallenge = () => {
@@ -50,7 +49,7 @@ function ChallengeDashboard({ navigation }) {
   };
 
   useEffect(() => {
-    dispatch(getAllChallenge({ token }));
+    dispatch(getAllChallenge());
   }, []);
 
   return (

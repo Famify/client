@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -26,11 +26,7 @@ function FamilyDashboard({ navigation }) {
   };
 
   useEffect(() => {
-    dispatch(
-      getAllFamily({
-        token: user.token,
-      })
-    );
+    dispatch(getAllFamily());
   }, []);
 
   return (
@@ -44,7 +40,11 @@ function FamilyDashboard({ navigation }) {
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.containerSafe}>
           {family.length === 0 ? (
-            <Text>No family</Text>
+            <Text
+              style={{ fontSize: 24, fontFamily: "sf-medium", color: "white" }}
+            >
+              No family
+            </Text>
           ) : (
             <FlatList
               data={family}
@@ -98,8 +98,8 @@ function FamilyDashboard({ navigation }) {
           )}
         </SafeAreaView>
       </View>
-      {user.data.role === "parent" && (
-        <View style={styles.famsBtn}>
+      <View style={styles.famsBtn}>
+        {user.data.role === "parent" && (
           <TouchableOpacity style={styles.touchFamsBtn} onPress={addFamily}>
             <View style={styles.addFamilyBtn}>
               <Ionicons
@@ -110,8 +110,8 @@ function FamilyDashboard({ navigation }) {
               />
             </View>
           </TouchableOpacity>
-        </View>
-      )}
+        )}
+      </View>
     </View>
   );
 }
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   plusIcon: {
     top: -2,
   },
-  setting : {
+  setting: {
     top: 5,
   },
   touchFamsBtn: {
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 30,
     right: 30,
-    zIndex: 99
+    zIndex: 99,
   },
   addFamilyBtn: {
     justifyContent: "center",

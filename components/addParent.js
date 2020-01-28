@@ -16,7 +16,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
-import { parentRegister2 } from "../store/action/userAction";
+import { parentRegister2, getAllFamily } from "../store/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError } from "../store/action/userAction";
 
@@ -76,7 +76,11 @@ export default function RegisterParent({ navigation }) {
   };
 
   const back = () => {
+<<<<<<< HEAD
     navigation.navigate("family parent");
+=======
+    navigation.navigate(`family ${user.data.role}`);
+>>>>>>> f7da2ec20d3323db1c839a56c5d20a9de5719a69
   };
 
   const inputUsername = input => {
@@ -92,19 +96,21 @@ export default function RegisterParent({ navigation }) {
   };
 
   const submitHandle = () => {
-    const payload = {
-      username,
-      email,
-      password,
-      dateOfBirth: birthday,
-      avatar: image,
-    };
-    dispatch(
-      parentRegister2({
-        payload,
-        token: user.token,
-      })
-    );
+    let bodyFormData = new FormData();
+    bodyFormData.append("username", username);
+    bodyFormData.append("email", email);
+    bodyFormData.append("password", password);
+    bodyFormData.append("dateOfBirth", birthday);
+    bodyFormData.append("avatar", {
+      uri: image,
+      name: `${image}`,
+      type: "image/jpg",
+    });
+    bodyFormData.append("familyId", user.data.familyId);
+    const payload = bodyFormData;
+    dispatch(parentRegister2(payload));
+    dispatch(getAllFamily());
+    back();
   };
 
   return (
@@ -157,6 +163,7 @@ export default function RegisterParent({ navigation }) {
                     inputUsername(text);
                   }}
                   value={username}
+                  autoCapitalize="none"
                 />
                 <TextInput
                   style={styles.input}
@@ -166,6 +173,7 @@ export default function RegisterParent({ navigation }) {
                     inputEmail(text);
                   }}
                   value={email}
+                  autoCapitalize="none"
                 />
                 <TextInput
                   style={styles.input}
@@ -174,6 +182,7 @@ export default function RegisterParent({ navigation }) {
                   onChangeText={text => {
                     inputPassword(text);
                   }}
+                  autoCapitalize="none"
                 />
                 <View>
                   {!birthdayStatus ? (
@@ -308,6 +317,7 @@ export default function RegisterParent({ navigation }) {
                     inputUsername(text);
                   }}
                   value={username}
+                  autoCapitalize="none"
                 />
                 <TextInput
                   style={styles.input}
@@ -317,6 +327,7 @@ export default function RegisterParent({ navigation }) {
                     inputEmail(text);
                   }}
                   value={email}
+                  autoCapitalize="none"
                 />
                 <TextInput
                   style={styles.input}
@@ -325,6 +336,7 @@ export default function RegisterParent({ navigation }) {
                   onChangeText={text => {
                     inputPassword(text);
                   }}
+                  autoCapitalize="none"
                 />
                 <View>
                   {!birthdayStatus ? (
@@ -453,6 +465,7 @@ export default function RegisterParent({ navigation }) {
                     inputUsername(text);
                   }}
                   value={username}
+                  autoCapitalize="none"
                 />
                 <TextInput
                   style={styles.input}
@@ -462,6 +475,7 @@ export default function RegisterParent({ navigation }) {
                     inputEmail(text);
                   }}
                   value={email}
+                  autoCapitalize="none"
                 />
                 <TextInput
                   style={styles.input}
@@ -470,6 +484,7 @@ export default function RegisterParent({ navigation }) {
                   onChangeText={text => {
                     inputPassword(text);
                   }}
+                  autoCapitalize="none"
                 />
                 <View>
                   {!birthdayStatus ? (

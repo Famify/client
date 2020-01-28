@@ -1,5 +1,4 @@
 import firebase from "firebase"; // 4.8.1
-import { Text } from 'react-native'
 import React from 'react'
 import {
   FIRE_API_KEY,
@@ -61,7 +60,9 @@ class Fire {
       if (text.includes(':')) {
         chunks = text.split(':')
         navigateTo = chunks[0].trim().includes("challenge")
-          ? "detail challenge" : "detail reward"
+          ? "detail challenge"
+          : navigateTo = chunks[0].trim().includes("reward")
+            ? "detail reward" : null
         id = chunks[1].trim()
       }
 
@@ -97,10 +98,9 @@ class Fire {
   get timestamp() {
     return firebase.database.ServerValue.TIMESTAMP;
   }
+
   // send the message to the Backend
   send = messages => {
-    console.log('ini message0', messages[0].user)
-    
     for (let i = 0; i < messages.length; i++) {
       const { text, user } = messages[i];
       const message = {

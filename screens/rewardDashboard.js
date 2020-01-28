@@ -18,7 +18,6 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 function RewardDashboard({ navigation }) {
   const dispatch = useDispatch();
   const reward = useSelector(state => state.reward.rewardList);
-  const token = useSelector(state => state.user.token);
   const user = useSelector(state => state.user.data);
 
   const addReward = e => {
@@ -33,7 +32,7 @@ function RewardDashboard({ navigation }) {
     navigation.navigate("history reward");
   };
   useEffect(() => {
-    dispatch(getAllReward({ token }));
+    dispatch(getAllReward());
   }, []);
 
   return (
@@ -59,7 +58,7 @@ function RewardDashboard({ navigation }) {
         )}
       </View>
       <View style={styles.bodyBottom}>
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.containerScroll}>
           {reward.length === 0 ? (
             <Text>There is no reward exist</Text>
           ) : (
@@ -143,6 +142,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     width: "100%",
+  },
+  containerScroll: {
+    marginTop: Constants.statusBarHeight,
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    width: "100%",
+    marginBottom: 20,
   },
   plusIcon: {
     top: -2,
