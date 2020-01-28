@@ -38,7 +38,8 @@ function RewardDetail({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       {reward.loading ? (
-        <Text>Loading</Text>
+        // <Text>Loading</Text>
+        null
       ) : (
         <View
           style={{
