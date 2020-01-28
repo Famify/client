@@ -76,11 +76,7 @@ export default function RegisterParent({ navigation }) {
   };
 
   const back = () => {
-<<<<<<< HEAD
-    navigation.navigate("family parent");
-=======
     navigation.navigate(`family ${user.data.role}`);
->>>>>>> f7da2ec20d3323db1c839a56c5d20a9de5719a69
   };
 
   const inputUsername = input => {

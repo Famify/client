@@ -113,11 +113,7 @@ export default function RegisterChild({ navigation }) {
   };
 
   const back = () => {
-<<<<<<< HEAD
-    navigation.navigate("family parent");
-=======
     navigation.navigate(`family ${role}`);
->>>>>>> f7da2ec20d3323db1c839a56c5d20a9de5719a69
   };
 
   return (

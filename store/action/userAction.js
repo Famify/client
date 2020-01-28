@@ -234,12 +234,15 @@ export const childRegister = payload => {
         data,
       });
     } catch ({ response }) {
+      console.log(response.data);
+      
       let err = "";
       if (typeof response.data.message.error === "string") {
         err = response.data.message.error;
       } else {
         err = response.data.message.error.join(", ");
       }
+      alert(err)
       dispatch({
         type: "CHILD_REGISTER_ERROR",
         loading: false,
@@ -303,19 +306,6 @@ export const childUpdate = payload => {
       type: "CHILD_UPDATE_LOADING",
       loading: true,
     });
-<<<<<<< HEAD
-    axios({
-      url: "/children/" + payload.id,
-      method: "PATCH",
-      data: payload.data,
-      headers: {
-        access_token: payload.token,
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then(({ data }) => {
-      alert("success register");
-=======
 
     try {
       const token = await AsyncStorage.getItem("token");
@@ -328,16 +318,10 @@ export const childUpdate = payload => {
           "Content-Type": "multipart/form-data",
         },
       });
->>>>>>> f7da2ec20d3323db1c839a56c5d20a9de5719a69
       dispatch({
         type: "CHILD_UPDATE_SUCCESS",
         loading: false,
       });
-<<<<<<< HEAD
-    })
-    .catch(error => {
-      let err = error.response.data.error.join(", ");
-=======
     } catch ({ response }) {
       let err = "";
       if (typeof response.data.message.error === "string") {
@@ -345,17 +329,12 @@ export const childUpdate = payload => {
       } else {
         err = response.data.message.error.join(", ");
       }
->>>>>>> f7da2ec20d3323db1c839a56c5d20a9de5719a69
       dispatch({
         type: "CHILD_UPDATE_ERROR",
         loading: false,
         error: err,
       });
-<<<<<<< HEAD
-    });
-=======
     }
->>>>>>> f7da2ec20d3323db1c839a56c5d20a9de5719a69
   };
 };
 
