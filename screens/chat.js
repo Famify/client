@@ -4,6 +4,7 @@ import { View, KeyboardAvoidingView, ImageBackground } from 'react-native'
 import { GiftedChat } from 'react-native-gifted-chat' // 0.3.0
 import Fire from '../config/Fire'
 import { connect } from 'react-redux'
+import Picture from '../assets'
 
 class Chat extends React.Component {
 
@@ -22,9 +23,9 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <ImageBackground 
-      style={{ flex: 1 }}
-      source={{uri:"https://cdn.pixabay.com/photo/2016/04/15/04/02/water-1330252_960_720.jpg"}}
+      <ImageBackground
+        style={{ flex: 1 }}
+        source={Picture.messageBackground}
       >
         <GiftedChat
           messages={this.state.messages}
