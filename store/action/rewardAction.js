@@ -18,6 +18,7 @@ export const createReward = payload => {
           "Content-Type": "multipart/form-data",
         },
       });
+      alert(data.message);
       dispatch({
         type: "CREATE_REWARD_SUCCESS",
         loading: false,
@@ -25,11 +26,12 @@ export const createReward = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error == "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error == "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "CREATE_REWARD_ERROR",
         loading: false,
@@ -62,11 +64,12 @@ export const getReward = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error == "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error == "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "GET_REWARD_ERROR",
         loading: false,
@@ -99,11 +102,12 @@ export const getAllReward = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error == "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error == "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "ALL_REWARD_ERROR",
         loading: false,
@@ -135,11 +139,12 @@ export const claimReward = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error == "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error == "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "CLAIM_REWARD_ERROR",
         loading: false,
@@ -171,11 +176,12 @@ export const deleteReward = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error == "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error == "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "DELETE_REWARD_ERROR",
         loading: false,

@@ -70,11 +70,12 @@ export const parentRegister = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "PARENT_REGISTER_ERROR",
         loading: false,
@@ -126,11 +127,12 @@ export const parentRegister2 = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "PARENT_REGISTER_2_ERROR",
         loading: false,
@@ -162,11 +164,12 @@ export const parentLogin = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "PARENT_LOGIN_ERROR",
         loading: false,
@@ -200,12 +203,17 @@ export const childLogin = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error)
-        dispatch({
-          type: "CHILD_LOGIN_ERROR",
-          loading: false,
-          error: err,
-        });
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
+      } else {
+        err = response.data.error.join(", ");
+      }
+      alert(err);
+      dispatch({
+        type: "CHILD_LOGIN_ERROR",
+        loading: false,
+        error: err,
+      });
     }
   };
 };
@@ -235,11 +243,12 @@ export const childRegister = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "CHILD_REGISTER_ERROR",
         loading: false,
@@ -283,11 +292,12 @@ export const getAllFamily = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "ALL_FAMILY_ERROR",
         loading: false,
@@ -321,11 +331,12 @@ export const childUpdate = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "CHILD_UPDATE_ERROR",
         loading: false,
@@ -370,11 +381,12 @@ export const parentUpdate = payload => {
       });
     } catch ({ response }) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "PARENT_UPDATE_ERROR",
         loading: false,
@@ -408,11 +420,12 @@ export const minPoin = payload => {
       });
     } catch (error) {
       let err = "";
-      if (typeof response.data.message.error === "string") {
-        err = response.data.message.error;
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
       } else {
-        err = response.data.message.error.join(", ");
+        err = response.data.error.join(", ");
       }
+      alert(err);
       dispatch({
         type: "MIN_POIN_ERROR",
         loading: false,
@@ -423,7 +436,6 @@ export const minPoin = payload => {
 };
 
 export const addPoin = payload => {
-  console.log(payload);
   return async dispatch => {
     dispatch({
       type: "ADD_POIN_LOADING",
@@ -448,7 +460,13 @@ export const addPoin = payload => {
         loading: false,
       });
     } catch (error) {
-      let err = error.response.data.message.join(", ");
+      let err = "";
+      if (typeof response.data.error === "string") {
+        err = response.data.error;
+      } else {
+        err = response.data.error.join(", ");
+      }
+      alert(err);
       dispatch({
         type: "ADD_POIN_SUCCESS",
         error: err,
