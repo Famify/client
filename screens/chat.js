@@ -1,10 +1,10 @@
 // @flow
-import React from "react";
-import { View, KeyboardAvoidingView, ImageBackground } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat"; // 0.3.0
-import Fire from "../config/Fire";
-import { connect } from "react-redux";
-import Picture from "../assets/index";
+import React from 'react'
+import { KeyboardAvoidingView, ImageBackground } from 'react-native'
+import { GiftedChat } from 'react-native-gifted-chat' // 0.3.0
+import Fire from '../config/Fire'
+import { connect } from 'react-redux'
+import Picture from '../assets'
 
 class Chat extends React.Component {
   state = {
