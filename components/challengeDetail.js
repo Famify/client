@@ -35,8 +35,9 @@ function ChallengeDetail({ navigation }) {
   const getDoneChallenge = (id, points, childId) => {
     dispatch(finishChallenge({ id }));
     dispatch(getAllChallenge());
-    dispatch(addPoin({ id, data: points, childId }));
-    navigation.goBack();
+    dispatch(addPoin({ data: points, childId }));
+    console.log(user.role);
+    navigation.navigate(`${user.role} dashboard`);
   };
 
   useEffect(() => {
