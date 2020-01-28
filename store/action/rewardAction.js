@@ -137,6 +137,20 @@ export const claimReward = payload => {
         loading: false,
         data,
       });
+      const poin = await axios({
+        url: `/children/${payload.userId}/min`,
+        method: "PATCH",
+        data: {
+          point: payload.point,
+        },
+        headers: {
+          access_token: token,
+        },
+      });
+      dispatch({
+        type: "MIN_POIN_LOADING",
+        loading: true,
+      });
     } catch ({ response }) {
       let err = "";
       if (typeof response.data.error == "string") {

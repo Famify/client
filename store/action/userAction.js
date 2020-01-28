@@ -243,7 +243,7 @@ export const childRegister = payload => {
       });
     } catch ({ response }) {
       console.log(response.data);
-      
+
       let err = "";
       if (typeof response.data.error === "string") {
         err = response.data.error;
@@ -398,45 +398,6 @@ export const parentUpdate = payload => {
   };
 };
 
-export const minPoin = payload => {
-  return async dispatch => {
-    dispatch({
-      type: "MIN_POIN_LOADING",
-      loading: true,
-    });
-
-    try {
-      const token = await AsyncStorage.getItem("token");
-      const { data } = await axios({
-        url: `/children/${payload.id}/min`,
-        method: "PATCH",
-        data: payload.data,
-        headers: {
-          access_token: token,
-        },
-      });
-      dispatch({
-        type: "MIN_POIN_SUCCESS",
-        data,
-        loading: false,
-      });
-    } catch (error) {
-      let err = "";
-      if (typeof response.data.error === "string") {
-        err = response.data.error;
-      } else {
-        err = response.data.error.join(", ");
-      }
-      alert(err);
-      dispatch({
-        type: "MIN_POIN_ERROR",
-        loading: false,
-        error: err,
-      });
-    }
-  };
-};
-
 export const addPoin = payload => {
   return async dispatch => {
     dispatch({
@@ -450,7 +411,7 @@ export const addPoin = payload => {
         url: `/children/${payload.childId}/add`,
         method: "PATCH",
         data: {
-          point: payload.points,
+          point: payload.data,
         },
         headers: {
           access_token: token,

@@ -37,14 +37,6 @@ const detailChallengeStack = createStackNavigator(
       screen: DetailChallenge,
       navigationOptions: {
         title: "Detail",
-        navigationOptions: ({ navigation }) => {
-          
-          const back = () => {
-            if (navigation.state.params.back && navigation.state.params.back === 'message') return navigation.navigate("message")
-          }
-          
-          BackHandler.addEventListener('hardwareBackPress', back())
-        }
       },
     },
   },
