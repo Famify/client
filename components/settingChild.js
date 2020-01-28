@@ -15,8 +15,9 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllFamily, childUpdate } from "../store/action/userAction";
+import { getAllFamily, childUpdate, userLogout } from "../store/action/userAction";
 import * as ImagePicker from "expo-image-picker";
+
 
 export default function RegisterChild({ navigation }) {
   const dispatch = useDispatch();
@@ -110,6 +111,11 @@ export default function RegisterChild({ navigation }) {
     navigation.navigate("family");
   };
 
+  const logout = () => {
+    dispatch(userLogout())
+    navigation.navigate('login')
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.upperFormWrapper}></View>
@@ -194,6 +200,14 @@ export default function RegisterChild({ navigation }) {
         <TouchableOpacity style={styles.submit} onPress={submitChildUpdate}>
           <Text style={styles.register}>Submit</Text>
         </TouchableOpacity>
+        <View style={{ justifyContent: 'flex-end', flex: 1 }} >
+            <TouchableOpacity
+                style={ styles.logout }
+                onPress={logout}
+              >
+              <Text style={styles.register}>logout</Text>
+            </TouchableOpacity>
+        </View>
       </SafeAreaView>
     </View>
   );
@@ -205,6 +219,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+  },
+  logout: {
+    backgroundColor: "#DB5C5D",
+    width: "40%",
+    paddingHorizontal: 40,
+    marginBottom: 20,
+    borderRadius: 100,
+    alignItems: "center",
+    marginTop: 50,
+    shadowColor: "#512DA8",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 3,
+    elevation: 5,
   },
   upperFormWrapper: {
     flex: 1,

@@ -17,6 +17,8 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { childRegister, getAllFamily } from "../store/action/userAction";
 import * as ImagePicker from "expo-image-picker";
+import { Notifications } from 'expo';
+import Toast from 'react-native-root-toast';
 
 export default function RegisterChild({ navigation }) {
   const dispatch = useDispatch();

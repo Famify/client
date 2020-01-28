@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
+import Fire from "../config/Fire"
 
 function RewardDetail({ navigation }) {
   const dispatch = useDispatch();
@@ -146,6 +147,49 @@ function RewardDetail({ navigation }) {
                 </Text>
               </View>
             </View>
+            {user.role === "parent" && (
+              <TouchableOpacity
+                style={{
+                  marginTop: 30,
+                  backgroundColor: "green",
+                  borderRadius: 20,
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 8,
+                  },
+                  shadowOpacity: 0.46,
+                  shadowRadius: 11.14,
+                  elevation: 17,
+                }}
+                onPress={() => {
+                  Fire.shared.send([
+                    {
+                      text: `Link to reward: ${navigation.state.params.id}`,
+                      user: {
+                        _id: Fire.shared.uid,
+                        familyId: user.familyId,
+                        username: user.username,
+                        avatar: user.avatar ? user.avatar : "",
+                      },
+                    },
+                  ]);
+                  navigation.navigate("message");
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                    fontFamily: "sf-semibold",
+                    letterSpacing: 2,
+                  }}
+                >
+                  Share to chat
+                </Text>
+              </TouchableOpacity>
+            )}
             {currentReward.status === true && user.role === "child" ? (
               <TouchableOpacity
                 style={{
