@@ -41,10 +41,8 @@ class Chat extends React.Component {
   componentDidMount() {
     Fire.shared.on(message => {
       if (message.user.familyId == this.props.familyId) {
-        console.log('---MESSAGE YG AKAN DIAPPEND---', message);
         this.setState(previousState => ({
           messages: GiftedChat.append(previousState.messages, message),
-          // messages: [...previousState.messages, message]
         }));
       }
     });
