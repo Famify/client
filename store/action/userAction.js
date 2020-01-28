@@ -447,10 +447,10 @@ export const addPoin = payload => {
     try {
       const token = await AsyncStorage.getItem("token");
       const { data } = await axios({
-        url: `/children/${payload.id}/add`,
+        url: `/children/${payload.childId}/add`,
         method: "PATCH",
         data: {
-          point: payload.data,
+          point: payload.points,
         },
         headers: {
           access_token: token,

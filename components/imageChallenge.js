@@ -74,7 +74,6 @@ function ImageChallenge({ navigation }) {
     dispatch(setTitleAndDescription({}));
     dispatch(getAllChallenge());
     clearInput();
-    // checkLoading();
   };
 
   return (

@@ -32,10 +32,10 @@ function ChallengeDetail({ navigation }) {
     navigation.goBack();
   };
 
-  const getDoneChallenge = (id, points) => {
+  const getDoneChallenge = (id, points, childId) => {
     dispatch(finishChallenge({ id }));
     dispatch(getAllChallenge());
-    dispatch(addPoin({ id, data: points }));
+    dispatch(addPoin({ id, data: points, childId }));
     navigation.goBack();
   };
 
@@ -226,7 +226,7 @@ function ChallengeDetail({ navigation }) {
                 </Text>
               </TouchableOpacity>
             ) : currentChallenge.status === "claimed" &&
-              user.role === "child" ? (
+              user.role === "parent" ? (
               <TouchableOpacity
                 style={{
                   marginTop: 30,
@@ -244,7 +244,8 @@ function ChallengeDetail({ navigation }) {
                 onPress={() =>
                   getDoneChallenge(
                     currentChallenge._id,
-                    currentChallenge.points
+                    currentChallenge.points,
+                    currentChallenge.childId
                   )
                 }
               >
@@ -260,12 +261,42 @@ function ChallengeDetail({ navigation }) {
                   Done
                 </Text>
               </TouchableOpacity>
+            ) : user.role === "child" &&
+              currentChallenge.status === "finished" ? (
+              <TouchableOpacity
+                style={{
+                  marginTop: 30,
+                  backgroundColor: "red",
+                  borderRadius: 20,
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 8,
+                  },
+                  shadowOpacity: 0.46,
+                  shadowRadius: 11.14,
+                  elevation: 17,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                    fontFamily: "sf-semibold",
+                    letterSpacing: 2,
+                  }}
+                >
+                  Finished
+                </Text>
+              </TouchableOpacity>
             ) : (
-              user.role === "child" && (
+              user.role === "child" &&
+              currentChallenge.status === "claimed" && (
                 <TouchableOpacity
                   style={{
                     marginTop: 30,
-                    backgroundColor: "red",
+                    backgroundColor: "yellow",
                     borderRadius: 20,
                     shadowColor: "#000",
                     shadowOffset: {
@@ -279,14 +310,14 @@ function ChallengeDetail({ navigation }) {
                 >
                   <Text
                     style={{
-                      color: "white",
+                      color: "black",
                       paddingVertical: 10,
                       paddingHorizontal: 20,
                       fontFamily: "sf-semibold",
                       letterSpacing: 2,
                     }}
                   >
-                    Finished
+                    OnProgress
                   </Text>
                 </TouchableOpacity>
               )
