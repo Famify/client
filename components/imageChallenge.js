@@ -21,8 +21,9 @@ import * as ImagePicker from "expo-image-picker";
 
 function ImageChallenge({ navigation }) {
   const dispatch = useDispatch();
+  const loading = useSelector(state => state.challenge.loading);
+  const error = useSelector(state => state.challenge.error);
   const titleDesc = useSelector(state => state.challenge.titleDesc);
-  const token = useSelector(state => state.user.token);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState();
 
@@ -61,19 +62,19 @@ function ImageChallenge({ navigation }) {
     bodyFormData.append("image", {
       uri: pict,
       name: `${pict}`,
-      type: "image/jgp",
+      type: "image/jpg",
     });
     bodyFormData.append("title", titleDesc.title);
     bodyFormData.append("description", titleDesc.desc);
     bodyFormData.append("points", poin);
     let payload = {
       data: bodyFormData,
-      token,
     };
     dispatch(createChallenge(payload));
     dispatch(setTitleAndDescription({}));
-    dispatch(getAllChallenge({ token }));
+    dispatch(getAllChallenge());
     clearInput();
+    checkLoading();
   };
 
   return (

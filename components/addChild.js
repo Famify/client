@@ -20,7 +20,7 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function RegisterChild({ navigation }) {
   const dispatch = useDispatch();
-  const token = useSelector(state => state.user.token);
+  const { role } = useSelector(state => state.user.data);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -85,30 +85,33 @@ export default function RegisterChild({ navigation }) {
     setPassword("");
     setImage(null);
     setStatusImageSet(false);
+    back();
   };
 
   const submitChildRegister = () => {
     if (username && password && birthday && image) {
+      let bodyFormData = new FormData();
+      bodyFormData.append("avatar", {
+        uri: image,
+        name: `${image}`,
+        type: "image/jpg",
+      });
+      bodyFormData.append("username", username);
+      bodyFormData.append("password", password);
+      bodyFormData.append("dateOfBirth", birthday);
       let payload = {
-        data: {
-          username,
-          password,
-          avatar: image,
-          dateOfBirth: birthday,
-        },
-        token,
+        data: bodyFormData,
       };
       dispatch(childRegister(payload));
+      dispatch(getAllFamily());
       clearInput();
-      dispatch(getAllFamily({ token }));
-      back()
     } else {
       alert("astagfirullah");
     }
   };
 
   const back = () => {
-    navigation.navigate("family");
+    navigation.navigate(`family ${role}`);
   };
 
   return (
@@ -144,6 +147,7 @@ export default function RegisterChild({ navigation }) {
               onChangeText={text => inputUsername(text)}
               style={styles.input}
               placeholder="username"
+              autoCapitalize="none"
             />
             <TextInput
               style={styles.input}
@@ -151,6 +155,7 @@ export default function RegisterChild({ navigation }) {
               secureTextEntry={true}
               value={password}
               onChangeText={text => inputPassword(text)}
+              autoCapitalize="none"
             />
             <View>
               {!birthdayStatus ? (
