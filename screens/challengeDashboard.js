@@ -75,7 +75,7 @@ function ChallengeDashboard({ navigation }) {
         />
       </View>
       <View style={styles.bodyBottom}>
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.containerBot}>
           <FlatList
             data={challengeList}
             style={{ marginTop: 50, width: "60%" }}
@@ -166,6 +166,13 @@ export default withNavigation(ChallengeDashboard);
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: Constants.statusBarHeight,
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    width: "100%",
+  },
+  containerBot: {
     marginTop: Constants.statusBarHeight,
     justifyContent: "center",
     alignItems: "center",
