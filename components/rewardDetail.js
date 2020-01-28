@@ -11,12 +11,11 @@ import {
   claimReward,
   getAllReward,
 } from "../store/action/rewardAction";
-import { minPoin } from "../store/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
-import Fire from "../config/Fire"
+import Fire from "../config/Fire";
 
 function RewardDetail({ navigation }) {
   const dispatch = useDispatch();
@@ -25,14 +24,11 @@ function RewardDetail({ navigation }) {
   const currentReward = useSelector(state => state.reward.data);
 
   const getClaimReward = async id => {
-    try {
-      await dispatch(claimReward({ id }));
-      dispatch(minPoin({ point: currentReward.points }));
-      dispatch(getAllReward());
-      navigation.goBack();
-    } catch (error) {
-      alert(error);
-    }
+    dispatch(
+      claimReward({ id, point: currentReward.points, userId: user._id })
+    );
+    dispatch(getAllReward());
+    navigation.goBack();
   };
 
   useEffect(() => {
