@@ -42,6 +42,7 @@ export default function App() {
         }
       }
       setLocations(data)
+
     })
   }
 
@@ -50,7 +51,7 @@ export default function App() {
   }, [])
 
   const [mapCenterPosition, setMapCenterPosition] = useState({
-    lat: -6.174760,
+    lat: -6.273000,
     lng: 106.827072
   });
   const [webViewLeafletRef, setWebViewLeafletRef] = useState(null);
@@ -64,10 +65,10 @@ export default function App() {
 
         break;
       case WebViewLeafletEvents.ON_MAP_TOUCHED:
-        const position = message.payload
-          .touchLatLng;
-        Alert.alert(`Anda menyentuh posisi:`, `${position.lat}, ${position.lng}`);
-        break;
+        // const position = message.payload
+        //   .touchLatLng;
+        // Alert.alert(`Anda menyentuh posisi:`, `${position.lat}, ${position.lng}`);
+        // break;
       default:
       // console.log("App received", message);
     }
@@ -76,7 +77,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>React Native Webview Leaflet Demo</Text>
+        <Text style={styles.headerText}>Your children's location</Text>
       </View>
       <View style={{ flex: 1 }}>
         {
@@ -88,18 +89,18 @@ export default function App() {
             onMessageReceived={onMessageReceived}
             mapLayers={[
               {
-                attribution:
-                  '&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-                baseLayerIsChecked: true,
-                baseLayerName: "OpenStreetMap.Mapnik",
-                url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              },
-              {
                 baseLayerName: "Mapbox",
                 //url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                baseLayerIsChecked: true,
                 url: `https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=${mapboxToken}`,
-                attribution:
-                  "&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                // attribution:
+                  // "&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+              },
+              {
+                // attribution:
+                //   '&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                baseLayerName: "OpenStreetMap.Mapnik",
+                url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               }
             ]}
             mapMarkers={[
@@ -119,7 +120,7 @@ export default function App() {
               }),
             ]}
             mapCenterPosition={mapCenterPosition}
-            zoom={7}
+            zoom={12}
           />
         }
       </View>

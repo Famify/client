@@ -165,7 +165,7 @@ class Chat extends React.Component {
 
   styles = StyleSheet.create({
     mainContainer: {
-      height: 50, marginTop: 15, paddingHorizontal: 10, justifyContent: 'space-between', flexDirection: "row", alignItems: "center"
+      height: 50, marginTop: 25, paddingHorizontal: 10, justifyContent: 'space-between', flexDirection: "row", alignItems: "center"
     },
     pickImageOptionsContainer: {
       flexDirection: "row", justifyContent: "space-around", paddingBottom: 10
