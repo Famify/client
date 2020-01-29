@@ -436,7 +436,6 @@ export const addPoin = payload => {
       });
       dispatch({
         type: "ADD_POIN_SUCCESS",
-        data,
         loading: false,
       });
     } catch (error) {

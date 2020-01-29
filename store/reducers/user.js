@@ -199,7 +199,6 @@ export function userReducer(state = initialUserState, actions) {
     case ADD_POIN_SUCCESS:
       return produce(state, newState => {
         newState.loading = actions.loading;
-        newState.data = actions.data;
       });
     case ADD_POIN_ERROR:
       return produce(state, newState => {
