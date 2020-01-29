@@ -52,12 +52,10 @@ class Fire {
 
   parse = snapshot => {
     let { timestamp: numberStamp, text, user, image } = snapshot.val()
-    let displayedImage = image ? image : ''
 
     const textMessage = () => {
 
       let chunks, navigateTo, id
-
       if (text.includes(':') && text.includes('—') && text.includes('link to')) {
         const firstChunk = text.split('—')
         chunks = [firstChunk[0], ...firstChunk[1].split(':')]
@@ -83,9 +81,9 @@ class Fire {
     const message = {
       _id,
       timestamp,
-      text: textMessage(),
-      user,
-      image: displayedImage
+      text: text ? textMessage() : '',
+      image: image ? image : '',
+      user
     };
     return message;
   };
@@ -104,6 +102,7 @@ class Fire {
   // send the message to the Backend
   send = messages => {
     for (let i = 0; i < messages.length; i++) {
+
       const { text, user, image } = messages[i];
       let displayedImage = image ? image : ''
 
@@ -116,6 +115,22 @@ class Fire {
       this.append(message);
     }
   };
+
+  sendImage = messages => {
+    for (let i = 0; i < messages.length; i++) {
+
+      const { user, image } = messages[i];
+      let displayedImage = image ? image : ''
+
+      const message = {
+        image: displayedImage,
+        user,
+        text: '',
+        timestamp: this.timestamp,
+      };
+      this.append(message);
+    }
+  }
 
   append = message => this.ref.push(message);
 
