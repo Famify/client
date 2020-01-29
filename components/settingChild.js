@@ -17,6 +17,7 @@ import {
   getAllFamily,
   childUpdate,
   userLogout,
+  checkLogin,
 } from "../store/action/userAction";
 import * as ImagePicker from "expo-image-picker";
 
@@ -39,7 +40,7 @@ export default function RegisterChild({ navigation }) {
   useEffect(() => {
     setImage(user.data.avatar);
     setStatusImageSet(true);
-    setBirthday(moment(new Date(user.data.dateOfBirth)).format("MMMM D, YYYY"));
+    setBirthday(moment((user.data.dateOfBirth)).format("MMMM D, YYYY"));
     setBirthStatus(true);
   }, []);
 
@@ -100,17 +101,13 @@ export default function RegisterChild({ navigation }) {
       };
       setDone(false);
       await dispatch(childUpdate(payload));
-      clearInput();
       await dispatch(getAllFamily());
+      await dispatch(checkLogin())
       setDone(true);
-      back();
+      navigation.navigate("family child");
     } else {
       alert("astagfirullah");
     }
-  };
-
-  const back = () => {
-    navigation.navigate("family child");
   };
 
   const logout = () => {

@@ -135,7 +135,7 @@ function TitleReward({ navigation }) {
             style={{ marginRight: 10 }}
           />
           <TouchableOpacity style={styles.date} onPress={showDate}>
-            <Text style={styles.next}>Pick Date</Text>
+            <Text style={styles.next}>Pick Deadline</Text>
           </TouchableOpacity>
           <Text
             style={{
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     color: "white",
     paddingVertical: 5,
     fontFamily: "sf-semibold",
-    fontSize: 16,
+    fontSize: 14,
     letterSpacing: 1.5,
   },
 });

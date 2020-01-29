@@ -35,7 +35,7 @@ export default function ParentSetting({ navigation }) {
   useEffect(() => {
     if (user.data.dateOfBirth) {
       setBirthday(
-        moment(new Date(user.data.dateOfBirth)).format("MMMM D, YYYY")
+        moment((user.data.dateOfBirth)).format("MMMM D, YYYY")
       );
       setBirthStatus(true);
     }

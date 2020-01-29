@@ -14,10 +14,14 @@ import Picture from "../assets/index";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
 import db from "../config/db";
-
+import {
+  checkLogin
+} from "../store/action/userAction";
+import { useDispatch } from 'react-redux'
 function ChildDashboard({ navigation }) {
-  const user = useSelector(state => state.user.data);
-
+  // const user = useSelector(state => state.user.data);
+  const dispatch = useDispatch();
+  
   const family = () => {
     navigation.navigate("family child");
   };
@@ -54,11 +58,11 @@ function ChildDashboard({ navigation }) {
   };
 
   const challenge = () => {
-    navigation.navigate("challenge child", { back: user.role });
+    navigation.navigate("challenge child", { back: child.role });
   };
 
   const reward = () => {
-    navigation.navigate("reward child", { back: user.role });
+    navigation.navigate("reward child", { back: child.role });
   };
 
   useEffect(() => {
@@ -68,9 +72,9 @@ function ChildDashboard({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={{ backgroundColor: 'white', height: 90, width: "100%", flexDirection: 'row' }}>
-      {user.avatar ? (
+      {child.avatar ? (
         <Image
-          source={{ uri: user.avatar }}
+          source={{ uri: child.avatar }}
           style={styles.circle}
         />
         ) : (
@@ -82,11 +86,11 @@ function ChildDashboard({ navigation }) {
       <View style={{ flexDirection: 'column', justifyContent: 'center', marginLeft: 5 }}>
         <Text style={styles.fontCardRole}>
           <Text style={styles.fontCardName}>
-            Hi, {user.username} !
+            Hi, {child.username} !
           </Text>
         </Text>
         <Text style={styles.fontCardRole2}>
-          {user.role}
+          {child.role}
         </Text>
       </View>
       </View>
@@ -161,7 +165,7 @@ function ChildDashboard({ navigation }) {
             }}
             onPress={() => {
               // alert("CLICK")
-              navigation.navigate("message", { back: user.role })
+              navigation.navigate("message", { back: child.role })
             }}
           >
             <LinearGradient
