@@ -118,6 +118,52 @@ export const getAllChallenge = payload => {
   };
 };
 
+export const getMyChallenge = payload => {
+  return async dispatch => {
+    dispatch({
+      type: "GET_MYCHALLENGE_LOADING",
+      loading: true,
+    });
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const id = await AsyncStorage.getItem("id");
+      const { data } = await axios({
+        url: "/tasks",
+        method: "GET",
+        headers: {
+          access_token: token,
+        },
+      });
+      let myChallenge = []
+      data.forEach( async challenge => {
+        if (id === challenge.childId) {
+          myChallenge.push(challenge)
+        }
+      });
+
+      await dispatch({
+        type: "GET_MYCHALLENGE_SUCCESS",
+        loading: false,
+        data : myChallenge,
+      });
+
+    } catch ({ response }) {
+      let err = "";
+      if (typeof response.data.error === "string") {
+        err = response.data;
+      } else {
+        err = response.data.join(", ");
+      }
+      alert(err);
+      dispatch({
+        type: "GET_MYCHALLENGE_ERROR",
+        loading: false,
+        error: err,
+      });
+    }
+  };
+};
+
 export const claimChallenge = payload => {
   return async dispatch => {
     dispatch({

@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   historyIcon: {
     top: 3,
-    right: 1.5,
+    right: -3.5,
   },
   touchHistoryBtn: {
     height: 50,
@@ -174,10 +174,13 @@ const styles = StyleSheet.create({
     elevation: 24,
   },
   historyBtn: {
-    justifyContent: "center",
+    justifyContent: "flex-end",
+    alignItems: 'flex-end',
     position: "absolute",
-    bottom: 160,
-    right: 30,
+    right: 25,
+    bottom: 120,
+    zIndex: 70,
+    width: "60%",
   },
   deadline: {
     fontFamily: "sf-light",

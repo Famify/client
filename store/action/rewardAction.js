@@ -100,7 +100,6 @@ export const getAllReward = payload => {
           access_token: token,
         },
       });
-
       dispatch({
         type: "ALL_REWARD_SUCCESS",
         loading: false,
@@ -116,6 +115,50 @@ export const getAllReward = payload => {
       alert(err);
       dispatch({
         type: "ALL_REWARD_ERROR",
+        loading: false,
+        error: err,
+      });
+    }
+  };
+};
+
+export const getMyAllReward = payload => {
+  return async dispatch => {
+    dispatch({
+      type: "GET_MYREWARD_LOADING",
+      loading: true,
+    });
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const id = await AsyncStorage.getItem("id");
+      const { data } = await axios({
+        url: "/rewards",
+        method: "GET",
+        headers: {
+          access_token: token,
+        },
+      });
+      let myRewards = []
+      data.forEach( async reward => {
+        if (id === reward.childId) {
+          myRewards.push(reward)
+        }
+      });      
+      dispatch({
+        type: "GET_MYREWARD_SUCCESS",
+        loading: false,
+        data : myRewards,
+      });
+    } catch ({ response }) {
+      let err = "";
+      if (typeof response.data.error == "string") {
+        err = response.data.error;
+      } else {
+        err = response.data.error.join(", ");
+      }
+      alert(err);
+      dispatch({
+        type: "GET_MYREWARD_ERROR",
         loading: false,
         error: err,
       });
