@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   downWraper: {
     flex: 4,
     width: "100%",
-    marginTop: -260,
+    marginTop: -270,
     marginBottom: -100,
     resizeMode: "contain",
     backgroundColor: "white",
