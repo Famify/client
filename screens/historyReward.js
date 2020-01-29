@@ -15,18 +15,17 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from 'react-redux'
 import { getMyAllReward } from '../store/action/rewardAction'
+import moment from "moment";
+
 
 function ChallengeDashboard({ navigation }) {
   const dispatch = useDispatch()
   const myRewards = useSelector(state => state.reward.myRewardList)
 
-  const addChallenge = () => {
-    navigation.navigate("add challenge");
-  };
-
   useEffect(()=>{
     dispatch(getMyAllReward())
   },[])
+
 
   const history = () => {
     navigation.navigate("history reward");
@@ -41,7 +40,7 @@ function ChallengeDashboard({ navigation }) {
             style={styles.flatlist}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => (
-                index === challenge.length -1 ? (
+                index === myRewards.length -1 ? (
                   <View style={styles.containerCardOne}>
                   <View style={styles.card}>
                     <View style={styles.cardMid}>
@@ -63,7 +62,13 @@ function ChallengeDashboard({ navigation }) {
                           CLAIM
                         </Text>
                       </View>
-                    </View>
+                      <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
+                        <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                        <Text style={styles.deadline}>
+                          { item.points } Point
+                        </Text>
+                      </View>
+                    </View>                    
                     <View
                       style={{
                         alignItems: "center",
@@ -73,14 +78,6 @@ function ChallengeDashboard({ navigation }) {
                       }}
                     >
                       <Image source={{ uri: item.image }} style={styles.image} />
-                    </View>
-                  </View>
-                  <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
-                    <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
-                      <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
-                      <Text style={styles.deadline}>
-                        { item.points } Point
-                      </Text>
                     </View>
                   </View>
                 </View>
@@ -230,8 +227,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#EDB805",
     paddingHorizontal: 20,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
+    borderRadius: 20,
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 10,
