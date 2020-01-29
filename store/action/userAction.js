@@ -457,7 +457,6 @@ export const addPoin = payload => {
 };
 
 export const checkLogin = () => async dispatch => {
-  alert('masuk')
   const token = await AsyncStorage.getItem("token");
   if (token) {
     const { data } = await axios({

@@ -87,7 +87,7 @@ function ChallengeDashboard({ navigation }) {
                     </View>
                   </View>
                   <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
-                    <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                    <MaterialCommunityIcons name="whistle" size={20} color="black" style={{ marginRight: 2 }} />
                     <Text style={styles.deadline}>
                       { item.status }
                     </Text>
@@ -130,7 +130,7 @@ function ChallengeDashboard({ navigation }) {
                     </View>
                   </View>
                   <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
-                    <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                    <MaterialCommunityIcons name="whistle" size={20} color="black" style={{ marginRight: 2 }} />
                     <Text style={styles.deadline}>
                       { item.status }
                     </Text>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyBottom: {
-    backgroundColor: "#F7CA3F",
+    backgroundColor: "#f95e5a",
     flex: 1,
     width: 600,
     // borderBottomRightRadius: 450,

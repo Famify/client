@@ -99,55 +99,55 @@ function Login({ navigation }) {
   return (
     <View style={styles.container}>
       {user.loading ? (
-        <>
-          <View style={styles.upperFormWrapper}>
-            <Text style={styles.title}>Sign In</Text>
-          </View>
-          <KeyboardAvoidingView
-            style={styles.downFormWrapper}
-            enabled
-            behavior="padding"
-          >
-            <Image source={Picture.register} style={styles.image} />
-            <TextInput
-              style={styles.input}
-              placeholder="username or email"
-              onChangeText={text => inputUsername(text)}
-              value={username}
-              autoCapitalize="none"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="password"
-              onChangeText={text => inputPassword(text)}
-              secureTextEntry={true}
-              autoCapitalize="none"
-            />
-            <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
-              <Text style={styles.login}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={moveRegister}>
-              <Text
-                style={{
-                  marginTop: 20,
-                  fontFamily: "sf-regular",
-                  fontSize: 14,
-                  color: "#512DA8",
-                }}
-              >
-                Don't have account ?
-              </Text>
-            </TouchableOpacity>
-            <Picker
-              selectedValue={loginBy}
-              style={{ height: 50, width: 140 }}
-              onValueChange={(itemValue, itemIndex) => setLoginBy(itemValue)}
-            >
-              <Picker.Item label="Parent" value="parent" />
-              <Picker.Item label="Children" value="children" />
-            </Picker>
-          </KeyboardAvoidingView>
-        </>
+         <>
+         <View style={styles.upperFormWrapper}>
+           <Text style={styles.title}>Sign In</Text>
+         </View>
+         <KeyboardAvoidingView
+           style={styles.downFormWrapper}
+           enabled
+           behavior="padding"
+         >
+           <Image source={Picture.logoFamify} style={styles.image} />
+           <TextInput
+             style={styles.input1}
+             placeholder="username or email"
+             onChangeText={text => inputUsername(text)}
+             value={username}
+             autoCapitalize="none"
+           />
+           <TextInput
+             style={styles.input}
+             placeholder="password"
+             onChangeText={text => setPassword(text)}
+             secureTextEntry={true}
+             autoCapitalize="none"
+           />
+           <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
+             <Text style={styles.login}>Login</Text>
+           </TouchableOpacity>
+           <TouchableOpacity onPress={moveRegister}>
+             <Text
+               style={{
+                 marginTop: 20,
+                 fontFamily: "sf-regular",
+                 fontSize: 14,
+                 color: "#512DA8",
+               }}
+             >
+               Don't have account ?
+             </Text>
+           </TouchableOpacity>
+           <Picker
+             selectedValue={loginBy}
+             style={{ height: 50, width: 140 }}
+             onValueChange={(itemValue, itemIndex) => setLoginBy(itemValue)}
+           >
+             <Picker.Item label="Parent" value="parent" />
+             <Picker.Item label="Children" value="children" />
+           </Picker>
+         </KeyboardAvoidingView>
+       </>
       ) : user.error ? (
         <>
           {Alert.alert(
@@ -164,9 +164,9 @@ function Login({ navigation }) {
             enabled
             behavior="padding"
           >
-            <Image source={Picture.register} style={styles.image} />
+            <Image source={Picture.logoFamify} style={styles.image} />
             <TextInput
-              style={styles.input}
+              style={styles.input1}
               placeholder="username or email"
               onChangeText={text => inputUsername(text)}
               value={username}
@@ -214,9 +214,9 @@ function Login({ navigation }) {
             enabled
             behavior="padding"
           >
-            <Image source={Picture.register} style={styles.image} />
+            <Image source={Picture.logoFamify} style={styles.image} />
             <TextInput
-              style={styles.input}
+              style={styles.input1}
               placeholder="username or email"
               onChangeText={text => inputUsername(text)}
               value={username}
@@ -320,10 +320,30 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: 250,
+    width: 280,
     height: 250,
-    position: "absolute",
-    top: -15,
+    top: -60,
+    resizeMode: 'contain'
+  },
+  input1: {
+    borderWidth: 1,
+    width: "80%",
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    marginTop: -140,
+    marginVertical: 10,
+    backgroundColor: "white",
+    borderColor: "#512DA8",
+    borderRadius: 100,
+    borderWidth: 1.5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 3,
+    elevation: 5,
   },
   submit: {
     backgroundColor: "#512DA8",

@@ -113,18 +113,18 @@ export default function Register({ navigation }) {
       {loading ? (
         <>
           <View style={styles.upperFormWrapper}>
-            <Text style={styles.title}>Sign Up</Text>
+              <Text style={styles.title}>Sign Up</Text>
           </View>
           <KeyboardAvoidingView
             style={styles.downFormWrapper}
             enabled
             behavior="padding"
           >
-            <Image source={Picture.register} style={styles.image} />
+            <Image source={Picture.logoFamify} style={styles.image} />
             <TextInput
               value={username}
               onChangeText={text => inputUsername(text)}
-              style={styles.input}
+              style={styles.input1}
               placeholder="username"
               autoCapitalize="none"
             />
@@ -160,18 +160,18 @@ export default function Register({ navigation }) {
             { cancelable: false }
           )}
           <View style={styles.upperFormWrapper}>
-            <Text style={styles.title}>Sign Up</Text>
+              <Text style={styles.title}>Sign Up</Text>
           </View>
           <KeyboardAvoidingView
             style={styles.downFormWrapper}
             enabled
             behavior="padding"
           >
-            <Image source={Picture.register} style={styles.image} />
+            <Image source={Picture.logoFamify} style={styles.image} />
             <TextInput
               value={username}
               onChangeText={text => inputUsername(text)}
-              style={styles.input}
+              style={styles.input1}
               placeholder="username"
               autoCapitalize="none"
             />
@@ -201,18 +201,18 @@ export default function Register({ navigation }) {
       ) : (
         <>
           <View style={styles.upperFormWrapper}>
-            <Text style={styles.title}>Sign Up</Text>
+              <Text style={styles.title}>Sign Up</Text>
           </View>
           <KeyboardAvoidingView
             style={styles.downFormWrapper}
             enabled
             behavior="padding"
           >
-            <Image source={Picture.register} style={styles.image} />
+            <Image source={Picture.logoFamify} style={styles.image} />
             <TextInput
               value={username}
               onChangeText={text => inputUsername(text)}
-              style={styles.input}
+              style={styles.input1}
               placeholder="username"
               autoCapitalize="none"
             />
@@ -324,11 +324,39 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 5,
   },
+  input1: {
+    borderWidth: 1,
+    width: "80%",
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    marginTop: -140,
+    marginVertical: 10,
+    backgroundColor: "white",
+    borderColor: "#512DA8",
+    borderRadius: 100,
+    borderWidth: 1.5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 3,
+    elevation: 5,
+  },
   image: {
-    width: 250,
+    width: 280,
     height: 250,
-    position: "absolute",
-    top: -15,
+    top: -60,
+    resizeMode: 'contain'
+  },
+  imageLogo: {
+    width: 100,
+    height: 250,
+    top: -25,
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    resizeMode: 'contain'
   },
   submit: {
     backgroundColor: "#512DA8",

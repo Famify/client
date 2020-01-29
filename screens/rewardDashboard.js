@@ -40,8 +40,8 @@ function RewardDashboard({ navigation }) {
     <View style={styles.container}>
       <View style={styles.bodyTop}>
         <Image
-          source={Picture.familyScreen}
-          style={{ width: "80%", resizeMode: "contain", flex: 1 }}
+          source={Picture.medal}
+          style={{ width: "100%", resizeMode: "contain", flex: 1, marginTop: 20 }}
         />
         {user.role === "child" && (
           <View style={styles.historyBtn}>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyBottom: {
-    backgroundColor: "#7E549E",
+    backgroundColor: "#fb9701",
     flex: 1,
     width: 600,
     marginTop: -50,

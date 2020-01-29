@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyBottom: {
-    backgroundColor: "#4FA5B6",
+    backgroundColor: "#b71a2b",
     flex: 1,
     width: 600,
     marginTop: -50,

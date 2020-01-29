@@ -42,7 +42,7 @@ function ParentDashboard({ navigation }) {
       <View style={{ backgroundColor: '#ff9800', height: 90, width: "100%", flexDirection: 'row' }}>
       {user.avatar ? (
         <Image
-          source={{ uri: item.avatar }}
+          source={{ uri: user.avatar }}
           style={styles.circle}
         />
         ) : (

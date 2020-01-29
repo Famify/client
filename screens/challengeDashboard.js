@@ -71,7 +71,7 @@ function ChallengeDashboard({ navigation }) {
           </View>
         )}
         <Image
-          source={Picture.familyScreen}
+          source={Picture.family1}
           style={{ width: "80%", resizeMode: "contain", flex: 1 }}
         />
       </View>
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bodyBottom: {
-    backgroundColor: "#7E549E",
+    backgroundColor: "#f95e5a",
     flex: 1,
     width: 600,
     marginTop: -50,

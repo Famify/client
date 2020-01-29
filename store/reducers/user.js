@@ -38,7 +38,6 @@ const initialUserState = {
 export function userReducer(state = initialUserState, actions) {
   switch (actions.type) {
     case "LOGIN":
-      console.log(actions)
       return produce(state, newState => {
         newState.isLogin = true;
         newState.data = actions.data;
