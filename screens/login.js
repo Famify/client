@@ -37,12 +37,7 @@ function Login({ navigation }) {
     if (user.isLogin) {
       if (user.data.role) {
         navigation.navigate(`${user.data.role} dashboard`);
-        Alert.alert(
-          `Hai! ${username} Selamat datang!`,
-          `Login ${user.data.role} Success`,
-          [{ text: "OK", onPress: () => dispatch(clearError()) }],
-          { cancelable: false }
-        );
+        dispatch(clearError())
       }
     }
   }, [user.isLogin]);
