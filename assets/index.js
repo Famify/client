@@ -22,4 +22,5 @@ export default {
   loading: require("./loading.gif"),
   loading2: require("./loading2.gif"),
   loading3: require("./loading3.gif"),
+  logoFamify: require("./famify/famifylogo.png")
 };
