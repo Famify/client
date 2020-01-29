@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import {
   View,
   Text,
@@ -21,8 +21,9 @@ import * as ImagePicker from "expo-image-picker";
 
 function ImageReward({ navigation }) {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.reward.loading);
-  const error = useSelector(state => state.reward.error);
+  const user = useSelector(state => state.user.data);
+  const family = useSelector(state => state.user.family);
+  console.log(family);
   const titleDesc = useSelector(state => state.reward.titleDesc);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState();
@@ -53,10 +54,10 @@ function ImageReward({ navigation }) {
 
   const clearInput = () => {
     setPict("");
-    navigation.navigate("reward");
+    navigation.navigate(`reward ${user.role}`);
   };
 
-  const submitReward = () => {
+  const submitReward = async () => {
     let bodyFormData = new FormData();
     bodyFormData.append("image", {
       uri: pict,
@@ -69,10 +70,11 @@ function ImageReward({ navigation }) {
 
     let payload = {
       data: bodyFormData,
+      family: family,
     };
-    dispatch(createReward(payload));
-    dispatch(getAllReward());
-    setTitleDesc({});
+    await dispatch(createReward(payload));
+    await setTitleDesc({});
+    await dispatch(getAllReward());
     clearInput();
   };
 

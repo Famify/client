@@ -142,14 +142,30 @@ export const parentRegister2 = payload => {
   };
 };
 
+async function registerForPushNotificationsAsync() {
+  try {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    if (status !== "granted") {
+      alert("No notification permissions!");
+      return;
+    }
+    let tokenExpo = await Notifications.getExpoPushTokenAsync();
+    return tokenExpo;
+  } catch (error) {
+    alert(error);
+    return;
+  }
+}
+
 export const parentLogin = payload => {
   return async dispatch => {
     dispatch({
       type: "PARENT_LOGIN_LOADING",
       loading: true,
     });
-
     try {
+      const tokenExpo = await registerForPushNotificationsAsync();
+      payload.tokenExpo = tokenExpo;
       const { data } = await axios({
         url: "/parents/signin",
         method: "POST",
@@ -187,15 +203,16 @@ export const childLogin = payload => {
     });
 
     try {
+      const tokenExpo = await registerForPushNotificationsAsync();
+      console.log(tokenExpo, "ini token device");
+      payload.tokenExpo = tokenExpo;
       const { data } = await axios({
         url: "/children/signin",
         method: "POST",
         data: payload,
       });
-
       await AsyncStorage.setItem("token", data.token);
       await AsyncStorage.setItem("role", data.child.role);
-
       dispatch({
         type: "CHILD_LOGIN_SUCCESS",
         loading: false,
@@ -242,8 +259,6 @@ export const childRegister = payload => {
         data,
       });
     } catch ({ response }) {
-      console.log(response.data);
-
       let err = "";
       if (typeof response.data.error === "string") {
         err = response.data.error;

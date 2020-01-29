@@ -44,10 +44,6 @@ export default function ParentSetting({ navigation }) {
     }
   }, [user.data]);
 
-  useEffect(() => {
-    console.log(user.data);
-  });
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -96,22 +92,17 @@ export default function ParentSetting({ navigation }) {
     bodyFormData.append("avatar", {
       uri: image,
       name: `${image}`,
-      type: "image/jgp",
+      type: "image/jpg",
     });
     bodyFormData.append("dateOfBirth", birthday);
     dispatch(
       parentUpdate({
         payload: bodyFormData,
-        token: user.token,
         id: user.data._id,
       })
     );
-    navigation.navigate("family dashboard");
-    dispatch(
-      getAllFamily({
-        token: user.token,
-      })
-    );
+    navigation.navigate("family parent");
+    dispatch(getAllFamily());
   };
 
   const logout = () => {

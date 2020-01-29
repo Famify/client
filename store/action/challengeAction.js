@@ -1,5 +1,6 @@
 import axios from "../../config/axios";
 import { AsyncStorage } from "react-native";
+import { sendNotification } from "./notification";
 
 export const createChallenge = payload => {
   return async dispatch => {
@@ -18,6 +19,11 @@ export const createChallenge = payload => {
           "Content-Type": "multipart/form-data",
         },
       });
+      await sendNotification(
+        payload.family,
+        "New Challenge created",
+        `Let's take a look for new challenge !`
+      );
       dispatch({
         type: "CREATE_CHALLENGE_SUCCESS",
         loading: false,
@@ -29,7 +35,6 @@ export const createChallenge = payload => {
       } else {
         err = response.data.join(", ");
       }
-      alert(err);
       dispatch({
         type: "CREATE_CHALLENGE_ERROR",
         loading: false,
@@ -128,6 +133,11 @@ export const claimChallenge = payload => {
           access_token: token,
         },
       });
+      await sendNotification(
+        payload.family,
+        `${data.title} Challenge has been claim`,
+        "There are still another challenge, keep fighting !"
+      );
       dispatch({
         type: "CLAIM_CHALLENGE_SUCCESS",
         loading: false,

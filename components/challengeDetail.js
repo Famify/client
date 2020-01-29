@@ -13,7 +13,7 @@ import {
   finishChallenge,
   getAllChallenge,
 } from "../store/action/challengeAction";
-import { addPoin } from "../store/action/userAction";
+import { addPoin, getAllFamily } from "../store/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo-linear-gradient";
@@ -23,34 +23,32 @@ import Fire from "../config/Fire";
 function ChallengeDetail({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.data);
+  const family = useSelector(state => state.user.family);
   const challenge = useSelector(state => state.challenge);
   const currentChallenge = useSelector(state => state.challenge.data);
 
-  const getClaimChallenge = id => {
-    dispatch(claimChallenge({ id }));
-    dispatch(getAllChallenge());
+  const getClaimChallenge = async id => {
+    await dispatch(claimChallenge({ id, family: family }));
+    await dispatch(getAllChallenge());
     navigation.goBack();
   };
 
-  const getDoneChallenge = (id, points, childId) => {
-    dispatch(finishChallenge({ id }));
-    dispatch(getAllChallenge());
-    dispatch(addPoin({ data: points, childId }));
-    console.log(user.role);
+  const getDoneChallenge = async (id, points, childId) => {
+    await dispatch(finishChallenge({ id }));
+    await dispatch(getAllChallenge());
+    await dispatch(addPoin({ data: points, childId }));
     navigation.navigate(`${user.role} dashboard`);
   };
 
   useEffect(() => {
     let id = navigation.state.params.id;
     dispatch(getChallenge({ id }));
+    dispatch(getAllFamily());
   }, []);
 
   return (
     <View style={{ flex: 1 }}>
-      {challenge.loading ? (
-        // <Text>Loading</Text>
-        null
-      ) : (
+      {challenge.loading ? null : ( // <Text>Loading</Text>
         <View
           style={{
             flex: 1,
@@ -356,16 +354,5 @@ function ChallengeDetail({ navigation }) {
     </View>
   );
 }
-
-// const mapStateToProps = state => {
-//   console.log('ini state', state.user.data);
-
-//   return {
-//     _id: state.user.data._id,
-//     familyId: state.user.data.familyId,
-//     username: state.user.data.username,
-//     avatar: state.user.data.avatar ? state.user.data.avatar : ''
-//   }
-// }
 
 export default withNavigation(ChallengeDetail);

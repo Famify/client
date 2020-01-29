@@ -17,8 +17,6 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { childRegister, getAllFamily } from "../store/action/userAction";
 import * as ImagePicker from "expo-image-picker";
-import { Notifications } from 'expo';
-import Toast from 'react-native-root-toast';
 
 export default function RegisterChild({ navigation }) {
   const dispatch = useDispatch();
@@ -90,7 +88,7 @@ export default function RegisterChild({ navigation }) {
     back();
   };
 
-  const submitChildRegister = () => {
+  const submitChildRegister = async () => {
     if (username && password && birthday && image) {
       let bodyFormData = new FormData();
       bodyFormData.append("avatar", {
@@ -104,8 +102,8 @@ export default function RegisterChild({ navigation }) {
       let payload = {
         data: bodyFormData,
       };
-      dispatch(childRegister(payload));
-      dispatch(getAllFamily());
+      await dispatch(childRegister(payload));
+      await dispatch(getAllFamily());
       clearInput();
     } else {
       alert("astagfirullah");
@@ -143,7 +141,7 @@ export default function RegisterChild({ navigation }) {
       <SafeAreaView style={styles.downFormWrapper}>
         <ScrollView style={styles.scroolView}>
           <View style={styles.downFormWrapper}>
-            <Image source={Picture.childrenChildren} style={styles.image} />
+            {/* <Image source={Picture.childrenChildren} style={styles.image} /> */}
             <TextInput
               value={username}
               onChangeText={text => inputUsername(text)}

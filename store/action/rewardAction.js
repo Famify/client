@@ -1,5 +1,6 @@
 import axios from "../../config/axios";
 import { AsyncStorage } from "react-native";
+import { sendNotification } from "./notification";
 
 export const createReward = payload => {
   return async dispatch => {
@@ -19,6 +20,11 @@ export const createReward = payload => {
         },
       });
       alert(data.message);
+      sendNotification(
+        payload.family,
+        "New Reward Post !",
+        "Let's take a look to new reward !"
+      );
       dispatch({
         type: "CREATE_REWARD_SUCCESS",
         loading: false,

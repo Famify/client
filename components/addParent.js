@@ -91,7 +91,7 @@ export default function RegisterParent({ navigation }) {
     setPassword(input);
   };
 
-  const submitHandle = () => {
+  const submitHandle = async () => {
     let bodyFormData = new FormData();
     bodyFormData.append("username", username);
     bodyFormData.append("email", email);
@@ -104,8 +104,8 @@ export default function RegisterParent({ navigation }) {
     });
     bodyFormData.append("familyId", user.data.familyId);
     const payload = bodyFormData;
-    dispatch(parentRegister2(payload));
-    dispatch(getAllFamily());
+    await dispatch(parentRegister2(payload));
+    await dispatch(getAllFamily());
     back();
   };
 
@@ -151,7 +151,7 @@ export default function RegisterParent({ navigation }) {
             />
             <ScrollView style={styles.scroolView}>
               <View style={styles.downFormWrapper}>
-                <Image source={Picture.parentParent} style={styles.image} />
+                {/* <Image source={Picture.parentParent} style={styles.image} /> */}
                 <TextInput
                   style={styles.input}
                   placeholder="username"
@@ -305,7 +305,7 @@ export default function RegisterParent({ navigation }) {
             />
             <ScrollView style={styles.scroolView}>
               <View style={styles.downFormWrapper}>
-                <Image source={Picture.parentParent} style={styles.image} />
+                {/* <Image source={Picture.parentParent} style={styles.image} /> */}
                 <TextInput
                   style={styles.input}
                   placeholder="username"
@@ -453,7 +453,7 @@ export default function RegisterParent({ navigation }) {
             />
             <ScrollView style={styles.scroolView}>
               <View style={styles.downFormWrapper}>
-                <Image source={Picture.parentParent} style={styles.image} />
+                {/* <Image source={Picture.parentParent} style={styles.image} /> */}
                 <TextInput
                   style={styles.input}
                   placeholder="username"
