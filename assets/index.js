@@ -20,4 +20,6 @@ export default {
   ps2: require("./challenge-and-award/ps2.jpg"),
   location: require("./challenge-and-award/location.png"),
   loading: require("./loading.gif"),
+  loading2: require("./loading2.gif"),
+  loading3: require("./loading3.gif"),
 };

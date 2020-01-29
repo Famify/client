@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import {
   View,
   Text,
@@ -18,14 +18,16 @@ import {
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import Picture from "../assets/index";
 
 function ImageReward({ navigation }) {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.reward.loading);
-  const error = useSelector(state => state.reward.error);
+  const user = useSelector(state => state.user.data);
+  const family = useSelector(state => state.user.family);
   const titleDesc = useSelector(state => state.reward.titleDesc);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState();
+  const [done, setDone] = useState(true);
 
   const getPermissionAsync = async () => {
     if (Constants.platform.android) {
@@ -53,10 +55,10 @@ function ImageReward({ navigation }) {
 
   const clearInput = () => {
     setPict("");
-    navigation.navigate("reward");
+    navigation.navigate(`reward ${user.role}`);
   };
 
-  const submitReward = () => {
+  const submitReward = async () => {
     let bodyFormData = new FormData();
     bodyFormData.append("image", {
       uri: pict,
@@ -69,12 +71,42 @@ function ImageReward({ navigation }) {
 
     let payload = {
       data: bodyFormData,
+      family: family,
     };
-    dispatch(createReward(payload));
-    dispatch(getAllReward());
-    setTitleDesc({});
+    setDone(false);
+    await dispatch(createReward(payload));
+    await setTitleDesc({});
+    await dispatch(getAllReward());
+    setDone(true);
     clearInput();
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View

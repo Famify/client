@@ -30,6 +30,7 @@ export default function ParentSetting({ navigation }) {
   const [birthdayStatus, setBirthStatus] = useState(false);
   const [image, setImage] = useState(null);
   const [imageSet, setStatusImageSet] = useState(false);
+  const [done, setDone] = useState(true);
 
   useEffect(() => {
     if (user.data.dateOfBirth) {
@@ -43,10 +44,6 @@ export default function ParentSetting({ navigation }) {
       setStatusImageSet(true);
     }
   }, [user.data]);
-
-  useEffect(() => {
-    console.log(user.data);
-  });
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -91,33 +88,57 @@ export default function ParentSetting({ navigation }) {
     }
   };
 
-  const submitHandle = () => {
+  const submitHandle = async () => {
     let bodyFormData = new FormData();
     bodyFormData.append("avatar", {
       uri: image,
       name: `${image}`,
-      type: "image/jgp",
+      type: "image/jpg",
     });
     bodyFormData.append("dateOfBirth", birthday);
-    dispatch(
+    setDone(false);
+    await dispatch(
       parentUpdate({
         payload: bodyFormData,
-        token: user.token,
         id: user.data._id,
       })
     );
-    navigation.navigate("family dashboard");
-    dispatch(
-      getAllFamily({
-        token: user.token,
-      })
-    );
+    await dispatch(getAllFamily());
+    setDone(true);
+    navigation.navigate("family parent");
   };
 
   const logout = () => {
     dispatch(userLogout());
     navigation.navigate("login");
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

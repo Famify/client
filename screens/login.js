@@ -26,6 +26,7 @@ function Login({ navigation }) {
   const [password, setPassword] = useState("");
   const [loginBy, setLoginBy] = useState("parent");
   const user = useSelector(state => state.user);
+  const [done, setDone] = useState(true);
 
   const moveRegister = () => {
     dispatch(clearError());
@@ -46,16 +47,18 @@ function Login({ navigation }) {
     }
   }, [user.isLogin]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const payload = {
       identity: username,
       password,
     };
+    setDone(false);
     if (loginBy === "parent") {
-      dispatch(parentLogin(payload));
+      await dispatch(parentLogin(payload));
     } else {
-      dispatch(childLogin(payload));
+      await dispatch(childLogin(payload));
     }
+    setDone(true);
   };
 
   const inputUsername = input => {
@@ -65,6 +68,33 @@ function Login({ navigation }) {
   const inputPassword = input => {
     setPassword(input);
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

@@ -24,10 +24,10 @@ function RewardDetail({ navigation }) {
   const currentReward = useSelector(state => state.reward.data);
 
   const getClaimReward = async id => {
-    dispatch(
+    await dispatch(
       claimReward({ id, point: currentReward.points, userId: user._id })
     );
-    dispatch(getAllReward());
+    await dispatch(getAllReward());
     navigation.goBack();
   };
 
@@ -37,10 +37,7 @@ function RewardDetail({ navigation }) {
   }, []);
   return (
     <View style={{ flex: 1 }}>
-      {reward.loading ? (
-        // <Text>Loading</Text>
-        null
-      ) : (
+      {reward.loading ? null : (
         <View
           style={{
             flex: 1,
@@ -162,7 +159,7 @@ function RewardDetail({ navigation }) {
                 onPress={() => {
                   Fire.shared.send([
                     {
-                      image: currentReward.image ? currentReward.image : '',
+                      image: currentReward.image ? currentReward.image : "",
                       text: `${currentReward.title} — link to reward: ${navigation.state.params.id}`,
                       user: {
                         _id: Fire.shared.uid,

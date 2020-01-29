@@ -3,11 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   Image,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView,
 } from "react-native";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
@@ -15,13 +13,15 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllFamily, childUpdate, userLogout } from "../store/action/userAction";
+import {
+  getAllFamily,
+  childUpdate,
+  userLogout,
+} from "../store/action/userAction";
 import * as ImagePicker from "expo-image-picker";
-
 
 export default function RegisterChild({ navigation }) {
   const dispatch = useDispatch();
-  const token = useSelector(state => state.user.token);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [birthday, setBirthday] = useState(
     moment(new Date()).format("MMMM D, YYYY")
@@ -30,6 +30,7 @@ export default function RegisterChild({ navigation }) {
   const [image, setImage] = useState(null);
   const [imageSet, setStatusImageSet] = useState(false);
   const user = useSelector(state => state.user);
+  const [done, setDone] = useState(true);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -84,23 +85,24 @@ export default function RegisterChild({ navigation }) {
     setStatusImageSet(false);
   };
 
-  const submitChildUpdate = () => {
+  const submitChildUpdate = async () => {
     if (birthday && image) {
       let bodyFormData = new FormData();
       bodyFormData.append("avatar", {
-        uri: pict,
+        uri: image,
         name: `${image}`,
         type: "image/jgp",
       });
       bodyFormData.append("dateOfBirth", birthday);
       let payload = {
         data: bodyFormData,
-        token,
         id: user.data._id,
       };
-      dispatch(childUpdate(payload));
+      setDone(false);
+      await dispatch(childUpdate(payload));
       clearInput();
-      dispatch(getAllFamily({ token }));
+      await dispatch(getAllFamily());
+      setDone(true);
       back();
     } else {
       alert("astagfirullah");
@@ -108,12 +110,39 @@ export default function RegisterChild({ navigation }) {
   };
 
   const back = () => {
-    navigation.navigate("family");
+    navigation.navigate("family child");
   };
 
   const logout = () => {
-    dispatch(userLogout())
-    navigation.navigate('login')
+    dispatch(userLogout());
+    navigation.navigate("login");
+  };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
   }
 
   return (
@@ -200,13 +229,10 @@ export default function RegisterChild({ navigation }) {
         <TouchableOpacity style={styles.submit} onPress={submitChildUpdate}>
           <Text style={styles.register}>Submit</Text>
         </TouchableOpacity>
-        <View style={{ justifyContent: 'flex-end', flex: 1 }} >
-            <TouchableOpacity
-                style={ styles.logout }
-                onPress={logout}
-              >
-              <Text style={styles.register}>logout</Text>
-            </TouchableOpacity>
+        <View style={{ justifyContent: "flex-end", flex: 1 }}>
+          <TouchableOpacity style={styles.logout} onPress={logout}>
+            <Text style={styles.register}>logout</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </View>

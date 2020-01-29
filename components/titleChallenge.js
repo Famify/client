@@ -156,7 +156,7 @@ function TitleChallenge({ navigation }) {
           )}
         </View>
       </View>
-      <View style={{ flex: 1 / 3, width: "80%", alignItems: "flex-end" }}>
+      <View style={{ flex: 1, width: "80%", alignItems: "flex-end" }}>
         <TouchableOpacity style={styles.submit} onPress={nextSection}>
           <Text style={styles.next}>Next</Text>
         </TouchableOpacity>
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     maxWidth: "80%",
     width: "80%",
     flexWrap: "wrap",
-    height: 300,
+    height: 100,
     paddingTop: 10,
     paddingHorizontal: 15,
     marginVertical: 10,

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,44 +13,75 @@ import {
   finishChallenge,
   getAllChallenge,
 } from "../store/action/challengeAction";
-import { addPoin } from "../store/action/userAction";
+import { addPoin, getAllFamily } from "../store/action/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
 import Fire from "../config/Fire";
+import Picture from "../assets/index";
 
 function ChallengeDetail({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.data);
+  const family = useSelector(state => state.user.family);
   const challenge = useSelector(state => state.challenge);
   const currentChallenge = useSelector(state => state.challenge.data);
+  const [done, setDone] = useState(true);
 
-  const getClaimChallenge = id => {
-    dispatch(claimChallenge({ id }));
-    dispatch(getAllChallenge());
+  const getClaimChallenge = async id => {
+    setDone(false);
+    await dispatch(claimChallenge({ id, family: family }));
+    await dispatch(getAllChallenge());
+    setDone(true);
     navigation.goBack();
   };
 
-  const getDoneChallenge = (id, points, childId) => {
-    dispatch(finishChallenge({ id }));
-    dispatch(getAllChallenge());
-    dispatch(addPoin({ data: points, childId }));
-    console.log(user.role);
+  const getDoneChallenge = async (id, points, childId) => {
+    setDone(false);
+    await dispatch(finishChallenge({ id }));
+    await dispatch(getAllChallenge());
+    await dispatch(addPoin({ data: points, childId }));
+    setDone(true);
     navigation.navigate(`${user.role} dashboard`);
   };
 
   useEffect(() => {
     let id = navigation.state.params.id;
     dispatch(getChallenge({ id }));
+    dispatch(getAllFamily());
   }, []);
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>
-      {challenge.loading ? (
-        // <Text>Loading</Text>
-        null
-      ) : (
+      {challenge.loading ? null : (
         <View
           style={{
             flex: 1,
@@ -356,16 +387,5 @@ function ChallengeDetail({ navigation }) {
     </View>
   );
 }
-
-// const mapStateToProps = state => {
-//   console.log('ini state', state.user.data);
-
-//   return {
-//     _id: state.user.data._id,
-//     familyId: state.user.data.familyId,
-//     username: state.user.data.username,
-//     avatar: state.user.data.avatar ? state.user.data.avatar : ''
-//   }
-// }
 
 export default withNavigation(ChallengeDetail);
