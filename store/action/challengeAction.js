@@ -1,5 +1,6 @@
 import axios from "../../config/axios";
 import { AsyncStorage } from "react-native";
+import { Logs } from "expo";
 
 export const createChallenge = payload => {
   return async dispatch => {
@@ -106,6 +107,52 @@ export const getAllChallenge = payload => {
       alert(err);
       dispatch({
         type: "ALL_CHALLENGE_ERROR",
+        loading: false,
+        error: err,
+      });
+    }
+  };
+};
+
+export const getMyChallenge = payload => {
+  return async dispatch => {
+    dispatch({
+      type: "GET_MYCHALLENGE_LOADING",
+      loading: true,
+    });
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const id = await AsyncStorage.getItem("id");
+      const { data } = await axios({
+        url: "/tasks",
+        method: "GET",
+        headers: {
+          access_token: token,
+        },
+      });
+      let myChallenge = []
+      data.forEach( async challenge => {
+        if (id === challenge.childId) {
+          myChallenge.push(challenge)
+        }
+      });
+
+      await dispatch({
+        type: "GET_MYCHALLENGE_SUCCESS",
+        loading: false,
+        data : myChallenge,
+      });
+
+    } catch ({ response }) {
+      let err = "";
+      if (typeof response.data.error === "string") {
+        err = response.data;
+      } else {
+        err = response.data.join(", ");
+      }
+      alert(err);
+      dispatch({
+        type: "GET_MYCHALLENGE_ERROR",
         loading: false,
         error: err,
       });

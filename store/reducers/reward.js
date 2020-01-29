@@ -23,6 +23,7 @@ const initialValueReward = {
   loading: false,
   error: [],
   rewardList: [],
+  myRewardList: [],
   message: "",
   titleDesc: {},
 };
@@ -55,6 +56,21 @@ export function rewardReducers(state = initialValueReward, actions) {
         newState.message = actions.message;
       });
     case GET_REWARD_ERROR:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.error = actions.error;
+      });
+    case "GET_MYREWARD_LOADING":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+      });
+    case "GET_MYREWARD_SUCCESS":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.myRewardList = actions.data;
+        newState.message = actions.message;
+      });
+    case "GET_MYREWARD_ERROR":
       return produce(state, newState => {
         newState.loading = actions.loading;
         newState.error = actions.error;
