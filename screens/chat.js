@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import Picture from '../assets'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import * as ImagePicker from "expo-image-picker"
+import axios from "../config/axios"
+import { AsyncStorage } from "react-native"
 
 class Chat extends React.Component {
   state = {
@@ -32,21 +34,14 @@ class Chat extends React.Component {
     }
   }
 
-  // _pickImage = async () => {
-  //   this.getPermissionAsync();
-  //   this.setState({ renderPickImageActive: true })
-  // }
-
   cameraPick = async () => {
     let cameraPick = await ImagePicker.launchCameraAsync({
       allowsEditing: true
     })
 
     if (!cameraPick.cancelled) {
-      alert(JSON.stringify(cameraPick))
       this.setState({ renderPickImageActive: false })
-      // setImage(result.uri);
-      // setStatusImageSet(true);
+      this.postImage(cameraPick.uri)
     }
   }
 
@@ -59,16 +54,46 @@ class Chat extends React.Component {
     });
 
     if (!libraryPick.cancelled) {
-      alert(JSON.stringify(libraryPick))
       this.setState({ renderPickImageActive: false })
-      // setImage(result.uri);
-      // setStatusImageSet(true);
+      this.postImage(libraryPick.uri)
     }
   }
 
-  postImage = (imageUri) => {
-    let formData = new FormData()
-    formData.append()
+  postImage = async (imageUri) => {
+    try {
+      if (imageUri) {
+        let data = new FormData()
+        data.append('image', {
+          uri: imageUri,
+          name: `${imageUri}`,
+          type: "image/jpg"
+        })
+
+        const token = await AsyncStorage.getItem("token")
+        const response = await axios({
+          url: "/image",
+          method: "POST",
+          data,
+          headers: {
+            access_token: token,
+            "Content-Type": "multipart/form data"
+          }
+        })
+
+        Fire.shared.sendImage([
+          {
+            image: response.data,
+            user: this.user
+          }
+        ])
+
+      } else {
+        alert('Gambar harus dimasukkan.')
+      }
+
+    } catch (error) {
+      alert(JSON.stringify(error))
+    }
   }
 
   renderPickImageOptions = () => {
