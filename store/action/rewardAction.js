@@ -132,22 +132,16 @@ export const getMyAllReward = payload => {
       const token = await AsyncStorage.getItem("token");
       const id = await AsyncStorage.getItem("id");
       const { data } = await axios({
-        url: "/rewards",
+        url: "/children/user",
         method: "GET",
         headers: {
           access_token: token,
         },
       });
-      let myRewards = []
-      data.forEach( async reward => {
-        if (id === reward.childId) {
-          myRewards.push(reward)
-        }
-      });      
       dispatch({
         type: "GET_MYREWARD_SUCCESS",
         loading: false,
-        data : myRewards,
+        data : data.rewardsHistory,
       });
     } catch ({ response }) {
       let err = "";

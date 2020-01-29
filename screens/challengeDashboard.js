@@ -189,7 +189,6 @@ const styles = StyleSheet.create({
   },
   historyIcon: {
     top: 3,
-    right: 1.5,
   },
   touchHistoryBtn: {
     height: 50,
@@ -210,7 +209,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     position: "absolute",
     right: 25,
-    bottom: 120,
+    bottom: 15,
     zIndex: 70,
     width: "60%",
   },
