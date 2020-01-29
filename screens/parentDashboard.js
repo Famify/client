@@ -39,6 +39,32 @@ function ParentDashboard({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={{ backgroundColor: '#ff9800', height: 90, width: "100%", flexDirection: 'row' }}>
+      {user.avatar ? (
+        <Image
+          source={{ uri: item.avatar }}
+          style={styles.circle}
+        />
+        ) : (
+        <Image
+          source={{ uri: "https://storage.googleapis.com/famify_bucket/1580270232285-default.png" }}
+          style={styles.circle}
+        />
+      )}
+      <View style={{ flexDirection: 'column' }}>
+        <Text style={styles.fontCardRole}>
+          Hello,
+        </Text>
+        <View style={{ flexDirection: 'row' }} >
+          <Text style={styles.fontCardName}>
+            {user.username}
+          </Text>
+        </View>
+        <Text style={styles.fontCardRole2}>
+          you're a {user.role}
+        </Text>
+      </View>
+      </View>
       <LinearGradient
         style={styles.topWrapper}
         colors={["white", "white"]}
@@ -216,5 +242,31 @@ const styles = StyleSheet.create({
     fontFamily: "sf-medium",
     letterSpacing: 2,
     color: "white",
+  },
+  circle: {
+    backgroundColor: "white",
+    height: 60,
+    width: 60,
+    borderRadius: 100,
+    marginLeft: 10,
+    marginTop: 15
+  },
+  fontCardName: {
+    fontFamily: "sf-semibold",
+    fontSize: 30,
+    marginTop: -25,
+    marginLeft: 5
+  },
+  fontCardRole: {
+    fontFamily: "sf-semibold",
+    fontSize: 20,
+    marginTop: 5,
+    marginLeft: 5
+  },
+  fontCardRole2: {
+    fontFamily: "sf-semibold",
+    fontSize: 15,
+    marginTop: -25,
+    marginLeft: 5
   },
 });
