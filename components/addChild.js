@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
+import { AppLoading } from "expo";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -17,8 +18,6 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { childRegister, getAllFamily } from "../store/action/userAction";
 import * as ImagePicker from "expo-image-picker";
-import { Notifications } from 'expo';
-import Toast from 'react-native-root-toast';
 
 export default function RegisterChild({ navigation }) {
   const dispatch = useDispatch();
@@ -32,6 +31,7 @@ export default function RegisterChild({ navigation }) {
   const [birthdayStatus, setBirthStatus] = useState(false);
   const [image, setImage] = useState(null);
   const [imageSet, setStatusImageSet] = useState(false);
+  const [done, setDone] = useState(true);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -87,10 +87,11 @@ export default function RegisterChild({ navigation }) {
     setPassword("");
     setImage(null);
     setStatusImageSet(false);
+    setDone(true);
     back();
   };
 
-  const submitChildRegister = () => {
+  const submitChildRegister = async () => {
     if (username && password && birthday && image) {
       let bodyFormData = new FormData();
       bodyFormData.append("avatar", {
@@ -104,8 +105,9 @@ export default function RegisterChild({ navigation }) {
       let payload = {
         data: bodyFormData,
       };
-      dispatch(childRegister(payload));
-      dispatch(getAllFamily());
+      setDone(false);
+      await dispatch(childRegister(payload));
+      await dispatch(getAllFamily());
       clearInput();
     } else {
       alert("astagfirullah");
@@ -115,6 +117,33 @@ export default function RegisterChild({ navigation }) {
   const back = () => {
     navigation.navigate(`family ${role}`);
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -143,7 +172,7 @@ export default function RegisterChild({ navigation }) {
       <SafeAreaView style={styles.downFormWrapper}>
         <ScrollView style={styles.scroolView}>
           <View style={styles.downFormWrapper}>
-            <Image source={Picture.childrenChildren} style={styles.image} />
+            {/* <Image source={Picture.childrenChildren} style={styles.image} /> */}
             <TextInput
               value={username}
               onChangeText={text => inputUsername(text)}

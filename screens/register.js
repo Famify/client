@@ -23,6 +23,7 @@ export default function Register({ navigation }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [done, setDone] = useState(true);
 
   const dispatch = useDispatch();
   const { register, isLogin, loading, error, data } = useSelector(
@@ -69,14 +70,43 @@ export default function Register({ navigation }) {
     setPassword(input);
   };
 
-  const submitRegister = () => {
+  const submitRegister = async () => {
     let payload = {
       username,
       email,
       password,
     };
+    setDone(false);
     dispatch(parentRegister(payload));
+    setDone(true);
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

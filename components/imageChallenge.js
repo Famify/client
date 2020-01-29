@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,8 @@ import {
   setTitleAndDescription,
   getAllChallenge,
 } from "../store/action/challengeAction";
+import Picture from "../assets/index";
+import { getAllFamily } from "../store/action/userAction";
 import { withNavigation } from "react-navigation";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
@@ -21,11 +23,15 @@ import * as ImagePicker from "expo-image-picker";
 
 function ImageChallenge({ navigation }) {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.challenge.loading);
-  const error = useSelector(state => state.challenge.error);
+  const family = useSelector(state => state.user.family);
   const titleDesc = useSelector(state => state.challenge.titleDesc);
   const [pict, setPict] = useState("");
-  const [poin, setPoin] = useState();
+  const [poin, setPoin] = useState(5);
+  const [done, setDone] = useState(true);
+
+  useEffect(() => {
+    dispatch(getAllFamily());
+  }, []);
 
   const getPermissionAsync = async () => {
     if (Constants.platform.android) {
@@ -54,10 +60,11 @@ function ImageChallenge({ navigation }) {
   const clearInput = () => {
     setPoin(5);
     setPict("");
+    setDone(true);
     navigation.navigate("challenge");
   };
 
-  const submitChallenge = () => {
+  const submitChallenge = async () => {
     let bodyFormData = new FormData();
     bodyFormData.append("image", {
       uri: pict,
@@ -69,12 +76,41 @@ function ImageChallenge({ navigation }) {
     bodyFormData.append("points", poin);
     let payload = {
       data: bodyFormData,
+      family: family,
     };
-    dispatch(createChallenge(payload));
-    dispatch(setTitleAndDescription({}));
-    dispatch(getAllChallenge());
+    setDone(false);
+    await dispatch(createChallenge(payload));
+    await dispatch(setTitleAndDescription({}));
+    await dispatch(getAllChallenge());
     clearInput();
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View
