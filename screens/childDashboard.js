@@ -35,7 +35,7 @@ function ChildDashboard({ navigation }) {
         avatar: child.avatar,
         name: child.username,
       })
-      .then(data => {})
+      .then(data => { })
       .catch(err => {
         alert(JSON.stringify(err));
       });
@@ -136,7 +136,10 @@ function ChildDashboard({ navigation }) {
             style={{
               width: "90%",
             }}
-            onPress={() => navigation.navigate("message", { back: user.role })}
+            onPress={() => {
+              // alert("CLICK")
+              navigation.navigate("message", { back: user.role })
+            }}
           >
             <LinearGradient
               style={styles.gradientChat}
