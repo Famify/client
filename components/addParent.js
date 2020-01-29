@@ -33,6 +33,7 @@ export default function RegisterParent({ navigation }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [done, setDone] = useState(true);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -104,10 +105,39 @@ export default function RegisterParent({ navigation }) {
     });
     bodyFormData.append("familyId", user.data.familyId);
     const payload = bodyFormData;
+    setDone(false);
     await dispatch(parentRegister2(payload));
     await dispatch(getAllFamily());
+    setDone(true);
     back();
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

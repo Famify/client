@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
+import { AppLoading } from "expo";
 import Constants from "expo-constants";
 import Picture from "../assets/index";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -30,6 +31,7 @@ export default function RegisterChild({ navigation }) {
   const [birthdayStatus, setBirthStatus] = useState(false);
   const [image, setImage] = useState(null);
   const [imageSet, setStatusImageSet] = useState(false);
+  const [done, setDone] = useState(true);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -85,6 +87,7 @@ export default function RegisterChild({ navigation }) {
     setPassword("");
     setImage(null);
     setStatusImageSet(false);
+    setDone(true);
     back();
   };
 
@@ -102,6 +105,7 @@ export default function RegisterChild({ navigation }) {
       let payload = {
         data: bodyFormData,
       };
+      setDone(false);
       await dispatch(childRegister(payload));
       await dispatch(getAllFamily());
       clearInput();
@@ -113,6 +117,33 @@ export default function RegisterChild({ navigation }) {
   const back = () => {
     navigation.navigate(`family ${role}`);
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

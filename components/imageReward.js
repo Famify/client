@@ -18,15 +18,16 @@ import {
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import Picture from "../assets/index";
 
 function ImageReward({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.data);
   const family = useSelector(state => state.user.family);
-  console.log(family);
   const titleDesc = useSelector(state => state.reward.titleDesc);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState();
+  const [done, setDone] = useState(true);
 
   const getPermissionAsync = async () => {
     if (Constants.platform.android) {
@@ -72,11 +73,40 @@ function ImageReward({ navigation }) {
       data: bodyFormData,
       family: family,
     };
+    setDone(false);
     await dispatch(createReward(payload));
     await setTitleDesc({});
     await dispatch(getAllReward());
+    setDone(true);
     clearInput();
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View

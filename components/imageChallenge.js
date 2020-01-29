@@ -13,6 +13,7 @@ import {
   setTitleAndDescription,
   getAllChallenge,
 } from "../store/action/challengeAction";
+import Picture from "../assets/index";
 import { getAllFamily } from "../store/action/userAction";
 import { withNavigation } from "react-navigation";
 import { Ionicons } from "@expo/vector-icons";
@@ -26,6 +27,7 @@ function ImageChallenge({ navigation }) {
   const titleDesc = useSelector(state => state.challenge.titleDesc);
   const [pict, setPict] = useState("");
   const [poin, setPoin] = useState(5);
+  const [done, setDone] = useState(true);
 
   useEffect(() => {
     dispatch(getAllFamily());
@@ -58,6 +60,7 @@ function ImageChallenge({ navigation }) {
   const clearInput = () => {
     setPoin(5);
     setPict("");
+    setDone(true);
     navigation.navigate("challenge");
   };
 
@@ -75,11 +78,39 @@ function ImageChallenge({ navigation }) {
       data: bodyFormData,
       family: family,
     };
+    setDone(false);
     await dispatch(createChallenge(payload));
     await dispatch(setTitleAndDescription({}));
     await dispatch(getAllChallenge());
     clearInput();
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View

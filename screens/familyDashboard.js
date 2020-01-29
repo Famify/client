@@ -62,7 +62,13 @@ function FamilyDashboard({ navigation }) {
                         style={styles.circle}
                       />
                     ) : (
-                      <Image source={Picture.kidsBoy} style={styles.circle} />
+                      <Image
+                        source={{
+                          uri:
+                            "https://storage.googleapis.com/famify_bucket/1580270232285-default.png",
+                        }}
+                        style={styles.circle}
+                      />
                     )}
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>

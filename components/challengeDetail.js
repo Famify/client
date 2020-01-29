@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -19,6 +19,7 @@ import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
 import Fire from "../config/Fire";
+import Picture from "../assets/index";
 
 function ChallengeDetail({ navigation }) {
   const dispatch = useDispatch();
@@ -26,17 +27,22 @@ function ChallengeDetail({ navigation }) {
   const family = useSelector(state => state.user.family);
   const challenge = useSelector(state => state.challenge);
   const currentChallenge = useSelector(state => state.challenge.data);
+  const [done, setDone] = useState(true);
 
   const getClaimChallenge = async id => {
+    setDone(false);
     await dispatch(claimChallenge({ id, family: family }));
     await dispatch(getAllChallenge());
+    setDone(true);
     navigation.goBack();
   };
 
   const getDoneChallenge = async (id, points, childId) => {
+    setDone(false);
     await dispatch(finishChallenge({ id }));
     await dispatch(getAllChallenge());
     await dispatch(addPoin({ data: points, childId }));
+    setDone(true);
     navigation.navigate(`${user.role} dashboard`);
   };
 
@@ -46,9 +52,36 @@ function ChallengeDetail({ navigation }) {
     dispatch(getAllFamily());
   }, []);
 
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
+
   return (
     <View style={{ flex: 1 }}>
-      {challenge.loading ? null : ( // <Text>Loading</Text>
+      {challenge.loading ? null : (
         <View
           style={{
             flex: 1,

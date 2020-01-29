@@ -30,6 +30,7 @@ export default function RegisterChild({ navigation }) {
   const [image, setImage] = useState(null);
   const [imageSet, setStatusImageSet] = useState(false);
   const user = useSelector(state => state.user);
+  const [done, setDone] = useState(true);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -84,7 +85,7 @@ export default function RegisterChild({ navigation }) {
     setStatusImageSet(false);
   };
 
-  const submitChildUpdate = () => {
+  const submitChildUpdate = async () => {
     if (birthday && image) {
       let bodyFormData = new FormData();
       bodyFormData.append("avatar", {
@@ -97,9 +98,11 @@ export default function RegisterChild({ navigation }) {
         data: bodyFormData,
         id: user.data._id,
       };
-      dispatch(childUpdate(payload));
+      setDone(false);
+      await dispatch(childUpdate(payload));
       clearInput();
-      dispatch(getAllFamily());
+      await dispatch(getAllFamily());
+      setDone(true);
       back();
     } else {
       alert("astagfirullah");
@@ -114,6 +117,33 @@ export default function RegisterChild({ navigation }) {
     dispatch(userLogout());
     navigation.navigate("login");
   };
+
+  if (!done) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          source={Picture.loading}
+          style={{ width: "100%", resizeMode: "contain" }}
+        />
+        <Image
+          source={Picture.loading3}
+          style={{
+            width: "100%",
+            position: "absolute",
+            resizeMode: "contain",
+            bottom: 10,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
