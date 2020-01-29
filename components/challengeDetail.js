@@ -43,7 +43,7 @@ function ChallengeDetail({ navigation }) {
     await dispatch(getAllChallenge());
     await dispatch(addPoin({ data: points, childId }));
     setDone(true);
-    navigation.navigate(`${user.role} dashboard`);
+    navigation.goBack()
   };
 
   useEffect(() => {

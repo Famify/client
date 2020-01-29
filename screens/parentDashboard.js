@@ -39,10 +39,10 @@ function ParentDashboard({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ backgroundColor: '#ff9800', height: 90, width: "100%", flexDirection: 'row' }}>
+      <View style={{ backgroundColor: 'white', height: 90, width: "100%", flexDirection: 'row' }}>
       {user.avatar ? (
         <Image
-          source={{ uri: item.avatar }}
+          source={{ uri: user.avatar }}
           style={styles.circle}
         />
         ) : (
@@ -51,17 +51,14 @@ function ParentDashboard({ navigation }) {
           style={styles.circle}
         />
       )}
-      <View style={{ flexDirection: 'column' }}>
+      <View style={{ flexDirection: 'column', justifyContent: 'center', marginLeft: 5 }}>
         <Text style={styles.fontCardRole}>
-          Hello,
-        </Text>
-        <View style={{ flexDirection: 'row' }} >
           <Text style={styles.fontCardName}>
-            {user.username}
+            Hi, {user.username} !
           </Text>
-        </View>
+        </Text>
         <Text style={styles.fontCardRole2}>
-          you're a {user.role}
+          {user.role}
         </Text>
       </View>
       </View>
@@ -175,7 +172,7 @@ const styles = StyleSheet.create({
   downWraper: {
     flex: 4,
     width: "100%",
-    marginTop: -180,
+    marginTop: -260,
     marginBottom: -100,
     resizeMode: "contain",
     backgroundColor: "white",
@@ -249,24 +246,23 @@ const styles = StyleSheet.create({
     width: 60,
     borderRadius: 100,
     marginLeft: 10,
-    marginTop: 15
+    marginTop: 15,
+    borderWidth: 2,
+    borderColor: 'teal'
   },
   fontCardName: {
-    fontFamily: "sf-semibold",
-    fontSize: 30,
-    marginTop: -25,
-    marginLeft: 5
+    fontSize: 20,
   },
   fontCardRole: {
     fontFamily: "sf-semibold",
-    fontSize: 20,
+    fontSize: 15,
     marginTop: 5,
     marginLeft: 5
   },
   fontCardRole2: {
     fontFamily: "sf-semibold",
     fontSize: 15,
-    marginTop: -25,
+    marginTop: -15,
     marginLeft: 5
   },
 });

@@ -38,7 +38,6 @@ const initialUserState = {
 export function userReducer(state = initialUserState, actions) {
   switch (actions.type) {
     case "LOGIN":
-      console.log(actions)
       return produce(state, newState => {
         newState.isLogin = true;
         newState.data = actions.data;
@@ -200,7 +199,6 @@ export function userReducer(state = initialUserState, actions) {
     case ADD_POIN_SUCCESS:
       return produce(state, newState => {
         newState.loading = actions.loading;
-        newState.data = actions.data;
       });
     case ADD_POIN_ERROR:
       return produce(state, newState => {

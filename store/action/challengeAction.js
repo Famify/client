@@ -179,9 +179,10 @@ export const claimChallenge = payload => {
           access_token: token,
         },
       });
+      alert(data.message)
       await sendNotification(
         payload.family,
-        `${data.title} Challenge has been claim`,
+        `${data.claimedTask.title} Challenge has been claim`,
         "There are still another challenge, keep fighting !"
       );
       dispatch({
