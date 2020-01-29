@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,17 +13,22 @@ import Picture from "../assets";
 import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector, useDispatch } from 'react-redux'
+import { getMyAllReward } from '../store/action/rewardAction'
 
 function ChallengeDashboard({ navigation }) {
-  const [challenge, setChallenge] = useState(["a", "a", "a", "a", "a"]);
+  const dispatch = useDispatch()
+  const myRewards = useSelector(state => state.reward.myRewardList)
 
   const addChallenge = () => {
     navigation.navigate("add challenge");
   };
 
+  useEffect(()=>{
+    dispatch(getMyAllReward())
+  },[])
+
   const history = () => {
-    console.log('dwwd');
-    
     navigation.navigate("history reward");
   };
 
@@ -32,7 +37,7 @@ function ChallengeDashboard({ navigation }) {
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
           <FlatList
-            data={challenge}
+            data={myRewards}
             style={styles.flatlist}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => (
@@ -41,21 +46,21 @@ function ChallengeDashboard({ navigation }) {
                   <View style={styles.card}>
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>
-                        ps2
+                        { item.title }
                       </Text>
                       <Text style={styles.fontCardBirth}>
-                        mau kah kamu memcuci sepatu hari ini ?
+                        { item.description }
                       </Text>
                       <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
                         <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
                         <Text style={styles.deadline}>
-                          22 january 2019
+                          {moment(item.deadline).format("LL")}
                         </Text>
                       </View>
                       <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
                         <MaterialIcons name="verified-user" size={20} color="black" style={{ marginRight: 2 }} />
                         <Text style={styles.deadline}>
-                          TAGGED
+                          CLAIM
                         </Text>
                       </View>
                     </View>
@@ -67,14 +72,14 @@ function ChallengeDashboard({ navigation }) {
                         flexDirection: "row",
                       }}
                     >
-                      <Image source={Picture.ps2} style={styles.image} />
+                      <Image source={{ uri: item.image }} style={styles.image} />
                     </View>
                   </View>
                   <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
                     <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
                       <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
                       <Text style={styles.deadline}>
-                        1000 Point
+                        { item.points } Point
                       </Text>
                     </View>
                   </View>
@@ -84,21 +89,21 @@ function ChallengeDashboard({ navigation }) {
                   <View style={styles.card}>
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>
-                        ps2
+                        { item.title }
                       </Text>
                       <Text style={styles.fontCardBirth}>
-                        mau kah kamu memcuci sepatu hari ini ?
+                        { item.description }
                       </Text>
                       <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
                         <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
                         <Text style={styles.deadline}>
-                          22 january 2019
+                          {moment(item.deadline).format("LL")}
                         </Text>
                       </View>
                       <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
                         <MaterialIcons name="verified-user" size={20} color="black" style={{ marginRight: 2 }} />
                         <Text style={styles.deadline}>
-                          TAGGED
+                          CLAIM
                         </Text>
                       </View>
                     </View>
@@ -117,7 +122,7 @@ function ChallengeDashboard({ navigation }) {
                     <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
                       <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
                       <Text style={styles.deadline}>
-                        1000 Point
+                        { item.points } Point
                       </Text>
                     </View>
                   </View>

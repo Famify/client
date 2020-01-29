@@ -23,6 +23,7 @@ import produce from "immer";
 
 const initialStateChallenge = {
   data: {},
+  mychallengeList: [],
   challengeList: [],
   loading: false,
   error: "",
@@ -54,6 +55,20 @@ export function challengeReducer(state = initialStateChallenge, actions) {
         newState.data = actions.data;
       });
     case GET_CHALLENGE_ERROR:
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.error = actions.error;
+      });
+    case "GET_MYCHALLENGE_LOADING":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+      });
+    case "GET_MYCHALLENGE_SUCCESS":
+      return produce(state, newState => {
+        newState.loading = actions.loading;
+        newState.mychallengeList = actions.data;
+      });
+    case "GET_MYCHALLENGE_ERROR":
       return produce(state, newState => {
         newState.loading = actions.loading;
         newState.error = actions.error;

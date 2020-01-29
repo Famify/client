@@ -25,6 +25,7 @@ function ChallengeDashboard({ navigation }) {
     navigation.navigate("add challenge");
   };
 
+
   const challangeDetail = payload => {
     if (
       (payload.status === "claimed" || payload.status === "finished") &&
@@ -80,7 +81,7 @@ function ChallengeDashboard({ navigation }) {
             data={challengeList}
             style={{ marginTop: 50, width: "60%" }}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) => (
+            renderItem={({ item, index }) => (       
               <TouchableOpacity
                 style={styles.containerCardOne}
                 onPress={() =>
@@ -198,10 +199,11 @@ const styles = StyleSheet.create({
     elevation: 24,
   },
   historyBtn: {
-    justifyContent: "center",
+    justifyContent: "flex-end",
+    alignItems: 'flex-end',
     position: "absolute",
-    bottom: 160,
-    right: 30,
+    right: 25,
+    bottom: 120,
     zIndex: 70,
     width: "60%",
   },

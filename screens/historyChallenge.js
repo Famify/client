@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,13 +13,17 @@ import Picture from "../assets";
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import { getMyChallenge } from '../store/action/challengeAction'
+import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
 
 function ChallengeDashboard({ navigation }) {
-  const [challenge, setChallenge] = useState(["a", "a", "a", "a", "a"]);
+  const dispatch = useDispatch()
+  const myChallengeList = useSelector(state => state.challenge.mychallengeList);
 
-  const addChallenge = () => {
-    navigation.navigate("add challenge");
-  };
+  useEffect(() => {
+    dispatch(getMyChallenge());
+  }, []);
 
   const history = () => {
     navigation.navigate("history challenge");
@@ -42,19 +46,19 @@ function ChallengeDashboard({ navigation }) {
       <View style={styles.bodyBottom}>
         <SafeAreaView style={styles.container}>
           <FlatList
-            data={challenge}
+            data={myChallengeList}
             style={styles.flatlist}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => (
-                index === challenge.length -1 ? (
+                index === myChallengeList.length -1 ? (
                   <View style={styles.containerCardOne}>
                   <View style={styles.card}>
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>
-                        MENCUCI SEPATU HARI
+                        { item.title }
                       </Text>
                       <Text style={styles.fontCardBirth}>
-                        mau kah kamu memcuci sepatu hari ini ?
+                        { item.description }
                       </Text>
                     </View>
                     <View
@@ -65,22 +69,28 @@ function ChallengeDashboard({ navigation }) {
                         flexDirection: "row",
                       }}
                     >
-                      <Image source={Picture.ps2} style={styles.image} />
+                      <Image source={{ uri: item.image }} style={styles.image} />
                     </View>
                   </View>
-                  <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 20, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
                     <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
                       <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
                       <Text style={styles.deadline}>
-                        1000 Point
+                        { item.points } Point
                       </Text>
                     </View>
                     <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
                       <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
                       <Text style={styles.deadline}>
-                        22 january 2019
+                        {moment(item.deadline).format("LL")}
                       </Text>
                     </View>
+                  </View>
+                  <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
+                    <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                    <Text style={styles.deadline}>
+                      { item.status }
+                    </Text>
                   </View>
                 </View>
                 ) : (
@@ -88,10 +98,10 @@ function ChallengeDashboard({ navigation }) {
                   <View style={styles.card}>
                     <View style={styles.cardMid}>
                       <Text style={styles.fontCardName}>
-                        MENCUCI SEPATU HARI
+                        { item.title }
                       </Text>
                       <Text style={styles.fontCardBirth}>
-                        mau kah kamu memcuci sepatu hari ini ?
+                        { item.description }
                       </Text>
                     </View>
                     <View
@@ -102,22 +112,28 @@ function ChallengeDashboard({ navigation }) {
                         flexDirection: "row",
                       }}
                     >
-                      <Image source={Picture.ps2} style={styles.image} />
+                      <Image source={{ uri: item.image }} style={styles.image} />
                     </View>
                   </View>
-                  <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: "#ceccfc", width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', width: 295, borderBottomRightRadius: 20, borderBottomLeftRadius: 20}} >
                     <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
                       <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
                       <Text style={styles.deadline}>
-                        1000 Point
+                        { item.points } Point
                       </Text>
                     </View>
                     <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center',}} >
                       <MaterialCommunityIcons name="calendar-clock" size={20} color="black" style={{ marginRight: 2 }} />
                       <Text style={styles.deadline}>
-                        22 january 2019
+                      {moment(item.deadline).format("LL")}
                       </Text>
                     </View>
+                  </View>
+                  <View style={{ justifyContent: 'flex-end' , flexDirection: 'row', alignItems: 'center', marginRight: 10}} >
+                    <MaterialCommunityIcons name="medal" size={20} color="black" style={{ marginRight: 2 }} />
+                    <Text style={styles.deadline}>
+                      { item.status }
+                    </Text>
                   </View>
                 </View>
                 )
@@ -214,13 +230,16 @@ const styles = StyleSheet.create({
     marginBottom: 80,
     marginTop: 10,
     alignItems: "center",
+    backgroundColor: "#ceccfc",
+    borderRadius: 20
   },
   containerCard: {
     marginTop: 10,
     alignItems: "center",
+    backgroundColor: "#ceccfc",
+    borderRadius: 20
   },
   card: {
-    backgroundColor: "#ceccfc",
     paddingHorizontal: 20,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,

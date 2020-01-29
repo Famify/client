@@ -157,6 +157,7 @@ export const parentLogin = payload => {
       });
       await AsyncStorage.setItem("token", data.token);
       await AsyncStorage.setItem("role", data.parent.role);
+      await AsyncStorage.setItem("id", data.parent._id);
       dispatch({
         type: "PARENT_LOGIN_SUCCESS",
         loading: false,
@@ -195,7 +196,8 @@ export const childLogin = payload => {
 
       await AsyncStorage.setItem("token", data.token);
       await AsyncStorage.setItem("role", data.child.role);
-
+      await AsyncStorage.setItem("id", data.child._id);
+      
       dispatch({
         type: "CHILD_LOGIN_SUCCESS",
         loading: false,
